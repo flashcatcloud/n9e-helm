@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert -c -f nightingale.yaml
+    kompose.version: 1.24.0 (4a2a0458)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ibex
+  name: ibex
+spec:
+  ports:
+    - name: "10090"
+      port: 10090
+      targetPort: 10090
+    - name: "20090"
+      port: 20090
+      targetPort: 20090
+  selector:
+    io.kompose.service: ibex
+status:
+  loadBalancer: {}

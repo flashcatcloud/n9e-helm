@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert -c -f nightingale.yaml
+    kompose.version: 1.24.0 (4a2a0458)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: telegraf
+  name: telegraf
+spec:
+  ports:
+    - name: "8125"
+      port: 8125
+      protocol: UDP
+      targetPort: 8125
+    - name: "8092"
+      port: 8092
+      protocol: UDP
+      targetPort: 8092
+    - name: "8094"
+      port: 8094
+      targetPort: 8094
+  selector:
+    io.kompose.service: telegraf
+status:
+  loadBalancer: {}

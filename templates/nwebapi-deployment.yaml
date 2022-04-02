@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert -c -f nightingale.yaml
+    kompose.version: 1.24.0 (4a2a0458)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nwebapi
+  name: nwebapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: nwebapi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert -c -f nightingale.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/nightingale: "true"
+        io.kompose.service: nwebapi
+    spec:
+      containers:
+        - args:
+            - /app/n9e
+            - webapi
+          env:
+            - name: GIN_MODE
+              value: release
+            - name: TZ
+              value: Asia/Shanghai
+          image: ulric2019/nightingale:5.5.0
+          name: nwebapi
+          ports:
+            - containerPort: 18000
+          resources: {}
+          volumeMounts:
+            - mountPath: /app/etc
+              name: nwebapi-claim0
+      hostname: nwebapi
+      restartPolicy: Always
+      volumes:
+        - name: nwebapi-claim0
+          persistentVolumeClaim:
+            claimName: nwebapi-claim0
+status: {}

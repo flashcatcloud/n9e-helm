@@ -1,0 +1,17 @@
+annotations:
+  catalog.cattle.io/release-name: flashcatcloud
+name: nightingale
+description: A Helm Chart for nightingale, cloud-native monitoring system
+keywords:
+  - nightingale
+  - monitoring
+  - alerting
+  - metric
+home: https://n9e.github.io
+sources: https://github.com/didi/nightingale
+maintainers:
+- email: contact-us@flashcat.cloud
+  name: flashcatcloud
+version: 0.1.0
+apiVersion: v1
+appVersion: 5.5.0
