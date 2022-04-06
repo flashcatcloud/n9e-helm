@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: database-initdb-config
+  name: database-config
 data:
   my.cnf: |
     [mysqld]

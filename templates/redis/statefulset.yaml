@@ -101,5 +101,5 @@ spec:
       resources:
         requests:
           storage: {{ $redis.size | quote }}
-  {{- end -}}
+  {{- end }}
 {{- end -}}

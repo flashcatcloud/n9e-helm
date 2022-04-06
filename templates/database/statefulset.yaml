@@ -75,3 +75,4 @@ spec:
         - name: database-initdb-config
           configMap:
             name: database-initdb-config
+{{- end -}}
