@@ -1,0 +1,54 @@
+{{- if eq .Values.telegraf.type "internal" -}}
+{{- $telegraf := .Values.persistence.persistentVolumeClaim.telgraf -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ template "nightingale.telegraf" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+    component: telegraf
+spec:
+  replicas: 1
+  serviceName: "{{ template "nightingale.telegraf" . }}"
+  selector:
+    matchLabels:
+{{ include "nightingale.matchLabels" . | indent 6 }}
+      component: telegraf
+  template:
+    metadata:
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+        component: telegraf
+      annotations:
+{{- if .Values.telegraf.podAnnotations }}
+{{ toYaml .Values.telegraf.podAnnotations | indent 8 }}
+{{- end }} 
+  selector:
+    matchLabels:
+      io.kompose.service: telegraf
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: telegraf:1.20.3
+          name: telegraf
+          ports:
+            - containerPort: 8125
+              protocol: UDP
+            - containerPort: 8092
+              protocol: UDP
+            - containerPort: 8094
+          volumeMounts:
+            - mountPath: /etc/telegraf/telegraf.conf
+              name: telegraf-config
+      hostname: telegraf01
+      restartPolicy: Always
+      volumes:
+        - name: telegraf-config
+          configMap:
+            name: telegraf-config
+{{- end -}}

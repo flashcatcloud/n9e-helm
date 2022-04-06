@@ -38,5 +38,4 @@ data:
         file_sd_configs:
         - files:
           - targets.json
-
 {{- end -}}

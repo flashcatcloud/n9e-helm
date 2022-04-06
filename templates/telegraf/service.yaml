@@ -1,0 +1,24 @@
+{{- if eq .Values.telegraf.type "internal" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ template "nightingale.telegraf" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+spec:
+  ports:
+    - name: "8125"
+      port: 8125
+      protocol: UDP
+      targetPort: 8125
+    - name: "8092"
+      port: 8092
+      protocol: UDP
+      targetPort: 8092
+    - name: "8094"
+      port: 8094
+      targetPort: 8094
+  selector:
+{{ include "nightingale.matchLabels" . | indent 4 }}
+    component: telegraf
+{{- end -}}

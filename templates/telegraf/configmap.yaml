@@ -1,0 +1,43 @@
+ {{- if eq .Values.telegraf.type "internal" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telegraf-config
+data:
+  telegraf.conf: |
+    [global_tags]
+    [agent]
+      interval = "15s"
+      round_interval = true
+      metric_batch_size = 1000
+      metric_buffer_limit = 10000
+      collection_jitter = "0s"
+      flush_interval = "10s"
+      flush_jitter = "0s"
+      precision = ""
+      hostname = ""
+      omit_hostname = false
+    [[outputs.opentsdb]]
+    host = "http://nserver"
+    port = 19000
+    http_batch_size = 50
+    http_path = "/opentsdb/put"
+    debug = false
+    separator = "_"
+    [[inputs.cpu]]
+      percpu = true
+      totalcpu = true
+      collect_cpu_time = false
+      report_active = true
+    [[inputs.disk]]
+      ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]
+    [[inputs.diskio]]
+    [[inputs.kernel]]
+    [[inputs.mem]]
+    [[inputs.processes]]
+    [[inputs.swap]]
+    [[inputs.system]]
+    [[inputs.net]]
+      ignore_protocol_stats = true
+    [[inputs.netstat]]
+{{- end -}}
