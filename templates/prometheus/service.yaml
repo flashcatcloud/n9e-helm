@@ -1,0 +1,16 @@
+{{- if eq .Values.prometheus.type "internal" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ template "nightingale.prometheus" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+spec:
+  ports:
+    - name: "prometheus-port"
+      port: 9090
+      targetPort: 9090
+  selector:
+{{ include "nightingale.matchLabels" . | indent 4 }}
+    component: database
+{{- end -}}

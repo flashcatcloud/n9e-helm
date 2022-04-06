@@ -1,0 +1,15 @@
+{{- if eq .Values.prometheus.type "internal" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  targets.json: |
+    [
+      {
+        "targets": [
+          "nwebapi:18000","nserver:19000"
+        ]
+      }
+    ]
+{{- end -}}
