@@ -1,0 +1,61 @@
+{{- if eq .Values.nwebapi.type "internal" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ template "nightingale.nwebapi" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+    component: nwebapi 
+spec:
+  replicas: 1
+  serviceName: "{{ template "nightingale.nwebapi" . }}"
+  selector:
+    matchLabels:
+{{ include "nightingale.matchLabels" . | indent 6 }}
+      component: nwebapi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+        component: nwebapi
+      annotations:
+{{- if .Values.nwebapi.podAnnotations }}
+{{ toYaml .Values.nwebapi.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+      containers:
+        - args:
+            - /app/n9e
+            - webapi
+          env:
+            - name: GIN_MODE
+              value: release
+            - name: TZ
+              value: Asia/Shanghai
+          image: ulric2019/nightingale:5.5.0
+          name: nwebapi
+          ports:
+            - containerPort: 18000
+          resources: {}
+          volumeMounts:
+            - mountPath: /app/etc
+              name: nwebapi-config
+            - mountPath: /app/etc/dashboards
+              name: nwebapi-dashboards
+            - mountPath: /app/etc/alerts
+              name: nwebapi-alerts
+      hostname: nwebapi
+      restartPolicy: Always
+      volumes:
+        - name: nwebapi-config
+          persistentVolumeClaim:
+            claimName: nwebapi-config
+        - name: nwebapi-alerts
+          persistentVolumeClaim:
+            claimName: nwebapi-alerts
+        - name: nwebapi-dashboards
+          persistentVolumeClaim:
+            claimName: nwebapi-dashboards
+{{- end -}}

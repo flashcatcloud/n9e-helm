@@ -1,0 +1,64 @@
+{{- if eq .Values.nserver.type "internal" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ template "nightingale.nserver" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+    component: nserver
+spec:
+  replicas: 1
+  serviceName: "{{ template "nightingale.nserver" . }}"
+  selector:
+    matchLabels:
+{{ include "nightingale.matchLabels" . | indent 6 }}
+      component: nserver
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+        component: nserver
+      annotations:
+{{- if .Values.nserver.podAnnotations }}
+{{ toYaml .Values.nserver.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+      containers:
+        - args:
+            - /app/n9e
+            - server
+          env:
+            - name: GIN_MODE
+              value: release
+            - name: TZ
+              value: Asia/Shanghai
+          image: ulric2019/nightingale:5.5.0
+          name: nserver
+          ports:
+            - containerPort: 19000
+{{- if .Values.nserver.internal.resources }}
+        resources:
+{{ toYaml .Values.nserver.internal.resources | indent 10 }}
+{{- end }}
+          volumeMounts:
+            - mountPath: /app/etc
+              name: nserver-config
+            - mountPath: /app/etc/template
+              name: nserver-template
+            - mountPath: /app/etc/script
+              name: nserver-script
+      hostname: nserver
+      restartPolicy: Always
+      volumes:
+        - name: nserver-config
+          configMap:
+            name: nserver-config
+        - name: nserver-template
+          configMap:
+            name: nserver-template
+        - name: nserver-script
+          configMap:
+            name: nserver-script
+{{- end -}}

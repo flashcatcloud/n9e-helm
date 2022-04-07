@@ -1,13 +1,22 @@
 {{- if eq .Values.telegraf.type "internal" -}}
 {{- $telegraf := .Values.persistence.persistentVolumeClaim.telgraf -}}
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: "{{ template "nightingale.telegraf" . }}"
   labels:
 {{ include "nightingale.labels" . | indent 4 }}
     component: telegraf
 spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/os
+            operator: In
+            values:
+            - linux
   replicas: 1
   serviceName: "{{ template "nightingale.telegraf" . }}"
   selector:
@@ -23,13 +32,15 @@ spec:
 {{- if .Values.telegraf.podAnnotations }}
 {{ toYaml .Values.telegraf.podAnnotations | indent 8 }}
 {{- end }} 
-  selector:
-    matchLabels:
-      io.kompose.service: telegraf
   strategy:
     type: Recreate
   template:
     spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
       containers:
         - env:
             - name: TZ

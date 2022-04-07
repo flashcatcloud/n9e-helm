@@ -4,6 +4,14 @@ kind: ConfigMap
 metadata:
   name: prometheus-config
 data:
+  targets.json: |
+    [
+      {
+        "targets": [
+          "nwebapi:18000","nserver:19000"
+        ]
+      }
+    ]
   prometheus.yml: |
     global:
       scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.

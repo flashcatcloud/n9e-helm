@@ -39,7 +39,8 @@ spec:
       terminationGracePeriodSeconds: 120
       containers:
       - name: mysql
-        image: mysql:5.7
+        image: {{ .Values.redis.internal.image.repository }}:{{ .Values.redis.internal.image.tag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
         ports:
           - containerPort: 3306
         env:
@@ -75,4 +76,38 @@ spec:
         - name: database-initdb-config
           configMap:
             name: database-initdb-config
+      {{- with .Values.database.internal.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.database.internal.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.database.internal.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.database.internal.priorityClassName }}
+      priorityClassName: {{ .Values.database.internal.priorityClassName }}
+    {{- end }}
+  {{- if and .Values.persistence.enabled (not $database.existingClaim) }}
+  volumeClaimTemplates:
+  - metadata:
+      name: "database-data"
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+    spec:
+      accessModes: [{{ $database.accessMode | quote }}]
+      {{- if $database.storageClass }}
+      {{- if (eq "-" $database.storageClass) }}
+      storageClassName: ""
+      {{- else }}
+      storageClassName: "{{ $database.storageClass }}"
+      {{- end }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ $database.size | quote }}
+  {{- end -}}
 {{- end -}}
