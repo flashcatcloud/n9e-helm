@@ -99,6 +99,7 @@ database:
     password: "1234"
     shmSizeLimit: 512Mi
     nodeSelector: {}
+    resources: {}
     tolerations: []
     affinity: {}
     priorityClassName:
@@ -150,4 +151,56 @@ prometheus:
     host: "192.168.0.2"
     port: "9090"
     password: ""
+  podAnnotations: {}
+
+telegraf:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: docker.io/library/telegraf
+      tag: 1.20.3
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+  external:
+    host: "192.168.0.3"
+    port: "8094"
+    password: ""
+  podAnnotations: {}
+
+nwebapi:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: docker.io/ulric2019/nightingale
+      tag: 5.5.0
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+  external:
+    host: "192.168.0.4"
+    port: "18000"
+  podAnnotations: {}
+
+nserver:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: docker.io/ulric2019/nightingale
+      tag: 5.5.0
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+  external:
+    host: "192.168.0.5"
+    port: "19000"
   podAnnotations: {}

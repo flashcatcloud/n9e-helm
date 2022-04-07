@@ -119,6 +119,38 @@ app: "{{ template "nightingale.name" . }}"
   {{- end -}}
 {{- end -}}
 
+{{- define "nightingale.nwebapi.host" -}}
+  {{- if eq .Values.nwebapi.type "internal" -}}
+    {{- template "nightingale.nwebapi" . }}
+  {{- else -}}
+    {{- .Values.nwebapi.external.host -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.nwebapi.port" -}}
+  {{- if eq .Values.nwebapi.type "internal" -}}
+    {{- printf "%s" "18000" -}}
+  {{- else -}}
+    {{- .Values.nwebapi.external.port -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.nserver.host" -}}
+  {{- if eq .Values.nserver.type "internal" -}}
+    {{- template "nightingale.nserver" . }}
+  {{- else -}}
+    {{- .Values.nserver.external.host -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.nserver.port" -}}
+  {{- if eq .Values.nserver.type "internal" -}}
+    {{- printf "%s" "19000" -}}
+  {{- else -}}
+    {{- .Values.nserver.external.port -}}
+  {{- end -}}
+{{- end -}}
+
 {{- define "nightingale.redis.scheme" -}}
   {{- with .Values.redis }}
     {{- ternary "redis+sentinel" "redis"  (and (eq .type "external" ) (not (not .external.sentinelMasterSet))) }}
@@ -165,6 +197,17 @@ app: "{{ template "nightingale.name" . }}"
   {{- printf "%s-prometheus" (include "nightingale.fullname" .) -}}
 {{- end -}}
 
+{{- define "nightingale.telegraf" -}}
+  {{- printf "%s-telegraf" (include "nightingale.fullname" .) -}}
+{{- end -}}
+
+{{- define "nightingale.nwebapi" -}}
+  {{- printf "%s-nwebapi" (include "nightingale.fullname" .) -}}
+{{- end -}}
+
+{{- define "nightingale.nserver" -}}
+  {{- printf "%s-nserver" (include "nightingale.fullname" .) -}}
+{{- end -}}
 
 {{- define "nightingale.nginx" -}}
   {{- printf "%s-nginx" (include "nightingale.fullname" .) -}}

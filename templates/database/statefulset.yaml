@@ -55,7 +55,7 @@ spec:
         volumeMounts:
           - mountPath: /var/lib/mysql/
             name: database-data
-          - mountPath: /etc/my.cnf
+          - mountPath: /etc/
             name: database-config
           - mountPath: /docker-entrypoint-initdb.d
             name: database-initdb-config

@@ -8,7 +8,8 @@ keywords:
   - alerting
   - metric
 home: https://n9e.github.io
-sources: https://github.com/didi/nightingale
+sources: 
+  - https://github.com/didi/nightingale
 maintainers:
 - email: contact-us@flashcat.cloud
   name: flashcatcloud

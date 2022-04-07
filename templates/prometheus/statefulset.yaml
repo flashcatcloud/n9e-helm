@@ -1,5 +1,5 @@
 {{- if eq .Values.prometheus.type "internal" -}}
-{{- $prometheuus := .Values.persistence.persistentVolumeClaim.prometheus -}}
+{{- $prometheus := .Values.persistence.persistentVolumeClaim.prometheus -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
