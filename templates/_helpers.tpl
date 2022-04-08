@@ -259,11 +259,7 @@ app: "{{ template "nightingale.name" . }}"
 
 {{/* scheme for all components except notary because it only support http mode */}}
 {{- define "nightingale.component.scheme" -}}
-  {{- if .Values.internalTLS.enabled -}}
-    {{- printf "https" -}}
-  {{- else -}}
     {{- printf "http" -}}
-  {{- end -}}
 {{- end -}}
 
 {{/* Allow KubeVersion to be overridden. */}}

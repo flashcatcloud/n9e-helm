@@ -4,14 +4,13 @@ expose:
     enabled: false
     certSource: auto
     auto:
-      commonName: "10.206.0.17"
+      commonName: ""
     secret:
       secretName: ""
       notarySecretName: ""
   ingress:
     hosts:
-      core: 10.206.0.11
-      notary: 10.206.0.11
+      core: core.n9e.domain
     controller: default
     kubeVersionOverride: ""
     annotations:
@@ -31,10 +30,10 @@ expose:
     ports:
       http:
         port: 80
-        nodePort: 30002
+        nodePort: 30007
       https:
         port: 443
-        nodePort: 30003
+        nodePort: 30009
   loadBalancer:
     name: nightingale
     IP: ""
@@ -44,7 +43,7 @@ expose:
     annotations: {}
     sourceRanges: []
 
-externalURL: http://10.206.0.11:30002
+externalURL: http://10.206.0.17:30007
 
 ipFamily:
   ipv6:
@@ -87,6 +86,25 @@ logLevel: info
 caSecretName: ""
 
 secretKey: "not-a-secure-key"
+
+nginx:
+  image:
+    repository: docker.io/library/nginx
+    tag: stable-alpine
+  serviceAccountName: ""
+  automountServiceAccountToken: false
+  replicas: 1
+  # resources:
+  #  requests:
+  #    memory: 256Mi
+  #    cpu: 100m
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  ## Additional deployment annotations
+  podAnnotations: {}
+  ## The priority class to run the pod as
+  priorityClassName:
 
 database:
   type: internal
