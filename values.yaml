@@ -1,0 +1,206 @@
+expose:
+  type: nodePort
+  tls:
+    enabled: false
+    certSource: auto
+    auto:
+      commonName: "10.206.0.11"
+    secret:
+      secretName: ""
+      notarySecretName: ""
+  ingress:
+    hosts:
+      core: 10.206.0.11
+      notary: 10.206.0.11
+    controller: default
+    kubeVersionOverride: ""
+    annotations:
+      haha: "0"
+    notary:
+      annotations: {}
+    nightingale:
+      annotations: {}
+  clusterIP:
+    name: nightingale
+    annotations: {}
+    ports:
+      httpPort: 80
+      httpsPort: 443
+  nodePort:
+    name: nightingale
+    ports:
+      http:
+        port: 80
+        nodePort: 30002
+      https:
+        port: 443
+        nodePort: 30003
+  loadBalancer:
+    name: nightingale
+    IP: ""
+    ports:
+      httpPort: 80
+      httpsPort: 443
+    annotations: {}
+    sourceRanges: []
+
+externalURL: http://10.206.0.11:30002
+
+ipFamily:
+  ipv6:
+    enabled: false
+  ipv4:
+    enabled: true
+
+persistence:
+  enabled: true
+  resourcePolicy: "keep"
+  persistentVolumeClaim:
+    database:
+      existingClaim: "nightingale-database"
+      storageClass: "nightingale"
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 10Gi
+    redis:
+      existingClaim: "nightingale-redis"
+      storageClass: "nightingale"
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 5Gi
+    prometheus:
+      existingClaim: "nightingale-prometheus"
+      storageClass: "nightingale"
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 10Gi
+
+imagePullPolicy: IfNotPresent
+
+imagePullSecrets:
+
+updateStrategy:
+  type: RollingUpdate
+
+logLevel: info
+
+caSecretName: ""
+
+secretKey: "not-a-secure-key"
+
+database:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: docker.io/library/mysql
+      tag: 5.7
+    password: "1234"
+    shmSizeLimit: 512Mi
+    nodeSelector: {}
+    resources: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+    initContainer:
+      migrator: {}
+      permissions: {}
+  external:
+    host: "192.168.0.1"
+    port: "3306"
+    username: "user"
+    password: "password"
+    database: "n9e_v5"
+    sslmode: "disable"
+  maxIdleConns: 100
+  maxOpenConns: 900
+  podAnnotations: {}
+
+redis:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: docker.io/library/redis
+      tag: 6.2
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+  external:
+    addr: "192.168.0.2:6379"
+    sentinelMasterSet: ""
+    password: ""
+  podAnnotations: {}
+
+prometheus:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: docker.io/prom/prometheus
+      tag: latest
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+  external:
+    host: "192.168.0.2"
+    port: "9090"
+    password: ""
+  podAnnotations: {}
+
+telegraf:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: docker.io/library/telegraf
+      tag: 1.20.3
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+  external:
+    host: "192.168.0.3"
+    port: "8094"
+    password: ""
+  podAnnotations: {}
+
+nwebapi:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: docker.io/ulric2019/nightingale
+      tag: 5.5.0
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+  external:
+    host: "192.168.0.4"
+    port: "18000"
+  podAnnotations: {}
+
+nserver:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: docker.io/ulric2019/nightingale
+      tag: 5.5.0
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+  external:
+    host: "192.168.0.5"
+    port: "19000"
+  podAnnotations: {}

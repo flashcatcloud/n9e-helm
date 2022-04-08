@@ -1,0 +1,11 @@
+{{- if eq .Values.nwebapi.type "internal" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nwebapi-dashboards
+data:
+  mysql_by_exporter.json: |-
+  {{ .Files.Get "$.BasPath/files/mysql_by_exporter.json" | indent 4 }}
+  redis_by_exporter.json: |-
+  {{ .Files.Get "$.BasePath/files/redis_by_exporter.json" | indent 4 }}
+{{- end -}}

@@ -1,0 +1,13 @@
+{{- if eq .Values.database.type "internal" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-config
+data:
+  my.cnf: |-
+    [mysqld]
+    pid-file     = /var/run/mysqld/mysqld.pid
+    socket       = /var/run/mysqld/mysqld.sock
+    datadir      = /var/lib/mysql
+    bind-address = 0.0.0.0
+{{- end -}}

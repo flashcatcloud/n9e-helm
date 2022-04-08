@@ -1,0 +1,60 @@
+{{- if eq .Values.telegraf.type "internal" -}}
+{{- $telegraf := .Values.persistence.persistentVolumeClaim.telgraf -}}
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: "{{ template "nightingale.telegraf" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+    component: telegraf
+spec:
+  selector:
+    matchLabels:
+{{ include "nightingale.matchLabels" . | indent 6 }}
+      component: telegraf
+  template:
+    metadata:
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+        component: telegraf
+      annotations:
+{{- if .Values.telegraf.podAnnotations }}
+{{ toYaml .Values.telegraf.podAnnotations | indent 8 }}
+{{- end }} 
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/os
+                operator: In
+                values:
+                - linux
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: telegraf:1.20.3
+          name: telegraf
+          ports:
+            - containerPort: 8125
+              protocol: UDP
+            - containerPort: 8092
+              protocol: UDP
+            - containerPort: 8094
+          volumeMounts:
+            - mountPath: /etc/telegraf
+              name: telegraf-config
+      hostname: telegraf01
+      restartPolicy: Always
+      volumes:
+        - name: telegraf-config
+          configMap:
+            name: telegraf-config
+{{- end -}}

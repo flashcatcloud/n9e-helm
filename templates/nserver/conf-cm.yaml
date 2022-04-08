@@ -1,0 +1,123 @@
+{{- if eq .Values.nserver.type "internal" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "nserver-config"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+data:
+  server.conf: |-
+    RunMode = "release"
+    ClusterName = "Default"
+    BusiGroupLabelKey = "busigroup"
+    EngineDelay = 120
+    [Log]
+    Dir = "logs"
+    Level = "INFO"
+    Output = "stdout"
+    [HTTP]
+    Host = "0.0.0.0"
+    Port = 19000
+    CertFile = ""
+    KeyFile = ""
+    PrintAccessLog = false
+    PProf = false
+    ShutdownTimeout = 30
+    MaxContentLength = 67108864
+    ReadTimeout = 20
+    WriteTimeout = 40
+    IdleTimeout = 120
+    [Heartbeat]
+    IP = ""
+    Interval = 1000
+    [SMTP]
+    Host = "smtp.163.com"
+    Port = 994
+    User = "username"
+    Pass = "password"
+    From = "username@163.com"
+    InsecureSkipVerify = true
+    Batch = 5
+    [Alerting]
+    TemplatesDir = "/app/etc/template"
+    NotifyConcurrency = 10
+    NotifyBuiltinEnable = true
+    [Alerting.CallScript]
+    Enable = false
+    ScriptPath = "/app/etc/script/notify.py"
+    [Alerting.CallPlugin]
+    Enable = false
+    PluginPath = "/app/etc/script/notify.so"
+    Caller = "n9eCaller"
+    [Alerting.RedisPub]
+    Enable = false
+    ChannelPrefix = "/alerts/"
+    [Alerting.Webhook]
+    Enable = false
+    Url = "http://a.com/n9e/callback"
+    BasicAuthUser = ""
+    BasicAuthPass = ""
+    Timeout = "5s"
+    Headers = ["Content-Type", "application/json", "X-From", "N9E"]
+    [NoData]
+    Metric = "target_up"
+    Interval = 15
+    [Ibex]
+    Address = "ibex:10090"
+    BasicAuthUser = "ibex"
+    BasicAuthPass = "ibex"
+    Timeout = 3000
+    [Redis]
+    Address = "{{ template "nightingale.redis.addr" . }}"
+    Password = ""
+    [Gorm]
+    Debug = false
+    DBType = "mysql"
+    MaxLifetime = 7200
+    MaxOpenConns = 150
+    MaxIdleConns = 50
+    TablePrefix = ""
+    EnableAutoMigrate = false
+    [MySQL]
+    Address = "{{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }}"
+    User = "{{ template "nightingale.database.username" . }}"
+    Password = "{{ template "nightingale.database.rawPassword" . }}"
+    DBName = "n9e_v5"
+    Parameters = "charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
+    [Postgres]
+    Address = "postgres:5432"
+    User = "root"
+    Password = "1234"
+    DBName = "n9e_v5"
+    SSLMode = "disable"
+    [Reader]
+    Url = "http://prometheus:9090"
+    BasicAuthUser = ""
+    BasicAuthPass = ""
+    Timeout = 30000
+    DialTimeout = 10000
+    TLSHandshakeTimeout = 30000
+    ExpectContinueTimeout = 1000
+    IdleConnTimeout = 90000
+    KeepAlive = 30000
+    MaxConnsPerHost = 0
+    MaxIdleConns = 100
+    MaxIdleConnsPerHost = 10
+    [WriterOpt]
+    QueueMaxSize = 10000000
+    QueuePopSize = 2000
+    SleepInterval = 50
+    [[Writers]]
+    Url = "http://prometheus:9090/api/v1/write"
+    BasicAuthUser = ""
+    BasicAuthPass = ""
+    Timeout = 30000
+    DialTimeout = 10000
+    TLSHandshakeTimeout = 30000
+    ExpectContinueTimeout = 1000
+    IdleConnTimeout = 90000
+    KeepAlive = 30000
+    MaxConnsPerHost = 0
+    MaxIdleConns = 100
+    MaxIdleConnsPerHost = 100
+{{- end -}}

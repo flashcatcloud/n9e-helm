@@ -1,0 +1,95 @@
+{{- if eq .Values.prometheus.type "internal" -}}
+{{- $prometheus := .Values.persistence.persistentVolumeClaim.prometheus -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: "{{ template "nightingale.prometheus" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+    component: prometheus
+spec:
+  replicas: 1
+  serviceName: "{{ template "nightingale.prometheus" . }}"
+  selector:
+    matchLabels:
+{{ include "nightingale.matchLabels" . | indent 6 }}
+      component: prometheus
+  template:
+    metadata:
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+        component: prometheus
+    spec:
+      containers:
+      - args:
+          - --config.file=/etc/prometheus/prometheus.yml
+          - --storage.tsdb.path=/prometheus
+          - --web.console.libraries=/usr/share/prometheus/console_libraries
+          - --web.console.templates=/usr/share/prometheus/consoles
+          - --enable-feature=remote-write-receiver
+          - --query.lookback-delta=2m
+        env:
+          - name: TZ
+            value: Asia/Shanghai
+        image: prom/prometheus
+        name: prometheus
+        ports:
+        - containerPort: 9090
+{{- if .Values.prometheus.internal.resources }}
+        resources:
+{{ toYaml .Values.prometheus.internal.resources | indent 10 }}
+{{- end }}
+        volumeMounts:
+         - mountPath: /etc/prometheus
+           name: prometheus-config
+         - mountPath: /prometheus
+           name: prometheus-data
+      hostname: prometheus
+      restartPolicy: Always
+      volumes:
+        {{- if not .Values.persistence.enabled }}
+        - name: prometheus-data
+          emptyDir: {}
+        {{- else if $prometheus.existingClaim }}
+        - name: prometheus-data
+          persistentVolumeClaim:
+            claimName: {{ $prometheus.existingClaim }}
+        {{- end }}
+        - name: prometheus-config
+          configMap:
+            name: prometheus-config
+      {{- with .Values.prometheus.internal.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.prometheus.internal.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.prometheus.internal.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.prometheus.internal.priorityClassName }}
+      priorityClassName: {{ .Values.prometheus.internal.priorityClassName }}
+    {{- end }}
+  {{- if and .Values.persistence.enabled (not $prometheus.existingClaim) }}
+  volumeClaimTemplates:
+  - metadata:
+      name: "prometheus-data"
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+    spec:
+      accessModes: [{{ $prometheus.accessMode | quote }}]
+      {{- if $prometheus.storageClass }}
+      {{- if (eq "-" $prometheus.storageClass) }}
+      storageClassName: ""
+      {{- else }}
+      storageClassName: "{{ $prometheus.storageClass }}"
+      {{- end }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ $prometheus.size | quote }}
+  {{- end }}
+{{- end -}}

@@ -1,0 +1,114 @@
+{{- if eq .Values.database.type "internal" -}}
+{{- $database := .Values.persistence.persistentVolumeClaim.database -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: "{{ template "nightingale.database" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+    component: database
+spec:
+  replicas: 1
+  serviceName: "{{ template "nightingale.database" . }}"
+  selector:
+    matchLabels:
+{{ include "nightingale.matchLabels" . | indent 6 }}
+      component: database
+  template:
+    metadata:
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+        component: database
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/database/secret.yaml") . | sha256sum }}
+{{- if .Values.database.podAnnotations }}
+{{ toYaml .Values.database.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+      securityContext:
+        runAsUser: 999
+        fsGroup: 999
+{{- if .Values.database.internal.serviceAccountName }}
+      serviceAccountName: {{ .Values.database.internal.serviceAccountName }}
+{{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      automountServiceAccountToken: {{ .Values.database.internal.automountServiceAccountToken | default false }}
+      terminationGracePeriodSeconds: 120
+      containers:
+      - name: mysql
+        image: {{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        ports:
+        - containerPort: 3306
+        envFrom:
+          - secretRef:
+              name: "{{ template "nightingale.database" . }}"
+        env:
+          - name: TZ
+            value: Asia/Shanghai
+{{- if .Values.database.internal.resources }}
+        resources:
+{{ toYaml .Values.database.internal.resources | indent 10 }}
+{{- end }}
+        volumeMounts:
+        - mountPath: /var/lib/mysql/
+          name: database-data
+        - mountPath: /etc/my.cnf
+          name: database-config
+        - mountPath: /docker-entrypoint-initdb.d
+          name: database-initdb-config
+      hostname: mysql
+      restartPolicy: Always
+      volumes:
+        {{- if not .Values.persistence.enabled }}
+        - name: "database-data"
+          emptyDir: {}
+        {{- else if $database.existingClaim }}
+        - name: "database-data"
+          persistentVolumeClaim:
+            claimName: {{ $database.existingClaim }}
+        {{- end }}
+        - name: database-config
+          configMap:
+            name: database-config
+        - name: database-initdb-config
+          configMap:
+            name: database-initdb-config
+      {{- with .Values.database.internal.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.database.internal.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.database.internal.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.database.internal.priorityClassName }}
+      priorityClassName: {{ .Values.database.internal.priorityClassName }}
+    {{- end }}
+  {{- if and .Values.persistence.enabled (not $database.existingClaim) }}
+  volumeClaimTemplates:
+  - metadata:
+      name: "database-data"
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+    spec:
+      accessModes: [{{ $database.accessMode | quote }}]
+      {{- if $database.storageClass }}
+      {{- if (eq "-" $database.storageClass) }}
+      storageClassName: ""
+      {{- else }}
+      storageClassName: "{{ $database.storageClass }}"
+      {{- end }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ $database.size | quote }}
+  {{- end }}
+{{- end -}}

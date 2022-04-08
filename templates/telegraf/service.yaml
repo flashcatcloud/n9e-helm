@@ -1,13 +1,10 @@
+{{- if eq .Values.telegraf.type "internal" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: ./kompose convert -c -f nightingale.yaml
-    kompose.version: 1.24.0 (4a2a0458)
-  creationTimestamp: null
+  name: "{{ template "nightingale.telegraf" . }}"
   labels:
-    io.kompose.service: telegraf
-  name: telegraf
+{{ include "nightingale.labels" . | indent 4 }}
 spec:
   ports:
     - name: "8125"
@@ -22,6 +19,6 @@ spec:
       port: 8094
       targetPort: 8094
   selector:
-    io.kompose.service: telegraf
-status:
-  loadBalancer: {}
+{{ include "nightingale.matchLabels" . | indent 4 }}
+    component: telegraf
+{{- end -}}

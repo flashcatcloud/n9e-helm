@@ -1,0 +1,16 @@
+{{- if eq .Values.nwebapi.type "internal" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ template "nightingale.nwebapi" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+spec:
+  ports:
+    - name: "18000"
+      port: 18000
+      targetPort: 18000
+  selector:
+{{ include "nightingale.matchLabels" . | indent 4 }}
+    component: nwebapi
+{{- end -}}
