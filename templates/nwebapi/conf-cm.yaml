@@ -97,7 +97,7 @@ data:
     SSLMode = "disable"
     [[Clusters]]
     Name = "Default"
-    Prom = "http://prometheus:9090"
+    Prom = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.port" .}}"
     BasicAuthUser = ""
     BasicAuthPass = ""
     Timeout = 30000

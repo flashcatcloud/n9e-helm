@@ -91,9 +91,9 @@ data:
     DBName = "n9e_v5"
     SSLMode = "disable"
     [Reader]
-    Url = "http://prometheus:9090"
-    BasicAuthUser = ""
-    BasicAuthPass = ""
+    Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.port" . }}"
+    BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
+    BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
     Timeout = 30000
     DialTimeout = 10000
     TLSHandshakeTimeout = 30000
@@ -108,9 +108,9 @@ data:
     QueuePopSize = 2000
     SleepInterval = 50
     [[Writers]]
-    Url = "http://prometheus:9090/api/v1/write"
-    BasicAuthUser = ""
-    BasicAuthPass = ""
+    Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.port" . }}/api/v1/write"
+    BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
+    BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
     Timeout = 30000
     DialTimeout = 10000
     TLSHandshakeTimeout = 30000
