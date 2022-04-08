@@ -14,8 +14,6 @@ spec:
     matchLabels:
 {{ include "nightingale.matchLabels" . | indent 6 }}
       component: prometheus
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -55,7 +53,7 @@ spec:
         {{- else if $prometheus.existingClaim }}
         - name: prometheus-data
           persistentVolumeClaim:
-          claimName: {{ $prometheus.existingClaim }}
+            claimName: {{ $prometheus.existingClaim }}
         {{- end }}
         - name: prometheus-config
           configMap:

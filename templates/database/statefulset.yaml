@@ -68,7 +68,7 @@ spec:
         {{- else if $database.existingClaim }}
         - name: "database-data"
           persistentVolumeClaim:
-          claimName: {{ $database.existingClaim }}
+            claimName: {{ $database.existingClaim }}
         {{- end }}
         - name: database-config
           configMap:

@@ -8,13 +8,10 @@ metadata:
     component: nwebapi 
 spec:
   replicas: 1
-  serviceName: "{{ template "nightingale.nwebapi" . }}"
   selector:
     matchLabels:
 {{ include "nightingale.matchLabels" . | indent 6 }}
       component: nwebapi
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

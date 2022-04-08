@@ -8,17 +8,6 @@ metadata:
 {{ include "nightingale.labels" . | indent 4 }}
     component: telegraf
 spec:
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: kubernetes.io/os
-            operator: In
-            values:
-            - linux
-  replicas: 1
-  serviceName: "{{ template "nightingale.telegraf" . }}"
   selector:
     matchLabels:
 {{ include "nightingale.matchLabels" . | indent 6 }}
@@ -32,10 +21,16 @@ spec:
 {{- if .Values.telegraf.podAnnotations }}
 {{ toYaml .Values.telegraf.podAnnotations | indent 8 }}
 {{- end }} 
-  strategy:
-    type: Recreate
-  template:
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/os
+                operator: In
+                values:
+                - linux
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       tolerations:
