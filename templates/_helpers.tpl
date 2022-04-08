@@ -81,7 +81,7 @@ app: "{{ template "nightingale.name" . }}"
 
 {{- define "nightingale.database.username" -}}
   {{- if eq .Values.database.type "internal" -}}
-    {{- printf "%s" "root" -}}
+    {{- .Values.database.internal.username -}}
   {{- else -}}
     {{- .Values.database.external.username -}}
   {{- end -}}
@@ -101,14 +101,6 @@ app: "{{ template "nightingale.name" . }}"
 
 {{- define "nightingale.database.encryptedPassword" -}}
   {{- include "nightingale.database.rawPassword" . | b64enc | quote -}}
-{{- end -}}
-
-{{- define "nightingale.database.coreDatabase" -}}
-  {{- if eq .Values.database.type "internal" -}}
-    {{- printf "%s" "registry" -}}
-  {{- else -}}
-    {{- .Values.database.external.coreDatabase -}}
-  {{- end -}}
 {{- end -}}
 
 {{- define "nightingale.database.sslmode" -}}
@@ -148,6 +140,38 @@ app: "{{ template "nightingale.name" . }}"
     {{- printf "%s" "19000" -}}
   {{- else -}}
     {{- .Values.nserver.external.port -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.prometheus.host" -}}
+  {{- if eq .Values.prometheus.type "internal" -}}
+    {{- template "nightingale.prometheus" . }}
+  {{- else -}}
+    {{- .Values.prometheus.external.host -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.prometheus.port" -}}
+  {{- if eq .Values.prometheus.type "internal" -}}
+    {{- printf "%s" "9090" -}}
+  {{- else -}}
+    {{- .Values.prometheus.external.port -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.prometheus.username" -}}
+  {{- if eq .Values.prometheus.type "internal" -}}
+    {{- .Values.prometheus.internal.username -}}
+  {{- else -}}
+    {{- .Values.prometheus.external.username -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.prometheus.rawPassword" -}}
+  {{- if eq .Values.prometheus.type "internal" -}}
+    {{- .Values.prometheus.internal.password -}}
+  {{- else -}}
+    {{- .Values.prometheus.external.password -}}
   {{- end -}}
 {{- end -}}
 

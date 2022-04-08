@@ -4,7 +4,7 @@ expose:
     enabled: false
     certSource: auto
     auto:
-      commonName: "10.206.0.11"
+      commonName: "10.206.0.17"
     secret:
       secretName: ""
       notarySecretName: ""
@@ -96,6 +96,7 @@ database:
     image:
       repository: docker.io/library/mysql
       tag: 5.7
+    username: "root"
     password: "1234"
     shmSizeLimit: 512Mi
     nodeSelector: {}
@@ -111,7 +112,6 @@ database:
     port: "3306"
     username: "user"
     password: "password"
-    database: "n9e_v5"
     sslmode: "disable"
   maxIdleConns: 100
   maxOpenConns: 900
@@ -138,6 +138,8 @@ redis:
 prometheus:
   type: internal
   internal:
+    username: ""
+    password: ""
     serviceAccountName: ""
     automountServiceAccountToken: false
     image:
@@ -150,6 +152,7 @@ prometheus:
   external:
     host: "192.168.0.2"
     port: "9090"
+    username: ""
     password: ""
   podAnnotations: {}
 
