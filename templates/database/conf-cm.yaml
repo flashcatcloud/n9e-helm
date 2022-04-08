@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: database-config
 data:
-  my.cnf: |
+  my.cnf: |-
     [mysqld]
     pid-file     = /var/run/mysqld/mysqld.pid
     socket       = /var/run/mysqld/mysqld.sock

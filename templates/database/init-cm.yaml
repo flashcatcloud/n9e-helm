@@ -1784,7 +1784,7 @@ data:
     ) ENGINE = InnoDB
       DEFAULT CHARSET = utf8mb4;
   c-init.sql: |-
-    GRANT ALL ON *.* TO '{{ template "nightingale.database.username" . }}'@'127.0.0.1' IDENTIFIED BY {{ template "nightingale.database.rawPassword" . }}';
+    GRANT ALL ON *.* TO '{{ template "nightingale.database.username" . }}'@'127.0.0.1' IDENTIFIED BY '{{ template "nightingale.database.rawPassword" . }}';
     GRANT ALL ON *.* TO '{{ template "nightingale.database.username" . }}'@'localhost' IDENTIFIED BY '{{ template "nightingale.database.rawPassword" . }}';
     GRANT ALL ON *.* TO '{{ template "nightingale.database.username" . }}'@'%' IDENTIFIED BY '{{ template "nightingale.database.rawPassword" . }}';
 {{- end -}}
