@@ -5,7 +5,7 @@ metadata:
   name: nwebapi-dashboards
 data:
   mysql_by_exporter.json: |-
-  {{ .Files.Get "files/mysql_by_exporter.json" | indent 4 }}
+  {{ .Files.Get "$.BasPath/files/mysql_by_exporter.json" | indent 4 }}
   redis_by_exporter.json: |-
-  {{ .Files.Get "files/redis_by_exporter.json" | indent 4 }}
+  {{ .Files.Get "$.BasePath/files/redis_by_exporter.json" | indent 4 }}
 {{- end -}}
