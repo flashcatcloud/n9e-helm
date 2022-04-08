@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: telegraf-config
 data:
-  telegraf.conf: |
+  telegraf.conf: |-
     [global_tags]
     [agent]
       interval = "15s"
