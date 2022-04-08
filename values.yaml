@@ -7,16 +7,12 @@ expose:
       commonName: ""
     secret:
       secretName: ""
-      notarySecretName: ""
   ingress:
     hosts:
       core: core.n9e.domain
     controller: default
     kubeVersionOverride: ""
-    annotations:
-      haha: "0"
-    notary:
-      annotations: {}
+    annotations: {}
     nightingale:
       annotations: {}
   clusterIP:

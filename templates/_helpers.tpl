@@ -257,7 +257,7 @@ app: "{{ template "nightingale.name" . }}"
   subPath: ca.crt
 {{- end -}}
 
-{{/* scheme for all components except notary because it only support http mode */}}
+{{/* now it only support http mode */}}
 {{- define "nightingale.component.scheme" -}}
     {{- printf "http" -}}
 {{- end -}}
