@@ -18,8 +18,8 @@ data:
       hostname = ""
       omit_hostname = false
     [[outputs.opentsdb]]
-    host = "http://nserver"
-    port = 19000
+    host = "http://{{ template "nightingale.nserver.host" . }}"
+    port = {{ template "nightingale.nserver.port" . }}
     http_batch_size = 50
     http_path = "/opentsdb/put"
     debug = false

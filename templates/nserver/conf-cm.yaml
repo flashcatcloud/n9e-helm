@@ -68,7 +68,7 @@ data:
     BasicAuthPass = "ibex"
     Timeout = 3000
     [Redis]
-    Address = "redis:6379"
+    Address = "{{ template "nightingale.redis.addr" . }}"
     Password = ""
     [Gorm]
     Debug = false
@@ -79,9 +79,9 @@ data:
     TablePrefix = ""
     EnableAutoMigrate = false
     [MySQL]
-    Address = "mysql:3306"
-    User = "root"
-    Password = "1234"
+    Address = "{{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }}"
+    User = "{{ template "nightingale.database.username" . }}"
+    Password = "{{ template "nightingale.database.rawPassword" . }}"
     DBName = "n9e_v5"
     Parameters = "charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
     [Postgres]

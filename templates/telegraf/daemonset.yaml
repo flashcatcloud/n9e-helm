@@ -49,7 +49,7 @@ spec:
               protocol: UDP
             - containerPort: 8094
           volumeMounts:
-            - mountPath: /etc/telegraf/telegraf.conf
+            - mountPath: /etc/telegraf
               name: telegraf-config
       hostname: telegraf01
       restartPolicy: Always
