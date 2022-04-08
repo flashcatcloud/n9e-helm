@@ -1,10 +1,10 @@
 {{- if eq .Values.database.type "internal" -}}
 {{- $database := .Values.persistence.persistentVolumeClaim.database -}}
 apiVersion: apps/v1
-kind: StatefulSet 
+kind: StatefulSet
 metadata:
   name: "{{ template "nightingale.database" . }}"
-  labels: 
+  labels:
 {{ include "nightingale.labels" . | indent 4 }}
     component: database
 spec:
@@ -39,10 +39,10 @@ spec:
       terminationGracePeriodSeconds: 120
       containers:
       - name: mysql
-        image: {{ .Values.redis.internal.image.repository }}:{{ .Values.redis.internal.image.tag }}
+        image: {{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         ports:
-          - containerPort: 3306
+        - containerPort: 3306
         env:
           - name: MYSQL_ROOT_PASSWORD
             value: {{ template "nightingale.database.encryptedPassword" . }}
