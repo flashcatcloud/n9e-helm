@@ -1,10 +1,12 @@
 {{- if eq .Values.nserver.type "internal" -}}
 apiVersion: v1
 kind: ConfigMap
-  metadata:
-  name: nserver-config
+metadata:
+  name: "nserver-config"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
 data:
-  server.conf: |
+  server.conf: |-
     RunMode = "release"
     ClusterName = "Default"
     BusiGroupLabelKey = "busigroup"

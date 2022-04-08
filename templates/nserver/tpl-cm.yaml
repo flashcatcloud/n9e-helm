@@ -1,7 +1,7 @@
 {{- if eq .Values.nserver.type "internal" -}}
 apiVersion: v1
 kind: ConfigMap
-  metadata:
+metadata:
   name: nserver-template
 data:
   dingtalk.tpl: |-
