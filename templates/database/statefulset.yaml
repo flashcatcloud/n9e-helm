@@ -20,7 +20,7 @@ spec:
 {{ include "nightingale.labels" . | indent 8 }}
         component: database
       annotations:
-        checksum/secret: {{ include (print $.Template.BasePath "/database/database-secret.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/database/secret.yaml") . | sha256sum }}
 {{- if .Values.database.podAnnotations }}
 {{ toYaml .Values.database.podAnnotations | indent 8 }}
 {{- end }}
@@ -43,9 +43,10 @@ spec:
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         ports:
         - containerPort: 3306
+        envFrom:
+          - secretRef:
+              name: "{{ template "nightingale.database" . }}"
         env:
-          - name: MYSQL_ROOT_PASSWORD
-            value: {{ template "nightingale.database.encryptedPassword" . }}
           - name: TZ
             value: Asia/Shanghai
 {{- if .Values.database.internal.resources }}
