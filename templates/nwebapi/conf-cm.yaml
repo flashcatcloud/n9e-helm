@@ -1,8 +1,8 @@
 {{- if eq .Values.nwebapi.type "internal" -}}
 apiVersion: v1
 kind: ConfigMap
-  metadata:
-  name: nserver-config
+metadata:
+  name: nwebapi-config
 data:
   webapi.conf: |-
     RunMode = "release"

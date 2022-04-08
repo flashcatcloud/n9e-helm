@@ -1,8 +1,8 @@
 {{- if eq .Values.nwebapi.type "internal" -}}
 apiVersion: v1
 kind: ConfigMap
-  metadata:
-  name: nserver-alerts
+metadata:
+  name: nwebapi-alerts
 data:
   mysql_by_exporter.json: |-
     [

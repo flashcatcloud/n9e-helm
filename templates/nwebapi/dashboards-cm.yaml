@@ -1,8 +1,8 @@
 {{- if eq .Values.nwebapi.type "internal" -}}
 apiVersion: v1
 kind: ConfigMap
-  metadata:
-  name: nserver-dashboards
+metadata:
+  name: nwebapi-dashboards
 data:
   mysql_by_exporter.json: |-
   {{ .Files.Get "files/mysql_by_exporter.json" | indent 4 }}
