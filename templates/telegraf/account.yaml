@@ -1,0 +1,9 @@
+{{- if eq .Values.telegraf.type "internal" -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "{{ template "nightingale.telegraf" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+    component: telegraf
+{{- end }}

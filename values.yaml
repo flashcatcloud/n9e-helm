@@ -177,11 +177,12 @@ telegraf:
     automountServiceAccountToken: false
     image:
       repository: docker.io/library/telegraf
-      tag: 1.20.3
+      tag: 1.22-alpine
     nodeSelector: {}
     tolerations: []
     affinity: {}
     priorityClassName:
+    docker_socket: unix:///var/run/docker.sock
   external:
     host: "192.168.0.3"
     port: "8094"
