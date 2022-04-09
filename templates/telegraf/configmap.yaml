@@ -15,7 +15,7 @@ data:
       flush_interval = "10s"
       flush_jitter = "0s"
       precision = ""
-      hostname = ""
+      hostname = "$HOSTNAME"
       omit_hostname = false
     [[outputs.opentsdb]]
     host = "http://{{ template "nightingale.nserver.host" . }}"
