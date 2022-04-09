@@ -73,7 +73,6 @@ spec:
               readOnly: true
             - name: docker-socket
               mountPath: {{ trimPrefix "unix://" .Values.telegraf.internal.docker_socket }}
-      hostname: telegraf01
       restartPolicy: Always
       volumes:
         - name: telegraf-config
