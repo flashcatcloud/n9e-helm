@@ -40,7 +40,21 @@ spec:
         - env:
             - name: TZ
               value: Asia/Shanghai
-          image: telegraf:1.20.3
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: HOSTIP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: "HOST_PROC"
+              value: "/hostfs/proc"
+            - name: "HOST_SYS"
+              value: "/hostfs/sys"
+            - name: "HOST_MOUNT_PREFIX"
+              value: "/hostfs"
+          image: {{ .Values.telegraf.internal.image.repository }}:{{ .Values.telegraf.internal.image.tag }}
           name: telegraf
           ports:
             - containerPort: 8125
@@ -51,10 +65,27 @@ spec:
           volumeMounts:
             - mountPath: /etc/telegraf
               name: telegraf-config
-      hostname: telegraf01
+            - mountPath: /var/run/utmp
+              name: hostroutmp 
+              readOnly: true
+            - mountPath: /hostfs
+              name: hostrofs
+              readOnly: true
+            - name: docker-socket
+              mountPath: {{ trimPrefix "unix://" .Values.telegraf.internal.docker_socket }}
       restartPolicy: Always
       volumes:
         - name: telegraf-config
           configMap:
             name: telegraf-config
+        - name: hostrofs
+          hostPath:
+            path: /
+        - name: hostroutmp
+          hostPath:
+            path: /var/run/utmp
+        - name: docker-socket
+          hostPath:
+            path: {{ trimPrefix "unix://" .Values.telegraf.internal.docker_socket }}
+            type: Socket
 {{- end -}}

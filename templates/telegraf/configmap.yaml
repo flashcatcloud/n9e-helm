@@ -15,7 +15,7 @@ data:
       flush_interval = "10s"
       flush_jitter = "0s"
       precision = ""
-      hostname = ""
+      hostname = "$HOSTNAME"
       omit_hostname = false
     [[outputs.opentsdb]]
     host = "http://{{ template "nightingale.nserver.host" . }}"
@@ -28,7 +28,7 @@ data:
       percpu = true
       totalcpu = true
       collect_cpu_time = false
-      report_active = true
+      report_active = false
     [[inputs.disk]]
       ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]
     [[inputs.diskio]]
@@ -40,4 +40,14 @@ data:
     [[inputs.net]]
       ignore_protocol_stats = true
     [[inputs.netstat]]
+
+    {{- if .Values.telegraf.internal.docker_socket }}
+    [[inputs.docker]]
+    endpoint = {{ .Values.telegraf.internal.docker_socket | quote }}
+    {{- end }}
+    [[inputs.kubernetes]]
+    url = "https://$HOSTIP:10250"
+    bearer_token = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+    insecure_skip_verify = true
+
 {{- end -}}
