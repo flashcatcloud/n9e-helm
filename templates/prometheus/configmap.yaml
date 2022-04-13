@@ -8,7 +8,7 @@ data:
     [
       {
         "targets": [
-          "nwebapi:18000","nserver:19000"
+          "nwebapi: {{ template  "nightingale.nwebapi.port" }}","nserver:{{ template "nightingale.nserver.port" }}"
         ]
       }
     ]

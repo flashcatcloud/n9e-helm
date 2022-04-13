@@ -127,6 +127,14 @@ app: "{{ template "nightingale.name" . }}"
   {{- end -}}
 {{- end -}}
 
+{{- define "nightingale.nwebapi.servicePort" -}}
+  {{- if .Values.internalTLS.enabled -}}
+    {{- printf "443" -}}
+  {{- else -}}
+    {{- printf "80" -}}
+  {{- end -}}
+{{- end -}}
+
 {{- define "nightingale.nserver.host" -}}
   {{- if eq .Values.nserver.type "internal" -}}
     {{- template "nightingale.nserver" . }}
@@ -140,6 +148,14 @@ app: "{{ template "nightingale.name" . }}"
     {{- printf "%s" "19000" -}}
   {{- else -}}
     {{- .Values.nserver.external.port -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.nserver.servicePort" -}}
+  {{- if .Values.internalTLS.enabled -}}
+    {{- printf "443" -}}
+  {{- else -}}
+    {{- printf "80" -}}
   {{- end -}}
 {{- end -}}
 
