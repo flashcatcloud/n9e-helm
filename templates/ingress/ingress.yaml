@@ -1,0 +1,68 @@
+{{- if eq .Values.expose.type "ingress" }}
+{{- $ingress := .Values.expose.ingress -}}
+{{- $tls := .Values.expose.tls -}}
+{{- if eq .Values.expose.ingress.controller "gce" }}
+  {{- $_ := set . "root_path" "/*" -}}
+{{- else if eq .Values.expose.ingress.controller "ncp" }}
+  {{- $_ := set . "root_path" "/.*" -}}
+{{- else }}
+  {{- $_ := set . "root_path" "/" -}}
+{{- end }}
+
+---
+{{- if semverCompare "<1.14-0" (include "nightingale.ingress.kubeVersion" .) }}
+apiVersion: extensions/v1beta1
+{{- else if semverCompare "<1.19-0" (include "nightingale.ingress.kubeVersion" .) }}
+apiVersion: networking.k8s.io/v1beta1
+{{- else }}
+apiVersion: networking.k8s.io/v1
+{{- end }}
+kind: Ingress
+metadata:
+  name: "{{ template "nightingale.ingress" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+  annotations:
+{{ toYaml $ingress.annotations | indent 4 }}
+{{- if .Values.internalTLS.enabled }}
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+{{- end }}
+{{- if eq .Values.expose.ingress.controller "ncp" }}
+    ncp/use-regex: "true"
+    {{- if $tls.enabled }}
+    ncp/http-redirect: "true"
+    {{- end }}
+{{- end }}
+{{- if $ingress.nightingale.annotations }}
+{{ toYaml $ingress.nightingale.annotations | indent 4 }}
+{{- end }}
+spec:
+  {{- if $tls.enabled }}
+  tls:
+  - secretName: {{ template "nightingale.tlsCoreSecretForIngress" . }}
+    {{- if $ingress.hosts.core }}
+    hosts:
+    - {{ $ingress.hosts.core }}
+    {{- end }}
+  {{- end }}
+  rules:
+  - http:
+      paths:
+{{- if semverCompare "<1.19-0" (include "nightingale.ingress.kubeVersion" .) }}
+      - path: {{ .root_path }}
+        backend:
+          serviceName: {{ template "nightingale.nwebapi" . }}
+          servicePort: {{ template "nightingale.nwebapi.servicePort" . }}
+{{- else }}
+      - path: {{ .portal_path }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ template "nightingale.nwebapi" . }}
+            port:
+              number: {{ template "nightingale.nwebapi.servicePort" . }}
+{{- end }}
+    {{- if $ingress.hosts.core }}
+    host: {{ $ingress.hosts.core }}
+    {{- end }}
+{{- end }}
