@@ -7,9 +7,9 @@ metadata:
 {{ include "nightingale.labels" . | indent 4 }}
 spec:
   ports:
-    - name: "18000"
-      port: 18000
-      targetPort: 18000
+    - name: "nwebapi-port"
+      port: {{ template "nightingale.nwebapi.servicePort" . }}
+      targetPort: {{ template "nightingale.nwebapi.port" . }}
   selector:
 {{ include "nightingale.matchLabels" . | indent 4 }}
     component: nwebapi

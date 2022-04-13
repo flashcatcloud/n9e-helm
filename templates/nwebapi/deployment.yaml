@@ -34,7 +34,7 @@ spec:
         image: ulric2019/nightingale:5.5.0
         name: nwebapi
         ports:
-        - containerPort: 18000
+        - containerPort: {{ template "nightingale.nwebapi.port" . }}
 {{- if .Values.nwebapi.internal.resources }}
         resources:
 {{ toYaml .Values.nwebapi.internal.resources | indent 10 }}

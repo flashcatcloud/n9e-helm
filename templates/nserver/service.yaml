@@ -7,9 +7,9 @@ metadata:
 {{ include "nightingale.labels" . | indent 4 }}
 spec:
   ports:
-    - name: "19000"
-      port: 19000
-      targetPort: 19000
+    - name: "nserver-port"
+      port: {{ template "nightingale.nserver.servicePort" . }}
+      targetPort: {{ template "nightingale.nserver.port" . }}
   selector:
 {{ include "nightingale.matchLabels" . | indent 4 }}
     component: nserver

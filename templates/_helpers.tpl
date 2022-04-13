@@ -127,6 +127,10 @@ app: "{{ template "nightingale.name" . }}"
   {{- end -}}
 {{- end -}}
 
+{{- define "nightingale.nwebapi.servicePort" -}}
+    {{- printf "80" -}}
+{{- end -}}
+
 {{- define "nightingale.nserver.host" -}}
   {{- if eq .Values.nserver.type "internal" -}}
     {{- template "nightingale.nserver" . }}
@@ -141,6 +145,10 @@ app: "{{ template "nightingale.name" . }}"
   {{- else -}}
     {{- .Values.nserver.external.port -}}
   {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.nserver.servicePort" -}}
+    {{- printf "80" -}}
 {{- end -}}
 
 {{- define "nightingale.prometheus.host" -}}

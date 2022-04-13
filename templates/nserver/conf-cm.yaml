@@ -17,7 +17,7 @@ data:
     Output = "stdout"
     [HTTP]
     Host = "0.0.0.0"
-    Port = 19000
+    Port = {{ template "nightingale.nserver.port" . }}
     CertFile = ""
     KeyFile = ""
     PrintAccessLog = false
