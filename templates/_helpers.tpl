@@ -128,11 +128,7 @@ app: "{{ template "nightingale.name" . }}"
 {{- end -}}
 
 {{- define "nightingale.nwebapi.servicePort" -}}
-  {{- if .Values.internalTLS.enabled -}}
-    {{- printf "443" -}}
-  {{- else -}}
     {{- printf "80" -}}
-  {{- end -}}
 {{- end -}}
 
 {{- define "nightingale.nserver.host" -}}
@@ -152,11 +148,7 @@ app: "{{ template "nightingale.name" . }}"
 {{- end -}}
 
 {{- define "nightingale.nserver.servicePort" -}}
-  {{- if .Values.internalTLS.enabled -}}
-    {{- printf "443" -}}
-  {{- else -}}
     {{- printf "80" -}}
-  {{- end -}}
 {{- end -}}
 
 {{- define "nightingale.prometheus.host" -}}

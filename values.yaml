@@ -1,5 +1,5 @@
 expose:
-  type: nodePort
+  type: ingress
   tls:
     enabled: false
     certSource: auto
@@ -9,7 +9,7 @@ expose:
       secretName: ""
   ingress:
     hosts:
-      core: core.n9e.domain
+      core: hello.n9e.info
     controller: default
     kubeVersionOverride: ""
     annotations: {}

@@ -24,9 +24,6 @@ metadata:
 {{ include "nightingale.labels" . | indent 4 }}
   annotations:
 {{ toYaml $ingress.annotations | indent 4 }}
-{{- if .Values.internalTLS.enabled }}
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-{{- end }}
 {{- if eq .Values.expose.ingress.controller "ncp" }}
     ncp/use-regex: "true"
     {{- if $tls.enabled }}
