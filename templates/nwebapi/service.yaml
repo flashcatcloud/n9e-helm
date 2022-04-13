@@ -8,8 +8,8 @@ metadata:
 spec:
   ports:
     - name: "nwebapi-port"
-      port: {{ template "nightingale.nwebapi.servicePort" }}
-      targetPort: {{ template "nightingale.nwebapi.port" }}
+      port: {{ template "nightingale.nwebapi.servicePort" . }}
+      targetPort: {{ template "nightingale.nwebapi.port" . }}
   selector:
 {{ include "nightingale.matchLabels" . | indent 4 }}
     component: nwebapi

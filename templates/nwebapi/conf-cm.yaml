@@ -36,7 +36,7 @@ data:
     Output = "stdout"
     [HTTP]
     Host = "0.0.0.0"
-    Port = {{ template "nightingale.nwebapi.port" }}
+    Port = {{ template "nightingale.nwebapi.port" . }}
     CertFile = ""
     KeyFile = ""
     PrintAccessLog = true

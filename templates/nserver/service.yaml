@@ -8,8 +8,8 @@ metadata:
 spec:
   ports:
     - name: "nserver-port"
-      port: {{ template "nightingale.nserver.servicePort" }}
-      targetPort: {{ template "nightingale.nserver.port" }}
+      port: {{ template "nightingale.nserver.servicePort" . }}
+      targetPort: {{ template "nightingale.nserver.port" . }}
   selector:
 {{ include "nightingale.matchLabels" . | indent 4 }}
     component: nserver
