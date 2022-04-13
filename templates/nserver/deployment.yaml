@@ -34,7 +34,7 @@ spec:
           image: ulric2019/nightingale:5.5.0
           name: nserver
           ports:
-            - containerPort: {{ template "nightingale.nserver.port" }}
+            - containerPort: {{ template "nightingale.nserver.port" . }}
 {{- if .Values.nserver.internal.resources }}
         resources:
 {{ toYaml .Values.nserver.internal.resources | indent 10 }}
