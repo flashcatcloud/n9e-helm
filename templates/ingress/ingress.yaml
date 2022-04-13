@@ -54,7 +54,7 @@ spec:
           serviceName: {{ template "nightingale.nwebapi" . }}
           servicePort: {{ template "nightingale.nwebapi.servicePort" . }}
 {{- else }}
-      - path: {{ .portal_path }}
+      - path: {{ .root_path }}
         pathType: Prefix
         backend:
           service:
