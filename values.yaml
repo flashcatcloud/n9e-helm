@@ -52,23 +52,23 @@ persistence:
   resourcePolicy: "keep"
   persistentVolumeClaim:
     database:
-      existingClaim: "nightingale-database"
-      storageClass: "nightingale"
+      existingClaim: ""
+      storageClass: ""
       subPath: ""
       accessMode: ReadWriteOnce
-      size: 10Gi
+      size: 4Gi
     redis:
-      existingClaim: "nightingale-redis"
-      storageClass: "nightingale"
+      existingClaim: ""
+      storageClass: ""
       subPath: ""
       accessMode: ReadWriteOnce
-      size: 5Gi
+      size: 1Gi
     prometheus:
-      existingClaim: "nightingale-prometheus"
-      storageClass: "nightingale"
+      existingClaim: ""
+      storageClass: ""
       subPath: ""
       accessMode: ReadWriteOnce
-      size: 10Gi
+      size: 4Gi
 
 imagePullPolicy: IfNotPresent
 
