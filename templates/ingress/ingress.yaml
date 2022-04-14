@@ -58,7 +58,6 @@ spec:
             name: {{ template "nightingale.nwebapi" . }}
             port:
               number: {{ template "nightingale.nwebapi.servicePort" . }}
-{{- end }}
     {{- if $ingress.hosts.web }}
     host: {{ $ingress.hosts.web }}
     {{- end }}
