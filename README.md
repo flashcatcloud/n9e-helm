@@ -14,10 +14,54 @@ This repository, including the issues, focus on deploying Nightingale chart via 
 
 ## Installation
 
-### Add Helm repository
+### Get Helm repository
 
 ```bash
-helm repo add n9e https://helm.flashcat.cloud
+git clone https://github.com/flashcatcloud/n9e-helm.git
 ```
 
 ### Configure the chart
+The following items can be set via `--set` flag during installation or configured by editing the `values.yaml` directly(need to download the chart first).
+
+#### Configure the way how to expose nightingale service
+
+- **Ingress**: The ingress controller must be installed in the Kubernetes cluster.
+- **ClusterIP**: Exposes the service on a cluster-internal IP. Choosing this value makes the service only reachable from within the cluster.
+- **NodePort**: Exposes the service on each Node’s IP at a static port (the NodePort). You’ll be able to contact the NodePort service, from outside the cluster, by requesting `NodeIP:NodePort`.
+- **LoadBalancer**: Exposes the service externally using a cloud provider’s load balancer.
+
+#### Configure the external URL
+
+The external URL for nightingale web service is used to:
+
+1. populate the docker/helm commands showed on portal
+2. populate the token service URL returned to docker/notary client
+
+Format: `protocol://domain[:port]`. Usually:
+
+- if expose the service via `Ingress`, the `domain` should be the value of `expose.ingress.hosts.web`
+- if expose the service via `ClusterIP`, the `domain` should be the value of `expose.clusterIP.name`
+- if expose the service via `NodePort`, the `domain` should be the IP address of one Kubernetes node
+- if expose the service via `LoadBalancer`, set the `domain` as your own domain name and add a CNAME record to map the domain name to the one you got from the cloud provider
+
+If nightingale is deployed behind the proxy, set it as the URL of proxy.
+
+#### Configure the way how to persistent data
+
+- **Disable**: The data does not survive the termination of a pod.
+- **Persistent Volume Claim(default)**: A default `StorageClass` is needed in the Kubernetes cluster to dynamic provision the volumes. Specify another StorageClass in the `storageClass` or set `existingClaim` if you have already existing persistent volumes to use.
+
+
+### Install the chart
+
+Install the nightingale helm chart with a release name `nightingale`:
+```bash
+helm install nightingale ./n9e-helm -n n9e --create-namespace
+```
+
+## Uninstallation
+
+To uninstall/delete the `nightingale` deployment:
+```
+helm uninstall  nightingale -n n9e
+```

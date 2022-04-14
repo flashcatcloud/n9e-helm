@@ -37,9 +37,9 @@ spec:
   {{- if $tls.enabled }}
   tls:
   - secretName: {{ template "nightingale.tlsCoreSecretForIngress" . }}
-    {{- if $ingress.hosts.core }}
+    {{- if $ingress.hosts.web }}
     hosts:
-    - {{ $ingress.hosts.core }}
+    - {{ $ingress.hosts.web }}
     {{- end }}
   {{- end }}
   rules:
@@ -58,8 +58,7 @@ spec:
             name: {{ template "nightingale.nwebapi" . }}
             port:
               number: {{ template "nightingale.nwebapi.servicePort" . }}
-{{- end }}
-    {{- if $ingress.hosts.core }}
-    host: {{ $ingress.hosts.core }}
+    {{- if $ingress.hosts.web }}
+    host: {{ $ingress.hosts.web }}
     {{- end }}
 {{- end }}
