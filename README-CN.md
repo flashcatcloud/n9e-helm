@@ -28,9 +28,9 @@ git clone https://github.com/flashcatcloud/n9e-helm.git
 #### 配置暴露夜莺服务的方式
 
 - **Ingress**: k8s集群中必须已经安装了ingress controller
-- **ClusterIP**: 通过 cluster ip暴露服务。 此选项只能在集群内访问服务。
-- **NodePort**: 通过 Node Port 方式暴露服务。 这样可以在集群外通过`NodeIP:NodePort` 访问夜莺服务。
-- **LoadBalancer**: 通过云提供商的负载均衡器，将服务暴露到集群外。
+- **ClusterIP**: 通过集群的内部 cluster ip 暴露服务，选择该值时服务只能够在集群内部访问。
+- **NodePort**: 通过每个节点上的 IP 和静态端口（NodePort）暴露服务。在集群外通过`NodeIP:NodePort` 访问夜莺服务。
+- **LoadBalancer**: 使用云提供商的负载均衡器向外部暴露服务。
 
 #### 配置external URL
 
