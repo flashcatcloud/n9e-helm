@@ -9,7 +9,7 @@ expose:
       secretName: ""
   ingress:
     hosts:
-      core: hello.n9e.info
+      web: hello.n9e.info
     controller: default
     kubeVersionOverride: ""
     annotations: {}
