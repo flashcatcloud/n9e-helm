@@ -4,7 +4,6 @@
 
 ## 简介
 
-<<<<<<< HEAD
 [n9e-helm](https://github.com/flashcatcloud/n9e-helm) 用于在k8s集群中安装[Nightingale](https://github.com/didi/nightingale), 欢迎参与。
 
 本仓库主要关注夜莺的chart。关于夜莺功能性的issue 请移步 [didi/nightingale](https://github.com/didi/nightingale)
@@ -54,7 +53,6 @@ external URL主要用于访问夜莺web服务
 
 ### 安装chart
 
-<<<<<<< HEAD
 使用 `nightingale` 名称进行安装:
 ```bash
 helm install nightingale ./n9e-helm -n n9e --create-namespace
