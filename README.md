@@ -34,11 +34,7 @@ The following items can be set via `--set` flag during installation or configure
 
 #### Configure the external URL
 
-
 The external URL for nightingale web service is used to visit web service of nightingale 
-
-1. populate the docker/helm commands showed on portal
-2. populate the token service URL returned to docker/notary client
 
 Format: `protocol://domain[:port]`. Usually:
 
