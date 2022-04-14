@@ -1,8 +1,10 @@
 # Helm Chart for Nightingale
 
+English | [中文](README-CN.md)
+
 ## Introduction
 
-This [Helm](https://github.com/flashcat/n9e-helm) chart installs [Nightingale](https://github.com/didi/nightingale) in a Kubernetes cluster. Welcome to [contribute](CONTRIBUTING.md) to Helm Chart for Nightingale.
+This [Helm](https://github.com/flashcatcloud/n9e-helm) chart installs [Nightingale](https://github.com/didi/nightingale) in a Kubernetes cluster. Welcome to contribute to Helm Chart for Nightingale.
 
 This repository, including the issues, focus on deploying Nightingale chart via helm. So for the functionality issues or questions of Nightingale, please open issues on [didi/nightingale](https://github.com/didi/nightingale)
 
@@ -32,7 +34,8 @@ The following items can be set via `--set` flag during installation or configure
 
 #### Configure the external URL
 
-The external URL for nightingale web service is used to:
+
+The external URL for nightingale web service is used to visit web service of nightingale 
 
 1. populate the docker/helm commands showed on portal
 2. populate the token service URL returned to docker/notary client
@@ -65,3 +68,8 @@ To uninstall/delete the `nightingale` deployment:
 ```
 helm uninstall  nightingale -n n9e
 ```
+
+## Contributing
+- Create and issue in [Issue List](https://github.com/flashcatcloud/n9e-helm/issues)
+- If necessary, contact and discuss with maintainer
+- Follow the [chart template developer's guide](https://helm.sh/docs/chart_template_guide/)
