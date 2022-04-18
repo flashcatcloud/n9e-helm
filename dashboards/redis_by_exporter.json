@@ -1,3 +1,4 @@
+[
     {
       "name": "Redis Overview - 模板",
       "tags": "Redis Prometheus",
@@ -38,7 +39,7 @@
               "weight": 0
             },
             {
-              "configs": "{\"targets\":[{\"expr\":\"topk(5, irate(redis_commands_total{instance=~\\\"$instance\\\"} [1m]))\",\"legend\":\"{{`{{cmd}}`}}\"}],\"name\":\"Top Commands\",\"options\":{\"tooltip\":{\"mode\":\"all\",\"sort\":\"desc\"},\"legend\":{\"displayMode\":\"hidden\"},\"standardOptions\":{},\"thresholds\":{}},\"custom\":{\"drawStyle\":\"lines\",\"lineInterpolation\":\"smooth\",\"fillOpacity\":0.5,\"stack\":\"off\"},\"version\":\"2.0.0\",\"type\":\"timeseries\",\"layout\":{\"h\":2,\"w\":8,\"x\":16,\"y\":0,\"i\":\"2\"}}",
+              "configs": "{\"targets\":[{\"expr\":\"topk(5, irate(redis_commands_total{instance=~\\\"$instance\\\"} [1m]))\",\"legend\":\"{{cmd}}\"}],\"name\":\"Top Commands\",\"options\":{\"tooltip\":{\"mode\":\"all\",\"sort\":\"desc\"},\"legend\":{\"displayMode\":\"hidden\"},\"standardOptions\":{},\"thresholds\":{}},\"custom\":{\"drawStyle\":\"lines\",\"lineInterpolation\":\"smooth\",\"fillOpacity\":0.5,\"stack\":\"off\"},\"version\":\"2.0.0\",\"type\":\"timeseries\",\"layout\":{\"h\":2,\"w\":8,\"x\":16,\"y\":0,\"i\":\"2\"}}",
               "weight": 0
             }
           ]
@@ -48,7 +49,7 @@
           "weight": 2,
           "charts": [
             {
-              "configs": "{\"targets\":[{\"expr\":\"sum (redis_db_keys{instance=~\\\"$instance\\\"}) by (db)\",\"legend\":\"{{`{{db}}`}}\"}],\"name\":\"Total Items per DB\",\"options\":{\"tooltip\":{\"mode\":\"all\",\"sort\":\"desc\"},\"legend\":{\"displayMode\":\"hidden\"},\"standardOptions\":{},\"thresholds\":{}},\"custom\":{\"drawStyle\":\"lines\",\"lineInterpolation\":\"smooth\",\"fillOpacity\":0.5,\"stack\":\"off\"},\"version\":\"2.0.0\",\"type\":\"timeseries\",\"layout\":{\"h\":2,\"w\":8,\"x\":0,\"y\":0,\"i\":\"0\"}}",
+              "configs": "{\"targets\":[{\"expr\":\"sum (redis_db_keys{instance=~\\\"$instance\\\"}) by (db)\",\"legend\":\"{{db}}\"}],\"name\":\"Total Items per DB\",\"options\":{\"tooltip\":{\"mode\":\"all\",\"sort\":\"desc\"},\"legend\":{\"displayMode\":\"hidden\"},\"standardOptions\":{},\"thresholds\":{}},\"custom\":{\"drawStyle\":\"lines\",\"lineInterpolation\":\"smooth\",\"fillOpacity\":0.5,\"stack\":\"off\"},\"version\":\"2.0.0\",\"type\":\"timeseries\",\"layout\":{\"h\":2,\"w\":8,\"x\":0,\"y\":0,\"i\":\"0\"}}",
               "weight": 0
             },
             {
@@ -73,3 +74,4 @@
         }
       ]
     }
+  ]
