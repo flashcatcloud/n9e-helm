@@ -210,7 +210,7 @@ nwebapi:
     automountServiceAccountToken: false
     image:
       repository: docker.io/ulric2019/nightingale
-      tag: 5.5.0
+      tag: 5.6.3
     nodeSelector: {}
     tolerations: []
     affinity: {}
@@ -227,7 +227,7 @@ nserver:
     automountServiceAccountToken: false
     image:
       repository: docker.io/ulric2019/nightingale
-      tag: 5.5.0
+      tag: 5.6.3
     nodeSelector: {}
     tolerations: []
     affinity: {}

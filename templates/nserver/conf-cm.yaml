@@ -57,7 +57,7 @@ data:
     [Alerting]
     TemplatesDir = "/app/etc/template"
     NotifyConcurrency = 10
-    NotifyBuiltinEnable = true
+    NotifyBuiltinChannels = ["email", "dingtalk", "wecom", "feishu"]
     [Alerting.CallScript]
     Enable = false
     ScriptPath = "/app/etc/script/notify.py"
