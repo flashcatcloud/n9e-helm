@@ -20,5 +20,5 @@ kind: ConfigMap
 metadata:
   name: nwebapi-dashboards
 data:
-  {{ (.Files.Glob "$.BasPath/dashboards/*.json").AsConfig | indent 2 }}
+  {{ (.Files.Glob "$.Template.BasePath/nwebapi/dashboards/*.json").AsConfig | indent 2 }}
 {{- end -}}

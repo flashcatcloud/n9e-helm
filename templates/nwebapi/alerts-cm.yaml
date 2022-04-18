@@ -20,5 +20,5 @@ kind: ConfigMap
 metadata:
   name: nwebapi-alerts
 data:
-  {{ (.Files.Glob "$.BasPath/alerts/*.json").AsConfig | indent 2 }}
+  {{ (.Files.Glob "$.Template.BasePath/nwebapi/alerts/*.json").AsConfig | indent 2 }}
 {{- end -}}
