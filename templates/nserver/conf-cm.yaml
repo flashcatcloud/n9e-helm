@@ -98,13 +98,13 @@ data:
     Address = "{{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }}"
     User = "{{ template "nightingale.database.username" . }}"
     Password = "{{ template "nightingale.database.rawPassword" . }}"
-    DBName = "n9e_v5"
+    DBName = "{{ template "nightingale.database.name" . }}"
     Parameters = "charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
     [Postgres]
     Address = "postgres:5432"
     User = "root"
     Password = "1234"
-    DBName = "n9e_v5"
+    DBName = "{{ template "nightingale.database.name" . }}"
     SSLMode = "disable"
     [Reader]
     Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.port" . }}"

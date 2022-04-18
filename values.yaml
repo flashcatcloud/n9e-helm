@@ -126,6 +126,7 @@ database:
       tag: 5.7
     username: "root"
     password: "1234"
+    name: "n9e_v5"
     shmSizeLimit: 512Mi
     nodeSelector: {}
     resources: {}
@@ -138,6 +139,7 @@ database:
   external:
     host: "192.168.0.1"
     port: "3306"
+    name: "n9e_v5"
     username: "user"
     password: "password"
     sslmode: "disable"
