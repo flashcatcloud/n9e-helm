@@ -111,6 +111,14 @@ app: "{{ template "nightingale.name" . }}"
   {{- end -}}
 {{- end -}}
 
+{{- define "nightingale.database.name" -}}
+  {{- if eq .Values.database.type "internal" -}}
+    {{- .Values.database.internal.name -}}
+  {{- else -}}
+    {{- .Values.database.external.name -}}
+  {{- end -}}
+{{- end -}}
+
 {{- define "nightingale.database.escapedRawPassword" -}}
   {{- include "nightingale.database.rawPassword" . | urlquery | replace "+" "%20" -}}
 {{- end -}}

@@ -22,9 +22,9 @@ metadata:
 data:
   a-n9e.sql: |
     set names utf8mb4;
-    drop database if exists n9e_v5;
-    create database n9e_v5;
-    use n9e_v5;
+    drop database if exists {{ template "nightingale.database.name" . }};
+    create database {{ template "nightingale.database.name" . }};
+    use {{ template "nightingale.database.name" . }};
 
     CREATE TABLE `user` (
         `id` bigint unsigned not null auto_increment,
