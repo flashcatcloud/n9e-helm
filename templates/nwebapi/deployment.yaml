@@ -47,7 +47,7 @@ spec:
             value: release
           - name: TZ
             value: Asia/Shanghai
-        image: ulric2019/nightingale:5.5.0
+        image: {{ .Values.nwebapi.internal.image.repository }}:{{ .Values.nwebapi.internal.image.tag }}
         name: nwebapi
         ports:
         - containerPort: {{ template "nightingale.nwebapi.port" . }}

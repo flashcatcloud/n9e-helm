@@ -47,7 +47,7 @@ spec:
               value: release
             - name: TZ
               value: Asia/Shanghai
-          image: ulric2019/nightingale:5.5.0
+          image: {{ .Values.nserver.internal.image.repository }}:{{ .Values.nserver.internal.image.tag }}
           name: nserver
           ports:
             - containerPort: {{ template "nightingale.nserver.port" . }}
