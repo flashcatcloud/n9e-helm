@@ -90,7 +90,7 @@ data:
     Email = "mail"
     [Redis]
     Address = "{{ template "nightingale.redis.addr" . }}"
-    Password = ""
+    Password = "{{ template "nightingale.redis.password" . }}"
     [Gorm]
     Debug = true
     DBType = "mysql"
