@@ -85,7 +85,7 @@ data:
     Timeout = 3000
     [Redis]
     Address = "{{ template "nightingale.redis.addr" . }}"
-    Password = ""
+    Password = "{{ template "nightingale.redis.password" . }}"
     [Gorm]
     Debug = false
     DBType = "mysql"
