@@ -208,6 +208,7 @@ telegraf:
 nwebapi:
   type: internal
   internal:
+    replicas: 1
     serviceAccountName: ""
     automountServiceAccountToken: false
     image:
@@ -225,6 +226,7 @@ nwebapi:
 nserver:
   type: internal
   internal:
+    replicas: 1
     serviceAccountName: ""
     automountServiceAccountToken: false
     image:

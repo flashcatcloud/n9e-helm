@@ -23,7 +23,7 @@ metadata:
 {{ include "nightingale.labels" . | indent 4 }}
     component: nserver
 spec:
-  replicas: 1
+  replicas: {{ .Values.nserver.internal.replicas }}
   selector:
     matchLabels:
 {{ include "nightingale.matchLabels" . | indent 6 }}
