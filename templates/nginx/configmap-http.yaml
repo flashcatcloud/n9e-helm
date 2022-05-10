@@ -45,7 +45,7 @@ data:
       proxy_http_version 1.1;
 
       upstream nwebapi {
-        server "{{ template "nightingale.nwebapi.host" . }}:{{ template "nightingale.nwebapi.port" . }}";
+        server "{{ template "nightingale.nwebapi" . }}:{{ template "nightingale.nwebapi.servicePort" . }}";
       }
 
       log_format timed_combined '[$time_local]:$remote_addr - '
