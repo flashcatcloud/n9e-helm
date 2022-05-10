@@ -52,7 +52,7 @@ metadata:
 spec:
   {{- if $tls.enabled }}
   tls:
-  - secretName: {{ template "nightingale.tlsCoreSecretForIngress" . }}
+  - secretName: {{ template "nightingale.tlsSecretForIngress" . }}
     {{- if $ingress.hosts.web }}
     hosts:
     - {{ $ingress.hosts.web }}
