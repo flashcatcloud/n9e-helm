@@ -294,6 +294,25 @@ app: "{{ template "nightingale.name" . }}"
     {{- printf "http" -}}
 {{- end -}}
 
+
+{{- define "nightingale.tlsSecretForIngress" -}}
+  {{- if eq .Values.expose.tls.certSource "none" -}}
+    {{- printf "" -}}
+  {{- else if eq .Values.expose.tls.certSource "secret" -}}
+    {{- .Values.expose.tls.secret.secretName -}}
+  {{- else -}}
+    {{- include "nightingale.ingress" . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.tlsSecretForNginx" -}}
+  {{- if eq .Values.expose.tls.certSource "secret" -}}
+    {{- .Values.expose.tls.secret.secretName -}}
+  {{- else -}}
+    {{- include "nightingale.nginx" . -}}
+  {{- end -}}
+{{- end -}}
+
 {{/* Allow KubeVersion to be overridden. */}}
 {{- define "nightingale.ingress.kubeVersion" -}}
   {{- default .Capabilities.KubeVersion.Version .Values.expose.ingress.kubeVersionOverride -}}
