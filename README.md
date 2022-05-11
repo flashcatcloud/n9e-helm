@@ -32,6 +32,18 @@ The following items can be set via `--set` flag during installation or configure
 - **NodePort**: Exposes the service on each Node’s IP at a static port (the NodePort). You’ll be able to contact the NodePort service, from outside the cluster, by requesting `NodeIP:NodePort`.
 - **LoadBalancer**: Exposes the service externally using a cloud provider’s load balancer.
 
+#### Configure the service over TLS
+
+- **enabled**: Enable TLS or not. Delete the ssl-redirect annotations in expose.ingress.annotations when TLS is disabled and expose.type is ingress.
+- **certSource**: The source of the TLS certificate. Set as auto, secret or none and fill the information in the corresponding section:
+  - auto: generate the TLS certificate automatically
+    - commonName: The common name used to generate the certificate, it's necessary when the type isn't `ingress`
+  - secret: read the TLS certificate from the specified secret. The TLS certificate can be generated manually or by cert manager.
+    - secretName: The name of secret which contains keys named:
+      - tls.crt: the certificate
+      - tls.key: the private key
+  - none: configure no TLS certificate for the ingress. **If** the default TLS certificate is configured in the ingress controller, choose this option
+
 #### Configure the external URL
 
 The external URL for nightingale web service is used to visit web service of nightingale 
