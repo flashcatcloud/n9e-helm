@@ -34,15 +34,15 @@ The following items can be set via `--set` flag during installation or configure
 
 #### Configure the service over TLS
 
-- **enabled**: Enable TLS or not. Delete the ssl-redirect annotations in expose.ingress.annotations when TLS is disabled and expose.type is ingress.
-- **certSource**: The source of the TLS certificate. Set as auto, secret or none and fill the information in the corresponding section:
+- **enabled**: Enable TLS or not. Delete the ssl-redirect annotations in `expose.ingress.annotations` when TLS is disabled and `expose.type` is `ingress`.
+- **certSource**: The source of the TLS certificate. Set as `auto`, `secret` or `none` and fill the information in the corresponding section:
   - auto: generate the TLS certificate automatically
     - commonName: The common name used to generate the certificate, it's necessary when the type isn't `ingress`
   - secret: read the TLS certificate from the specified secret. The TLS certificate can be generated manually or by cert manager.
     - secretName: The name of secret which contains keys named:
       - tls.crt: the certificate
       - tls.key: the private key
-  - none: configure no TLS certificate for the ingress. **If** the default TLS certificate is configured in the ingress controller, choose this option
+  - none: configure no TLS certificate for the `ingress`. **If** the default TLS certificate is configured in the ingress controller, choose this option
 
 #### Configure the external URL
 
