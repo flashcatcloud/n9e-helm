@@ -55,7 +55,10 @@ Format: `protocol://domain[:port]`. Usually:
 - if expose the service via `NodePort`, the `domain` should be the IP address of one Kubernetes node
 - if expose the service via `LoadBalancer`, set the `domain` as your own domain name and add a CNAME record to map the domain name to the one you got from the cloud provider
 
-If nightingale is deployed behind the proxy, set it as the URL of proxy.
+> NOTICE:
+
+- If nightingale is deployed behind the proxy, set it as the URL of proxy.
+- The default login user is `root`, default password is `root.2020` .
 
 #### Configure the way how to persistent data
 

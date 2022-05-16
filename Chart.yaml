@@ -30,3 +30,4 @@ maintainers:
 version: 0.1.0
 apiVersion: v1
 appVersion: 5.6.3
+icon: https://raw.githubusercontent.com/flashcatcloud/n9e-helm/master/n9e-icon.png

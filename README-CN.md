@@ -55,7 +55,10 @@ external URL主要用于访问夜莺web服务
 - 如果通过 `NodePort` 暴露服务, `domain` 应该配置为 k8s 集群内node的IP 
 - 如果通过 `LoadBalancer` 暴露服务, `domain` 应该配置为从云提供商那里获取到的域名的CNAME(自有域名作为提供商域名的cname)
 
-如果夜莺部署在proxy之后，那 `domain` 设置为proxy的URL
+> 注意:
+
+1. 如果夜莺部署在proxy之后，那 `domain` 设置为proxy的URL
+2. 夜莺web服务的初始用户名为 `root`，初始密码为 `root.2020`
 
 #### 配置持久化存储
 
