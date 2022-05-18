@@ -30,8 +30,7 @@ rules:
   - apiGroups: [""]
     resources: ["nodes/proxy", "nodes/stats", "nodes/metrics"]
     verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    nonResourceURLs: ["/metrics"]
+  - nonResourceURLs: ["/metrics"]
     verbs: ["get"]
 ---
 kind: ClusterRole
