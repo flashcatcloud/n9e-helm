@@ -34,8 +34,8 @@ data:
       hostname = "$HOSTNAME"
       omit_hostname = false
     [[outputs.opentsdb]]
-    host = "http://{{ template "nightingale.nserver.host" . }}"
-    port = {{ template "nightingale.nserver.port" . }}
+    host = "http://{{ template "nightingale.nserver" . }}"
+    port = {{ template "nightingale.nserver.servicePort" . }}
     http_batch_size = 50
     http_path = "/opentsdb/put"
     debug = false
