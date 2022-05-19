@@ -52,6 +52,7 @@ spec:
       tolerations:
       - effect: NoSchedule
         operator: Exists
+      serviceAccountName: {{ template "nightingale.telegraf" . }}
       containers:
         - env:
             - name: TZ
@@ -89,7 +90,6 @@ spec:
               readOnly: true
             - name: docker-socket
               mountPath: {{ trimPrefix "unix://" .Values.telegraf.internal.docker_socket }}
-      restartPolicy: Always
       volumes:
         - name: telegraf-config
           configMap:
