@@ -120,7 +120,7 @@ data:
     MaxIdleConns = 100
     MaxIdleConnsPerHost = 10
     [WriterOpt]
-    QueueMaxSize = 10000000
+    QueueMaxSize = 100000
     QueuePopSize = 2000
     SleepInterval = 50
     [[Writers]]
