@@ -1,9 +1,7 @@
 set names utf8mb4;
-
 drop database if exists n9e_v5;
 create database n9e_v5;
 use n9e_v5;
-
 CREATE TABLE `users` (
     `id` bigint unsigned not null auto_increment,
     `username` varchar(64) not null comment 'login name, cannot rename',
@@ -21,9 +19,7 @@ CREATE TABLE `users` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`username`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 insert into `users`(id, username, nickname, password, roles, create_at, create_by, update_at, update_by) values(1, 'root', '超管', 'root.2020', 'Admin', unix_timestamp(now()), 'system', unix_timestamp(now()), 'system');
-
 CREATE TABLE `user_group` (
     `id` bigint unsigned not null auto_increment,
     `name` varchar(128) not null default '',
@@ -36,18 +32,14 @@ CREATE TABLE `user_group` (
     KEY (`create_by`),
     KEY (`update_at`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 insert into user_group(id, name, create_at, create_by, update_at, update_by) values(1, 'demo-root-group', unix_timestamp(now()), 'root', unix_timestamp(now()), 'root');
-
 CREATE TABLE `user_group_member` (
     `group_id` bigint unsigned not null,
     `user_id` bigint unsigned not null,
     KEY (`group_id`),
     KEY (`user_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 insert into user_group_member(group_id, user_id) values(1, 1);
-
 CREATE TABLE `configs` (
     `id` bigint unsigned not null auto_increment,
     `ckey` varchar(191) not null,
@@ -55,7 +47,6 @@ CREATE TABLE `configs` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`ckey`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `role` (
     `id` bigint unsigned not null auto_increment,
     `name` varchar(191) not null default '',
@@ -63,18 +54,15 @@ CREATE TABLE `role` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`name`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 insert into `role`(name, note) values('Admin', 'Administrator role');
 insert into `role`(name, note) values('Standard', 'Ordinary user role');
 insert into `role`(name, note) values('Guest', 'Readonly user role');
-
 CREATE TABLE `role_operation`(
     `role_name` varchar(128) not null,
     `operation` varchar(191) not null,
     KEY (`role_name`),
     KEY (`operation`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 -- Admin is special, who has no concrete operation but can do anything.
 insert into `role_operation`(role_name, operation) values('Guest', '/metric/explorer');
 insert into `role_operation`(role_name, operation) values('Guest', '/object/explorer');
@@ -122,8 +110,6 @@ insert into `role_operation`(role_name, operation) values('Standard', '/job-tpls
 insert into `role_operation`(role_name, operation) values('Standard', '/job-tasks');
 insert into `role_operation`(role_name, operation) values('Standard', '/job-tasks/add');
 insert into `role_operation`(role_name, operation) values('Standard', '/job-tasks/put');
-
-
 -- for alert_rule | collect_rule | mute | dashboard grouping
 CREATE TABLE `busi_group` (
     `id` bigint unsigned not null auto_increment,
@@ -137,9 +123,7 @@ CREATE TABLE `busi_group` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`name`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 insert into busi_group(id, name, create_at, create_by, update_at, update_by) values(1, 'Default Busi Group', unix_timestamp(now()), 'root', unix_timestamp(now()), 'root');
-
 CREATE TABLE `busi_group_member` (
     `id` bigint unsigned not null auto_increment,
     `busi_group_id` bigint not null comment 'busi group id',
@@ -149,9 +133,7 @@ CREATE TABLE `busi_group_member` (
     KEY (`busi_group_id`),
     KEY (`user_group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 insert into busi_group_member(busi_group_id, user_group_id, perm_flag) values(1, 1, "rw");
-
 -- for dashboard new version
 CREATE TABLE `board` (
     `id` bigint unsigned not null auto_increment,
@@ -165,14 +147,12 @@ CREATE TABLE `board` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`group_id`, `name`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 -- for dashboard new version
 CREATE TABLE `board_payload` (
     `id` bigint unsigned not null comment 'dashboard id',
     `payload` mediumtext not null,
     UNIQUE KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 -- deprecated
 CREATE TABLE `dashboard` (
     `id` bigint unsigned not null auto_increment,
@@ -187,7 +167,6 @@ CREATE TABLE `dashboard` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`group_id`, `name`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 -- deprecated
 -- auto create the first subclass 'Default chart group' of dashboard
 CREATE TABLE `chart_group` (
@@ -198,7 +177,6 @@ CREATE TABLE `chart_group` (
     PRIMARY KEY (`id`),
     KEY (`dashboard_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 -- deprecated
 CREATE TABLE `chart` (
     `id` bigint unsigned not null auto_increment,
@@ -208,7 +186,6 @@ CREATE TABLE `chart` (
     PRIMARY KEY (`id`),
     KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `chart_share` (
     `id` bigint unsigned not null auto_increment,
     `cluster` varchar(128) not null,
@@ -218,7 +195,6 @@ CREATE TABLE `chart_share` (
     primary key (`id`),
     key (`create_at`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `alert_rule` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default 0 comment 'busi group id',
@@ -254,7 +230,6 @@ CREATE TABLE `alert_rule` (
     KEY (`group_id`),
     KEY (`update_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `alert_mute` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default 0 comment 'busi group id',
@@ -269,7 +244,6 @@ CREATE TABLE `alert_mute` (
     KEY (`create_at`),
     KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `alert_subscribe` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default 0 comment 'busi group id',
@@ -289,7 +263,6 @@ CREATE TABLE `alert_subscribe` (
     KEY (`update_at`),
     KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `target` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default 0 comment 'busi group id',
@@ -302,7 +275,6 @@ CREATE TABLE `target` (
     UNIQUE KEY (`ident`),
     KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 -- case1: target_idents; case2: target_tags
 -- CREATE TABLE `collect_rule` (
 --     `id` bigint unsigned not null auto_increment,
@@ -323,7 +295,6 @@ CREATE TABLE `target` (
 --     PRIMARY KEY (`id`),
 --     KEY (`group_id`, `type`, `name`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `metric_view` (
     `id` bigint unsigned not null auto_increment,
     `name` varchar(191) not null default '',
@@ -335,9 +306,7 @@ CREATE TABLE `metric_view` (
     PRIMARY KEY (`id`),
     KEY (`create_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
-
 insert into metric_view(name, cate, configs) values('Host View', 0, '{"filters":[{"oper":"=","label":"__name__","value":"cpu_usage_idle"}],"dynamicLabels":[],"dimensionLabels":[{"label":"ident","value":""}]}');
-
 CREATE TABLE `alert_aggr_view` (
     `id` bigint unsigned not null auto_increment,
     `name` varchar(191) not null default '',
@@ -349,10 +318,8 @@ CREATE TABLE `alert_aggr_view` (
     PRIMARY KEY (`id`),
     KEY (`create_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
-
 insert into alert_aggr_view(name, rule, cate) values('By BusiGroup, Severity', 'field:group_name::field:severity', 0);
 insert into alert_aggr_view(name, rule, cate) values('By RuleName', 'field:rule_name', 0);
-
 CREATE TABLE `alert_cur_event` (
     `id` bigint unsigned not null comment 'use alert_his_event.id',
     `cluster` varchar(128) not null,
@@ -385,7 +352,6 @@ CREATE TABLE `alert_cur_event` (
     KEY (`trigger_time`, `group_id`),
     KEY (`notify_repeat_next`)
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `alert_his_event` (
     `id` bigint unsigned not null AUTO_INCREMENT,
     `is_recovered` tinyint(1) not null,
@@ -419,7 +385,6 @@ CREATE TABLE `alert_his_event` (
     KEY (`rule_id`),
     KEY (`trigger_time`, `group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `task_tpl`
 (
     `id`        int unsigned NOT NULL AUTO_INCREMENT,
@@ -440,7 +405,6 @@ CREATE TABLE `task_tpl`
     PRIMARY KEY (`id`),
     KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `task_tpl_host`
 (
     `ii`   int unsigned NOT NULL AUTO_INCREMENT,
@@ -449,7 +413,6 @@ CREATE TABLE `task_tpl_host`
     PRIMARY KEY (`ii`),
     KEY (`id`, `host`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `task_record`
 (
     `id` bigint unsigned not null comment 'ibex task id',
