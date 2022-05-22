@@ -24,8 +24,8 @@ metadata:
 spec:
   ports:
     - name: "database-port"
-      port: {{- template "nightingale.database.servicePort" . }}
-      targetPort: {{- template "nightingale.database.port" . }}
+      port: {{ template "nightingale.database.servicePort" . }}
+      targetPort: {{ template "nightingale.database.port" . }}
   selector:
 {{ include "nightingale.matchLabels" . | indent 4 }}
     component: database
