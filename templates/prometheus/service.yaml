@@ -24,8 +24,8 @@ metadata:
 spec:
   ports:
     - name: "prometheus-port"
-      port: 9090
-      targetPort: 9090
+      port: {{ template "nightingale.prometheus.servicePort" . }}
+      targetPort: {{ template "nightingale.prometheus.port" . }}
   selector:
 {{ include "nightingale.matchLabels" . | indent 4 }}
     component: prometheus

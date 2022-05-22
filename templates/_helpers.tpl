@@ -95,6 +95,10 @@ app: "{{ template "nightingale.name" . }}"
   {{- end -}}
 {{- end -}}
 
+{{- define "nightingale.database.servicePort" -}}
+    {{- template "nightingale.database.port" . }}
+{{- end -}}
+
 {{- define "nightingale.database.username" -}}
   {{- if eq .Values.database.type "internal" -}}
     {{- .Values.database.internal.username -}}
@@ -113,7 +117,7 @@ app: "{{ template "nightingale.name" . }}"
 
 {{- define "nightingale.database.name" -}}
   {{- if eq .Values.database.type "internal" -}}
-    {{- .Values.database.internal.name -}}
+    {{- printf "%s" "n9e-v5" -}}
   {{- else -}}
     {{- .Values.database.external.name -}}
   {{- end -}}
@@ -189,6 +193,10 @@ app: "{{ template "nightingale.name" . }}"
   {{- else -}}
     {{- .Values.prometheus.external.port -}}
   {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.prometheus.servicePort" -}}
+  {{- template "nightingale.prometheus.port" . }}
 {{- end -}}
 
 {{- define "nightingale.prometheus.username" -}}
