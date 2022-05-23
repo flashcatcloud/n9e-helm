@@ -117,7 +117,7 @@ app: "{{ template "nightingale.name" . }}"
 
 {{- define "nightingale.database.name" -}}
   {{- if eq .Values.database.type "internal" -}}
-    {{- printf "%s" "n9e-v5" -}}
+    {{- printf "%s" "n9e_v5" -}}
   {{- else -}}
     {{- .Values.database.external.name -}}
   {{- end -}}
