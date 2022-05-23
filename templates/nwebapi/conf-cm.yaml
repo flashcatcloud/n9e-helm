@@ -20,6 +20,8 @@ kind: ConfigMap
 metadata:
   name: nwebapi-config
 data:
+  metrics.yaml: |-
+{{ .Files.Get "metrics/metrics.yaml" | indent 4 }}
   webapi.conf: |-
     RunMode = "release"
     MetricsYamlFile = "/app/etc/metrics.yaml"
@@ -130,6 +132,4 @@ data:
     BasicAuthUser = "ibex"
     BasicAuthPass = "ibex"
     Timeout = 3000
-  metrics.yaml: |-
-{{ .Files.Get "conf/metrics.yaml" | indent 4 }}
 {{- end -}}
