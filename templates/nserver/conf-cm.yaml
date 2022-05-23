@@ -27,6 +27,7 @@ data:
     ClusterName = "Default"
     BusiGroupLabelKey = "busigroup"
     EngineDelay = 120
+    DisableUsageReport = false
     [Log]
     Dir = "logs"
     Level = "INFO"
@@ -86,28 +87,16 @@ data:
     [Redis]
     Address = "{{ template "nightingale.redis.addr" . }}"
     Password = "{{ template "nightingale.redis.password" . }}"
-    [Gorm]
+    [DB]
+    DSN="{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database" . }}:{{ template "nightingale.database.servicePort" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
     Debug = false
     DBType = "mysql"
     MaxLifetime = 7200
     MaxOpenConns = 150
     MaxIdleConns = 50
     TablePrefix = ""
-    EnableAutoMigrate = false
-    [MySQL]
-    Address = "{{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }}"
-    User = "{{ template "nightingale.database.username" . }}"
-    Password = "{{ template "nightingale.database.rawPassword" . }}"
-    DBName = "{{ template "nightingale.database.name" . }}"
-    Parameters = "charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
-    [Postgres]
-    Address = "postgres:5432"
-    User = "root"
-    Password = "1234"
-    DBName = "{{ template "nightingale.database.name" . }}"
-    SSLMode = "disable"
     [Reader]
-    Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.port" . }}"
+    Url = "http://{{ template "nightingale.prometheus" . }}:{{ template "nightingale.prometheus.servicePort" . }}"
     BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
     BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
     Timeout = 30000
@@ -120,11 +109,11 @@ data:
     MaxIdleConns = 100
     MaxIdleConnsPerHost = 10
     [WriterOpt]
-    QueueMaxSize = 100000
+    QueueCount = 100
+    QueueMaxSize = 200000
     QueuePopSize = 2000
-    SleepInterval = 50
     [[Writers]]
-    Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.port" . }}/api/v1/write"
+    Url = "http://{{ template "nightingale.prometheus" . }}:{{ template "nightingale.prometheus.servicePort" . }}/api/v1/write"
     BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
     BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
     Timeout = 30000
