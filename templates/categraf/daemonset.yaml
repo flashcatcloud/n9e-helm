@@ -1,0 +1,171 @@
+{{/*
+# Copyright 2022 flashcat.cloud | 快猫星云
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+*/}}
+{{- if eq .Values.categraf.type "internal" -}}
+{{- $categraf := .Values.persistence.persistentVolumeClaim.telgraf -}}
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: "{{ template "nightingale.categraf" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+    component: categraf
+spec:
+  selector:
+    matchLabels:
+{{ include "nightingale.matchLabels" . | indent 6 }}
+      component: categraf
+  template:
+    metadata:
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+        component: categraf
+      annotations:
+{{- if .Values.categraf.podAnnotations }}
+{{ toYaml .Values.categraf.podAnnotations | indent 8 }}
+{{- end }} 
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/os
+                operator: In
+                values:
+                - linux
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
+      restartPolicy: Always
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      serviceAccountName: {{ template "nightingale.categraf" . }}
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: HOSTIP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: "HOST_PROC"
+              value: "/hostfs/proc"
+            - name: "HOST_SYS"
+              value: "/hostfs/sys"
+            - name: "HOST_MOUNT_PREFIX"
+              value: "/hostfs"
+          image: {{ .Values.categraf.internal.image.repository }}:{{ .Values.categraf.internal.image.tag }}
+          name: categraf
+          volumeMounts:
+            - mountPath: /etc/categraf/conf/config.toml
+              name: categraf-config
+              subPath: config.toml
+            - mountPath: /etc/categraf/conf/logs.toml
+              name: categraf-config
+              subPath: logs.toml
+            - mountPath: /etc/categraf/conf/input.cpu
+              name: input-cpu
+            - mountPath: /etc/categraf/conf/input.mem
+              name: input-mem
+            - mountPath: /etc/categraf/conf/input.disk
+              name: input-disk
+            - mountPath: /etc/categraf/conf/input.diskio
+              name: input-diskio
+            - mountPath: /etc/categraf/conf/input.net
+              name: input-net
+            - mountPath: /etc/categraf/conf/input.netstat
+              name: input-netstat
+            - mountPath: /etc/categraf/conf/input.docker
+              name: input-docker
+            - mountPath: /etc/categraf/conf/input.kernel
+              name: input-kernel
+            - mountPath: /etc/categraf/conf/input.kernel_vmstat
+              name: input-kernel-vmstat
+            - mountPath: /etc/categraf/conf/input.linux_sysctl_fs
+              name: input-sysctl-fs
+            - mountPath: /etc/categraf/conf/input.processes
+              name: input-processes
+            - mountPath: /etc/categraf/conf/input.system
+              name: input-system
+            - mountPath: /var/run/utmp
+              name: hostroutmp 
+              readOnly: true
+            - mountPath: /hostfs
+              name: hostrofs
+              readOnly: true
+            - name: docker-socket
+              mountPath: {{ trimPrefix "unix://" .Values.categraf.internal.docker_socket }}
+      volumes:
+        - name: categraf-config
+          configMap:
+            name: categraf-config
+            items:
+              - key: config.toml
+                path: config.toml
+              - key: logs.toml
+                path: logs.toml
+        - name: input-cpu
+          configMap:
+            name: input-cpu
+        - name: input-mem
+          configMap:
+            name: input-mem
+        - name: input-disk
+          configMap:
+            name: input-disk
+        - name: input-diskio
+          configMap:
+            name: input-diskio
+        - name: input-net
+          configMap:
+            name: input-net
+        - name: input-netstat
+          configMap:
+            name: input-netstat
+        - name: input-docker
+          configMap:
+            name: input-docker
+        - name: input-kernel
+          configMap:
+            name: input-kernel
+        - name: input-kernel-vmstat
+          configMap:
+            name: input-kernel-vmstat
+        - name: input-sysctl-fs
+          configMap:
+            name: input-sysctl-fs
+        - name: input-processes
+          configMap:
+            name: input-processes
+        - name: input-system
+          configMap:
+            name: input-system
+        - name: hostrofs
+          hostPath:
+            path: /
+        - name: hostroutmp
+          hostPath:
+            path: /var/run/utmp
+        - name: docker-socket
+          hostPath:
+            path: {{ trimPrefix "unix://" .Values.categraf.internal.docker_socket }}
+            type: Socket
+{{- end -}}

@@ -14,15 +14,15 @@
 # limitations under the License.
 #
 */}}
-{{- if eq .Values.telegraf.type "internal" -}}
+{{- if eq .Values.categraf.type "internal" -}}
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: "{{ template "nightingale.telegraf" . }}-stats-viewer"
+  name: "{{ template "nightingale.categraf" . }}-stats-viewer"
   labels:
 {{ include "nightingale.labels" . | indent 4 }}
-    component: telegraf
-    rbac.authorization.k8s.io/aggregate-view-telegraf-stats: "true"
+    component: categraf
+    rbac.authorization.k8s.io/aggregate-view-categraf-stats: "true"
 rules:
   - apiGroups: ["metrics.k8s.io"]
     resources: ["pods"]
@@ -36,11 +36,11 @@ rules:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: "{{ template "nightingale.telegraf" . }}"
+  name: "{{ template "nightingale.categraf" . }}"
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
-        rbac.authorization.k8s.io/aggregate-view-telegraf-stats: "true"
+        rbac.authorization.k8s.io/aggregate-view-categraf-stats: "true"
     - matchLabels:
         rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules: [] # Rules are automatically filled in by the controller manager.

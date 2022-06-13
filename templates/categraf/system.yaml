@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 */}}
-{{- if eq .Values.telegraf.type "internal" -}}
+{{- if eq .Values.categraf.type "internal" -}}
 apiVersion: v1
-kind: ServiceAccount
+kind: ConfigMap
 metadata:
-  name: "{{ template "nightingale.telegraf" . }}"
-  labels:
-{{ include "nightingale.labels" . | indent 4 }}
-    component: telegraf
-{{- end }}
+  name: input-system
+data:
+{{ (.Files.Glob "categraf/conf/input.system/*.toml").AsConfig | indent 2 }}
+{{- end -}}
+
