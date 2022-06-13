@@ -47,7 +47,8 @@ spec:
                 operator: In
                 values:
                 - linux
-      dnsPolicy: ClusterFirst
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
       restartPolicy: Always
       tolerations:
       - effect: NoSchedule
