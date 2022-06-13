@@ -261,10 +261,6 @@ app: "{{ template "nightingale.name" . }}"
   {{- printf "%s-prometheus" (include "nightingale.fullname" .) -}}
 {{- end -}}
 
-{{- define "nightingale.telegraf" -}}
-  {{- printf "%s-telegraf" (include "nightingale.fullname" .) -}}
-{{- end -}}
-
 {{- define "nightingale.categraf" -}}
   {{- printf "%s-categraf" (include "nightingale.fullname" .) -}}
 {{- end -}}
