@@ -148,7 +148,7 @@ spec:
         - name: input-kernel-vmstat
           configMap:
             name: input-kernel-vmstat
-        - name: input-linux-sysctl-fs
+        - name: input-sysctl-fs
           configMap:
             name: input-sysctl-fs
         - name: input-processes
