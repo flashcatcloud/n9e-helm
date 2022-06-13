@@ -191,8 +191,28 @@ telegraf:
     serviceAccountName: ""
     automountServiceAccountToken: false
     image:
-      repository: docker.io/library/telegraf
-      tag: 1.22-alpine
+      repository: flashcatcloud/public
+      tag: telegraf-1.22
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    priorityClassName:
+    docker_socket: unix:///var/run/docker.sock
+  external:
+    host: "192.168.0.3"
+    port: "8094"
+    password: ""
+  podAnnotations: {}
+
+
+categraf:
+  type: internal
+  internal:
+    serviceAccountName: ""
+    automountServiceAccountToken: false
+    image:
+      repository: flashcatcloud/categraf
+      tag: v0.0.5
     nodeSelector: {}
     tolerations: []
     affinity: {}

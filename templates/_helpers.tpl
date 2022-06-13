@@ -265,6 +265,10 @@ app: "{{ template "nightingale.name" . }}"
   {{- printf "%s-telegraf" (include "nightingale.fullname" .) -}}
 {{- end -}}
 
+{{- define "nightingale.categraf" -}}
+  {{- printf "%s-categraf" (include "nightingale.fullname" .) -}}
+{{- end -}}
+
 {{- define "nightingale.nwebapi" -}}
   {{- printf "%s-nwebapi" (include "nightingale.fullname" .) -}}
 {{- end -}}
