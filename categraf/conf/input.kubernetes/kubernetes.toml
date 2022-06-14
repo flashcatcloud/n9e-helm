@@ -9,7 +9,7 @@
 # interval_times = 1
 
 # URL for the kubelet
-url = "https://$HOSTIP:10250"
+url = "https://127.0.0.1:10250"
 
 gather_system_container_metrics = true
 gather_node_metrics = true
