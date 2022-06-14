@@ -96,7 +96,7 @@ data:
     MaxIdleConns = 50
     TablePrefix = ""
     [Reader]
-    Url = "http://{{ template "nightingale.prometheus" . }}:{{ template "nightingale.prometheus.servicePort" . }}"
+    Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.servicePort" . }}"
     BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
     BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
     Timeout = 30000
@@ -113,7 +113,7 @@ data:
     QueueMaxSize = 200000
     QueuePopSize = 2000
     [[Writers]]
-    Url = "http://{{ template "nightingale.prometheus" . }}:{{ template "nightingale.prometheus.servicePort" . }}/api/v1/write"
+    Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.servicePort" . }}/api/v1/write"
     BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
     BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
     Timeout = 30000

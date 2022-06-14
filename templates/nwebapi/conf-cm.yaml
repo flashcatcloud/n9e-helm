@@ -115,7 +115,7 @@ data:
     TablePrefix = ""
     [[Clusters]]
     Name = "Default"
-    Prom = "http://{{ template "nightingale.prometheus" . }}:{{ template "nightingale.prometheus.servicePort" .}}"
+    Prom = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.servicePort" .}}"
     BasicAuthUser = ""
     BasicAuthPass = ""
     Timeout = 30000
