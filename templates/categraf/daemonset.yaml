@@ -95,6 +95,8 @@ spec:
               name: input-netstat
             - mountPath: /etc/categraf/conf/input.docker
               name: input-docker
+            - mountPath: /etc/categraf/conf/input.kubernetes
+              name: input-kubernetes
             - mountPath: /etc/categraf/conf/input.kernel
               name: input-kernel
             - mountPath: /etc/categraf/conf/input.kernel_vmstat
@@ -143,6 +145,9 @@ spec:
         - name: input-docker
           configMap:
             name: input-docker
+        - name: input-kubernetes
+          configMap:
+            name: input-kubernetes
         - name: input-kernel
           configMap:
             name: input-kernel
