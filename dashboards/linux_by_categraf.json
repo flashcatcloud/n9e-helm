@@ -1,5 +1,5 @@
 {
-  "name": "HOST - Telegraf 模板",
+  "name": "Linux Host",
   "tags": "",
   "configs": {
       "var": [
@@ -11,7 +11,7 @@
       "links": [
           {
               "title": "n9e",
-              "url": "https://n9e.gitee.io/",
+              "url": "https://n9e.github.io/",
               "targetBlank": true
           },
           {
@@ -23,7 +23,7 @@
       "version": "2.0.0",
       "panels": [
           {
-              "id": "0f6a1394-7cf9-4958-bcfe-2fbb59e77c12",
+              "id": "e5d14dd7-4417-42bd-b7ba-560f34d299a2",
               "type": "row",
               "name": "整体概况",
               "layout": {
@@ -31,7 +31,7 @@
                   "w": 24,
                   "x": 0,
                   "y": 0,
-                  "i": "0f6a1394-7cf9-4958-bcfe-2fbb59e77c12"
+                  "i": "e5d14dd7-4417-42bd-b7ba-560f34d299a2"
               },
               "collapsed": true
           },
@@ -62,22 +62,22 @@
                   "w": 3,
                   "x": 0,
                   "y": 1,
-                  "i": "877b6db5-e82c-499a-9ebc-8ad72c2891a8"
+                  "i": "41f37540-e695-492a-9d2f-24bfd2d36805"
               },
-              "id": "877b6db5-e82c-499a-9ebc-8ad72c2891a8"
+              "id": "41f37540-e695-492a-9d2f-24bfd2d36805"
           },
           {
               "targets": [
                   {
                       "refId": "A",
-                      "expr": "topk(10, mem_used_percent)"
+                      "expr": "topk(10, (mem_used_percent))"
                   }
               ],
               "name": "内存率 top10",
               "options": {
                   "tooltip": {
                       "mode": "all",
-                      "sort": "desc"
+                      "sort": "none"
                   },
                   "legend": {
                       "displayMode": "hidden"
@@ -98,9 +98,9 @@
                   "w": 9,
                   "x": 3,
                   "y": 1,
-                  "i": "29a3e6ae-d278-49b3-972b-f12a6c7c091c"
+                  "i": "585bfc50-7c92-42b1-88ee-5b725b640418"
               },
-              "id": "29a3e6ae-d278-49b3-972b-f12a6c7c091c"
+              "id": "585bfc50-7c92-42b1-88ee-5b725b640418"
           },
           {
               "targets": [
@@ -134,9 +134,9 @@
                   "w": 12,
                   "x": 12,
                   "y": 1,
-                  "i": "9f2a24d5-d19f-4651-b76d-add6b9011821"
+                  "i": "60b1e833-3f03-45bb-9385-a3825904a0ac"
               },
-              "id": "9f2a24d5-d19f-4651-b76d-add6b9011821"
+              "id": "60b1e833-3f03-45bb-9385-a3825904a0ac"
           },
           {
               "targets": [
@@ -171,9 +171,9 @@
                   "w": 12,
                   "x": 0,
                   "y": 2,
-                  "i": "dcd60296-db84-4562-99f3-2829c2f064a4"
+                  "i": "69351db9-e646-4e5d-925a-cba29823b00d"
               },
-              "id": "dcd60296-db84-4562-99f3-2829c2f064a4"
+              "id": "69351db9-e646-4e5d-925a-cba29823b00d"
           },
           {
               "targets": [
@@ -208,12 +208,12 @@
                   "w": 12,
                   "x": 12,
                   "y": 2,
-                  "i": "ef7df29d-7dce-4788-ae42-d21d842c67d6"
+                  "i": "e3675ed9-6d3b-4a41-8d16-d6e82037dce3"
               },
-              "id": "ef7df29d-7dce-4788-ae42-d21d842c67d6"
+              "id": "e3675ed9-6d3b-4a41-8d16-d6e82037dce3"
           },
           {
-              "id": "7b2c5cb2-fe3b-4596-95a1-37da06cd6498",
+              "id": "2b2de3d1-65c8-4c39-9bea-02b754e0d751",
               "type": "row",
               "name": "单机概况",
               "layout": {
@@ -221,7 +221,7 @@
                   "w": 24,
                   "x": 0,
                   "y": 5,
-                  "i": "7b2c5cb2-fe3b-4596-95a1-37da06cd6498"
+                  "i": "2b2de3d1-65c8-4c39-9bea-02b754e0d751"
               },
               "collapsed": true
           },
@@ -256,9 +256,9 @@
                   "w": 6,
                   "x": 0,
                   "y": 6,
-                  "i": "50f09231-fc5e-4f6d-9367-a3158504689b"
+                  "i": "deec579b-3090-4344-a9a6-c1455c4a8e50"
               },
-              "id": "50f09231-fc5e-4f6d-9367-a3158504689b"
+              "id": "deec579b-3090-4344-a9a6-c1455c4a8e50"
           },
           {
               "targets": [
@@ -312,9 +312,9 @@
                   "w": 6,
                   "x": 6,
                   "y": 6,
-                  "i": "d44e951d-c333-4ed9-9303-9c8d29da7993"
+                  "i": "7a7bd5db-d12e-49f0-92a8-15958e99ee54"
               },
-              "id": "d44e951d-c333-4ed9-9303-9c8d29da7993"
+              "id": "7a7bd5db-d12e-49f0-92a8-15958e99ee54"
           },
           {
               "targets": [
@@ -368,9 +368,9 @@
                   "w": 6,
                   "x": 12,
                   "y": 6,
-                  "i": "278c2fa1-0b19-4718-8b12-fb1c2e776258"
+                  "i": "8a814265-54ad-419c-8cb7-e1f84a242de0"
               },
-              "id": "278c2fa1-0b19-4718-8b12-fb1c2e776258"
+              "id": "8a814265-54ad-419c-8cb7-e1f84a242de0"
           },
           {
               "targets": [
@@ -424,9 +424,9 @@
                   "w": 3,
                   "x": 18,
                   "y": 6,
-                  "i": "484afcd4-7b25-4af1-8e95-88cc675f7f43"
+                  "i": "d7d11972-5c5b-4bc6-98f8-bbbe9f018896"
               },
-              "id": "484afcd4-7b25-4af1-8e95-88cc675f7f43"
+              "id": "d7d11972-5c5b-4bc6-98f8-bbbe9f018896"
           },
           {
               "targets": [
@@ -459,9 +459,9 @@
                   "w": 3,
                   "x": 21,
                   "y": 6,
-                  "i": "142f63d7-4979-4354-81b5-a9c5ec81fae9"
+                  "i": "209d3aba-5e02-4b8f-a364-65f20ba92a2c"
               },
-              "id": "142f63d7-4979-4354-81b5-a9c5ec81fae9"
+              "id": "209d3aba-5e02-4b8f-a364-65f20ba92a2c"
           },
           {
               "targets": [
@@ -499,9 +499,9 @@
                   "w": 8,
                   "x": 0,
                   "y": 7,
-                  "i": "4d6ec15c-8fdd-47db-a9f7-a57f03009e66"
+                  "i": "b3c5dd9d-e82a-4b15-8b23-c510e2bee152"
               },
-              "id": "4d6ec15c-8fdd-47db-a9f7-a57f03009e66"
+              "id": "b3c5dd9d-e82a-4b15-8b23-c510e2bee152"
           },
           {
               "targets": [
@@ -539,9 +539,9 @@
                   "w": 8,
                   "x": 8,
                   "y": 7,
-                  "i": "2991ad6b-c219-4f1d-b298-e195cf35cfec"
+                  "i": "0de74cd9-cc74-4a96-bcb2-05d3a8bde2ea"
               },
-              "id": "2991ad6b-c219-4f1d-b298-e195cf35cfec"
+              "id": "0de74cd9-cc74-4a96-bcb2-05d3a8bde2ea"
           },
           {
               "targets": [
@@ -579,12 +579,12 @@
                   "w": 8,
                   "x": 16,
                   "y": 7,
-                  "i": "935435db-5a1e-4330-b95f-825e91e9d99e"
+                  "i": "59afa167-434d-496c-a3ef-ceff6db7c1f6"
               },
-              "id": "935435db-5a1e-4330-b95f-825e91e9d99e"
+              "id": "59afa167-434d-496c-a3ef-ceff6db7c1f6"
           },
           {
-              "id": "1a19ca3f-3296-43ef-a36c-523ead023489",
+              "id": "aabb8263-1a9b-43fb-bee1-6c532f5012a3",
               "type": "row",
               "name": "系统指标",
               "layout": {
@@ -592,7 +592,7 @@
                   "w": 24,
                   "x": 0,
                   "y": 10,
-                  "i": "1a19ca3f-3296-43ef-a36c-523ead023489"
+                  "i": "aabb8263-1a9b-43fb-bee1-6c532f5012a3"
               },
               "collapsed": true
           },
@@ -635,9 +635,9 @@
                   "w": 8,
                   "x": 0,
                   "y": 11,
-                  "i": "bab39b5e-63cf-4e88-a474-4ea8f2585d8e"
+                  "i": "1b4da538-29d4-4c58-b3f4-773fabb8616c"
               },
-              "id": "bab39b5e-63cf-4e88-a474-4ea8f2585d8e"
+              "id": "1b4da538-29d4-4c58-b3f4-773fabb8616c"
           },
           {
               "targets": [
@@ -677,9 +677,9 @@
                   "w": 8,
                   "x": 8,
                   "y": 11,
-                  "i": "0ea75485-cc11-4b44-b13f-911429d9e103"
+                  "i": "aa7adae0-ae3b-4e28-a8ce-801c65961552"
               },
-              "id": "0ea75485-cc11-4b44-b13f-911429d9e103"
+              "id": "aa7adae0-ae3b-4e28-a8ce-801c65961552"
           },
           {
               "targets": [
@@ -721,12 +721,12 @@
                   "w": 8,
                   "x": 16,
                   "y": 11,
-                  "i": "32d764fa-ed86-4099-b0f8-1cb8c7f67315"
+                  "i": "71e22f58-5b9a-4604-bca8-55bcef59b5fe"
               },
-              "id": "32d764fa-ed86-4099-b0f8-1cb8c7f67315"
+              "id": "71e22f58-5b9a-4604-bca8-55bcef59b5fe"
           },
           {
-              "id": "fe779989-795e-4ef6-9280-fdea929bb397",
+              "id": "10f34f8f-f94d-4a28-9551-16e6667e3833",
               "type": "row",
               "name": "CPU",
               "layout": {
@@ -734,7 +734,7 @@
                   "w": 24,
                   "x": 0,
                   "y": 18,
-                  "i": "fe779989-795e-4ef6-9280-fdea929bb397"
+                  "i": "10f34f8f-f94d-4a28-9551-16e6667e3833"
               },
               "collapsed": true
           },
@@ -778,9 +778,9 @@
                   "w": 8,
                   "x": 0,
                   "y": 19,
-                  "i": "f5b86c4f-2104-41a4-9d01-a62ee64c04ff"
+                  "i": "1559d880-7e26-4e42-9427-4e55fb6f67be"
               },
-              "id": "f5b86c4f-2104-41a4-9d01-a62ee64c04ff"
+              "id": "1559d880-7e26-4e42-9427-4e55fb6f67be"
           },
           {
               "targets": [
@@ -844,9 +844,9 @@
                   "w": 8,
                   "x": 8,
                   "y": 19,
-                  "i": "e833715f-065c-4b1b-9f0d-e1223b6992b8"
+                  "i": "043c26de-d19f-4fe8-a615-2b7c10ceb828"
               },
-              "id": "e833715f-065c-4b1b-9f0d-e1223b6992b8"
+              "id": "043c26de-d19f-4fe8-a615-2b7c10ceb828"
           },
           {
               "targets": [
@@ -888,12 +888,12 @@
                   "w": 8,
                   "x": 16,
                   "y": 19,
-                  "i": "b19f9420-9ce2-4d3c-86bf-fc247c8b760e"
+                  "i": "a420ce25-6968-47f8-8335-60cde70fd062"
               },
-              "id": "b19f9420-9ce2-4d3c-86bf-fc247c8b760e"
+              "id": "a420ce25-6968-47f8-8335-60cde70fd062"
           },
           {
-              "id": "e9ebdac6-4a87-4a79-b125-e5a258a968d0",
+              "id": "b7a3c99f-a796-4b76-89b5-cbddd566f91c",
               "type": "row",
               "name": "内存详情",
               "layout": {
@@ -901,7 +901,7 @@
                   "w": 24,
                   "x": 0,
                   "y": 26,
-                  "i": "e9ebdac6-4a87-4a79-b125-e5a258a968d0"
+                  "i": "b7a3c99f-a796-4b76-89b5-cbddd566f91c"
               },
               "collapsed": true
           },
@@ -962,9 +962,9 @@
                   "w": 12,
                   "x": 0,
                   "y": 27,
-                  "i": "655608d2-0d6d-46ed-9e6a-c482edaeacec"
+                  "i": "239aacdf-1982-428b-b240-57f4ce7f946d"
               },
-              "id": "655608d2-0d6d-46ed-9e6a-c482edaeacec"
+              "id": "239aacdf-1982-428b-b240-57f4ce7f946d"
           },
           {
               "targets": [
@@ -1014,12 +1014,12 @@
                   "w": 12,
                   "x": 12,
                   "y": 27,
-                  "i": "d57fe702-e21f-45ee-9b36-31695e698059"
+                  "i": "00ed6e4d-c979-4938-a20e-56d42ca452cf"
               },
-              "id": "d57fe702-e21f-45ee-9b36-31695e698059"
+              "id": "00ed6e4d-c979-4938-a20e-56d42ca452cf"
           },
           {
-              "id": "893315c8-54ac-4eaf-9072-d0a2debd3404",
+              "id": "842a8c48-0e93-40bf-8f28-1b2f837e5c19",
               "type": "row",
               "name": "磁盘详情",
               "layout": {
@@ -1027,7 +1027,7 @@
                   "w": 24,
                   "x": 0,
                   "y": 34,
-                  "i": "893315c8-54ac-4eaf-9072-d0a2debd3404"
+                  "i": "842a8c48-0e93-40bf-8f28-1b2f837e5c19"
               },
               "collapsed": true
           },
@@ -1074,9 +1074,9 @@
                   "w": 8,
                   "x": 0,
                   "y": 35,
-                  "i": "b39143a6-9ca8-4732-9100-0a8c029440b5"
+                  "i": "bc894871-1c03-4d12-91be-6867f394a8a6"
               },
-              "id": "b39143a6-9ca8-4732-9100-0a8c029440b5"
+              "id": "bc894871-1c03-4d12-91be-6867f394a8a6"
           },
           {
               "targets": [
@@ -1114,9 +1114,9 @@
                   "w": 8,
                   "x": 8,
                   "y": 35,
-                  "i": "3a13d95d-a311-4b0b-87f2-4216cac9a533"
+                  "i": "d825671f-7dc5-46a2-89dc-4fff084a3ae0"
               },
-              "id": "3a13d95d-a311-4b0b-87f2-4216cac9a533"
+              "id": "d825671f-7dc5-46a2-89dc-4fff084a3ae0"
           },
           {
               "targets": [
@@ -1156,9 +1156,9 @@
                   "w": 8,
                   "x": 16,
                   "y": 35,
-                  "i": "6a1fa455-a385-456a-a32b-30119082f453"
+                  "i": "d27b522f-9c70-42f2-9e31-fed3816fd675"
               },
-              "id": "6a1fa455-a385-456a-a32b-30119082f453"
+              "id": "d27b522f-9c70-42f2-9e31-fed3816fd675"
           },
           {
               "targets": [
@@ -1198,9 +1198,9 @@
                   "w": 8,
                   "x": 0,
                   "y": 37,
-                  "i": "c74e5155-0e3c-4cb4-8e57-ce8af46ddf90"
+                  "i": "f645741e-c632-4685-b267-c7ad26b5c10e"
               },
-              "id": "c74e5155-0e3c-4cb4-8e57-ce8af46ddf90"
+              "id": "f645741e-c632-4685-b267-c7ad26b5c10e"
           },
           {
               "targets": [
@@ -1243,9 +1243,9 @@
                   "w": 8,
                   "x": 8,
                   "y": 37,
-                  "i": "c522e6f5-fb3d-4fc0-9ae6-7ec002e55e95"
+                  "i": "bbd1ebda-99f6-419c-90a5-5f84973976dd"
               },
-              "id": "c522e6f5-fb3d-4fc0-9ae6-7ec002e55e95"
+              "id": "bbd1ebda-99f6-419c-90a5-5f84973976dd"
           },
           {
               "targets": [
@@ -1280,12 +1280,12 @@
                   "w": 8,
                   "x": 16,
                   "y": 37,
-                  "i": "47fd7f57-ed4a-43cf-86e3-628c2f697769"
+                  "i": "d6b45598-54c6-4b36-a896-0a7529ac21f8"
               },
-              "id": "47fd7f57-ed4a-43cf-86e3-628c2f697769"
+              "id": "d6b45598-54c6-4b36-a896-0a7529ac21f8"
           },
           {
-              "id": "f8c5e284-5e23-4646-976c-23511f4f908d",
+              "id": "307152d2-708c-4736-98cf-08b886cbf7f2",
               "type": "row",
               "name": "网络详情",
               "layout": {
@@ -1293,7 +1293,7 @@
                   "w": 24,
                   "x": 0,
                   "y": 44,
-                  "i": "f8c5e284-5e23-4646-976c-23511f4f908d"
+                  "i": "307152d2-708c-4736-98cf-08b886cbf7f2"
               },
               "collapsed": true
           },
@@ -1301,11 +1301,11 @@
               "targets": [
                   {
                       "refId": "A",
-                      "expr": "rate(net_bytes_recv{ident=\"$ident\",interface=~\"eth.*\"}[1m])*8",
+                      "expr": "rate(net_bytes_recv{ident=\"$ident\"}[1m])*8",
                       "legend": "{{interface}}-recv"
                   },
                   {
-                      "expr": "rate(net_bytes_sent{ident=\"$ident\",interface=~\"eth.*\"}[1m])*8",
+                      "expr": "rate(net_bytes_sent{ident=\"$ident\"}[1m])*8",
                       "refId": "B",
                       "legend": "{{interface}}-sent"
                   }
@@ -1338,19 +1338,19 @@
                   "w": 6,
                   "x": 0,
                   "y": 45,
-                  "i": "7fe8774f-7d03-4514-a6b6-b626d2a95265"
+                  "i": "f2ee5d32-737c-4095-b6b7-b15b778ffdb9"
               },
-              "id": "7fe8774f-7d03-4514-a6b6-b626d2a95265"
+              "id": "f2ee5d32-737c-4095-b6b7-b15b778ffdb9"
           },
           {
               "targets": [
                   {
                       "refId": "A",
-                      "expr": "rate(net_packets_recv{ident=\"$ident\",interface=~\"eth.*\"}[1m])",
+                      "expr": "rate(net_packets_recv{ident=\"$ident\"}[1m])",
                       "legend": "{{interface}}-recv"
                   },
                   {
-                      "expr": "rate(net_packets_sent{ident=\"$ident\",interface=~\"eth.*\"}[1m])",
+                      "expr": "rate(net_packets_sent{ident=\"$ident\"}[1m])",
                       "refId": "B",
                       "legend": "{{interface}}-sent"
                   }
@@ -1382,19 +1382,19 @@
                   "w": 6,
                   "x": 6,
                   "y": 45,
-                  "i": "d030e5e7-06cd-42e9-b1e5-0c32b51f853e"
+                  "i": "9113323a-98f5-4bff-a8ce-3b459e7e2190"
               },
-              "id": "d030e5e7-06cd-42e9-b1e5-0c32b51f853e"
+              "id": "9113323a-98f5-4bff-a8ce-3b459e7e2190"
           },
           {
               "targets": [
                   {
                       "refId": "A",
-                      "expr": "rate(net_err_in{ident=\"$ident\",interface=~\"eth.*\"}[1m])",
+                      "expr": "rate(net_err_in{ident=\"$ident\"}[1m])",
                       "legend": "{{interface}}-in"
                   },
                   {
-                      "expr": "rate(net_err_out{ident=\"$ident\",interface=~\"eth.*\"}[1m])",
+                      "expr": "rate(net_err_out{ident=\"$ident\"}[1m])",
                       "refId": "B",
                       "legend": "{{interface}}-out"
                   }
@@ -1426,19 +1426,19 @@
                   "w": 6,
                   "x": 12,
                   "y": 45,
-                  "i": "330f5fd9-aca5-4619-b81b-33203256d560"
+                  "i": "9634c41c-e124-4d7f-9406-0f86753e8d70"
               },
-              "id": "330f5fd9-aca5-4619-b81b-33203256d560"
+              "id": "9634c41c-e124-4d7f-9406-0f86753e8d70"
           },
           {
               "targets": [
                   {
                       "refId": "A",
-                      "expr": "rate(net_drop_in{ident=\"$ident\",interface=~\"eth.*\"}[1m])",
+                      "expr": "rate(net_drop_in{ident=\"$ident\"}[1m])",
                       "legend": "{{interface}}-in"
                   },
                   {
-                      "expr": "rate(net_drop_out{ident=\"$ident\",interface=~\"eth.*\"}[1m])",
+                      "expr": "rate(net_drop_out{ident=\"$ident\"}[1m])",
                       "refId": "B",
                       "legend": "{{interface}}-out"
                   }
@@ -1470,9 +1470,9 @@
                   "w": 6,
                   "x": 18,
                   "y": 45,
-                  "i": "34a73b20-56d7-4edb-b6f7-acc93d00a026"
+                  "i": "4123f4c1-bf8e-400e-b267-8d7f6a92691a"
               },
-              "id": "34a73b20-56d7-4edb-b6f7-acc93d00a026"
+              "id": "4123f4c1-bf8e-400e-b267-8d7f6a92691a"
           },
           {
               "targets": [
@@ -1514,9 +1514,9 @@
                   "w": 24,
                   "x": 0,
                   "y": 47,
-                  "i": "7664d34f-7bcf-4431-a6a7-4d924d2e176d"
+                  "i": "cfb80689-de7b-47fb-9155-052b796dd7f5"
               },
-              "id": "7664d34f-7bcf-4431-a6a7-4d924d2e176d"
+              "id": "cfb80689-de7b-47fb-9155-052b796dd7f5"
           }
       ]
   }
