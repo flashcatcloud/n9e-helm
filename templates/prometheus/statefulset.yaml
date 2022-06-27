@@ -47,7 +47,7 @@ spec:
         env:
           - name: TZ
             value: Asia/Shanghai
-        image: prom/prometheus
+        image: "{{ .Values.prometheus.image.repository }}:{{ .Values.prometheus.image.tag }}"
         name: prometheus
         ports:
         - containerPort: 9090
