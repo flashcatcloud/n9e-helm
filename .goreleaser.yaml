@@ -29,7 +29,7 @@ archives:
       - LICENSE
       - n9e-icon.png
       - README.md
-      - README-cn.md
+      - README-CN.md
       - values.yaml
 
 release:
