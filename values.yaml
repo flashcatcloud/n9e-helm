@@ -192,7 +192,7 @@ categraf:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/categraf
-      tag: v0.1.5
+      tag: v0.1.9
     nodeSelector: {}
     tolerations: []
     affinity: {}
@@ -212,7 +212,7 @@ nwebapi:
     automountServiceAccountToken: false
     image:
       repository: docker.io/ulric2019/nightingale
-      tag: 5.8.0
+      tag: 5.9.3
     nodeSelector: {}
     tolerations: []
     affinity: {}
@@ -230,7 +230,7 @@ nserver:
     automountServiceAccountToken: false
     image:
       repository: docker.io/ulric2019/nightingale
-      tag: 5.8.0
+      tag: 5.9.3
     nodeSelector: {}
     tolerations: []
     affinity: {}

@@ -1,0 +1,39 @@
+snapshot:
+  name_template: '{{ .Tag }}'
+checksum:
+  name_template: 'checksums.txt'
+changelog:
+  skip: true
+
+builds:
+  - skip: true
+
+archives:
+  - id: n9e-helm
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: "{{ .ProjectName }}-v{{ .Version }}"
+    wrap_in_directory: true
+    meta: true
+    files:
+      - alerts/*
+      - categraf/*
+      - dashboards/*
+      - metrics/*
+      - scripts/*
+      - templates/**/*
+      - tpl/*
+      - Chart.yaml
+      - LICENSE
+      - n9e-icon.png
+      - README.md
+      - README-CN.md
+      - values.yaml
+
+release:
+  github:
+    owner: flashcatcloud
+    name: n9e-helm
+  name_template: "v{{ .Version }}"
