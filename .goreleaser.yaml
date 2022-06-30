@@ -23,7 +23,7 @@ archives:
       - dashboards/*
       - metrics/*
       - scripts/*
-      - templates/**/*
+      - templates/*
       - tpl/*
       - Chart.yaml
       - LICENSE
