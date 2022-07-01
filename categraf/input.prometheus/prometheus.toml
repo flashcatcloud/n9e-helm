@@ -1,0 +1,13 @@
+# # collect interval
+# interval = 15
+
+[[instances]]
+# kubelete metrics & cadvisor
+urls = ["https://127.0.0.1:10250/metrics", "https://127.0.0.1:10250/metrics/cadvisor"]
+bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+use_tls = true
+insecure_skip_verify = true
+url_label_key = "instance"
+url_label_value = "{{.Host}}"
+# if you use dashboards, do not delete this label
+labels = {job="categraf"}
