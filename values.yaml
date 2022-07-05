@@ -192,7 +192,7 @@ categraf:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/categraf
-      tag: v0.1.9
+      tag: v0.1.12
     nodeSelector: {}
     tolerations: []
     affinity: {}
