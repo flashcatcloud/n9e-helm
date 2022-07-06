@@ -211,7 +211,7 @@ nwebapi:
     serviceAccountName: ""
     automountServiceAccountToken: false
     image:
-      repository: docker.io/ulric2019/nightingale
+      repository: flashcatcloud/nightingale
       tag: 5.9.4
     nodeSelector: {}
     tolerations: []
@@ -229,7 +229,7 @@ nserver:
     serviceAccountName: ""
     automountServiceAccountToken: false
     image:
-      repository: docker.io/ulric2019/nightingale
+      repository: flashcatcloud/nightingale
       tag: 5.9.4
     nodeSelector: {}
     tolerations: []
