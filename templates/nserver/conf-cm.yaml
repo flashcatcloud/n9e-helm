@@ -88,7 +88,7 @@ data:
     Address = "{{ template "nightingale.redis.addr" . }}"
     Password = "{{ template "nightingale.redis.password" . }}"
     [DB]
-    DSN="{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database" . }}:{{ template "nightingale.database.servicePort" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
+    DSN="{{ template "nightingale.database.username.host" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database" . }}:{{ template "nightingale.database.servicePort" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
     Debug = false
     DBType = "mysql"
     MaxLifetime = 7200
