@@ -119,13 +119,7 @@ data:
     BasicAuthUser = ""
     BasicAuthPass = ""
     Timeout = 30000
-    DialTimeout = 10000
-    TLSHandshakeTimeout = 30000
-    ExpectContinueTimeout = 1000
-    IdleConnTimeout = 90000
-    KeepAlive = 30000
-    MaxConnsPerHost = 0
-    MaxIdleConns = 100
+    DialTimeout = 3000
     MaxIdleConnsPerHost = 100
     [Ibex]
     Address = "http://ibex:10090"
