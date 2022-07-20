@@ -36,6 +36,10 @@ spec:
 {{ include "nightingale.labels" . | indent 8 }}
         component: prometheus
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - args:
           - --config.file=/etc/prometheus/prometheus.yml
