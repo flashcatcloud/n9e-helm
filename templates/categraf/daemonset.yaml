@@ -15,7 +15,6 @@
 #
 */}}
 {{- if eq .Values.categraf.type "internal" -}}
-{{- $categraf := .Values.persistence.persistentVolumeClaim.telgraf -}}
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
