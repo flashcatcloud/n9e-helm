@@ -54,7 +54,7 @@ data:
     chan_size = 10000
 
     [[writers]]
-    url = "{{- template "nightingale.prometheus.writeUrl" . }}"
+    url = "http://{{- template "nightingale.nserver" . }}.{{ .Release.Namespace }}.svc/prometheus/v1/write"
 
     # Basic auth username
     basic_auth_user = ""
