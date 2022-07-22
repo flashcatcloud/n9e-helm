@@ -180,6 +180,7 @@ prometheus:
     priorityClassName:
   external:
     url: "http://my.prometheus.host:9090"
+    writeUrl: ""  # if writeUrl is blank, it will be set to {{ url }}/api/v1/write
     username: ""
     password: ""
   podAnnotations: {}

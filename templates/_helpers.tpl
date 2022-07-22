@@ -190,6 +190,8 @@ app: "{{ template "nightingale.name" . }}"
 {{- define "nightingale.prometheus.writeUrl" -}}
   {{- if eq .Values.prometheus.type "internal" -}}
     http://{{- template "nightingale.prometheus" . }}:{{- template "nightingale.prometheus.port" . }}/api/v1/write
+  {{- else if .Values.prometheus.external.writeUrl -}}
+    {{- .Values.prometheus.external.writeUrl }}
   {{- else -}}
     {{- .Values.prometheus.external.url -}}/api/v1/write
   {{- end -}}
