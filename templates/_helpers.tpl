@@ -179,24 +179,24 @@ app: "{{ template "nightingale.name" . }}"
     {{- printf "80" -}}
 {{- end -}}
 
-{{- define "nightingale.prometheus.host" -}}
+{{- define "nightingale.prometheus.url" -}}
   {{- if eq .Values.prometheus.type "internal" -}}
-    {{- template "nightingale.prometheus" . }}
+    http://{{- template "nightingale.prometheus" . }}:{{- template "nightingale.prometheus.port" . }}
   {{- else -}}
-    {{- .Values.prometheus.external.host -}}
+    {{- .Values.prometheus.external.url -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.prometheus.writeUrl" -}}
+  {{- if eq .Values.prometheus.type "internal" -}}
+    http://{{- template "nightingale.prometheus" . }}:{{- template "nightingale.prometheus.port" . }}/api/v1/write
+  {{- else -}}
+    {{- .Values.prometheus.external.url -}}/api/v1/write
   {{- end -}}
 {{- end -}}
 
 {{- define "nightingale.prometheus.port" -}}
-  {{- if eq .Values.prometheus.type "internal" -}}
-    {{- printf "%s" "9090" -}}
-  {{- else -}}
-    {{- .Values.prometheus.external.port -}}
-  {{- end -}}
-{{- end -}}
-
-{{- define "nightingale.prometheus.servicePort" -}}
-  {{- template "nightingale.prometheus.port" . }}
+  9090
 {{- end -}}
 
 {{- define "nightingale.prometheus.username" -}}

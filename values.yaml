@@ -179,14 +179,13 @@ prometheus:
     affinity: {}
     priorityClassName:
   external:
-    host: "192.168.0.2"
-    port: "9090"
+    url: "http://my.prometheus.host:9090"
     username: ""
     password: ""
   podAnnotations: {}
 
 categraf:
-  type: internal
+  type: internal  # set to other value to disable categraf
   internal:
     serviceAccountName: ""
     automountServiceAccountToken: false
@@ -198,10 +197,6 @@ categraf:
     affinity: {}
     priorityClassName:
     docker_socket: unix:///var/run/docker.sock
-  external:
-    host: "192.168.0.3"
-    port: "8094"
-    password: ""
   podAnnotations: {}
 
 nwebapi:
