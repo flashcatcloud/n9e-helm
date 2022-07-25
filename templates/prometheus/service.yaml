@@ -24,7 +24,7 @@ metadata:
 spec:
   ports:
     - name: "prometheus-port"
-      port: {{ template "nightingale.prometheus.servicePort" . }}
+      port: {{ template "nightingale.prometheus.port" . }}
       targetPort: {{ template "nightingale.prometheus.port" . }}
   selector:
 {{ include "nightingale.matchLabels" . | indent 4 }}
