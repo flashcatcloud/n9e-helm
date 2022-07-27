@@ -27,6 +27,8 @@ data:
     MetricsYamlFile = "/app/etc/metrics.yaml"
     BuiltinAlertsDir = "/app/etc/alerts"
     BuiltinDashboardsDir = "/app/etc/dashboards"
+    ClustersFrom = "config"
+    ClustersFromAPIs = []
     [[NotifyChannels]]
     Label = "邮箱"
     Key = "email"
@@ -105,6 +107,7 @@ data:
     [Redis]
     Address = "{{ template "nightingale.redis.addr" . }}"
     Password = "{{ template "nightingale.redis.password" . }}"
+    RedisType = "{{ template "nightingale.redis.mode" . }}"
     [DB]
     DSN = "{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
     Debug = true

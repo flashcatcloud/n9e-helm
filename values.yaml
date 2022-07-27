@@ -162,6 +162,7 @@ redis:
     addr: "192.168.0.2:6379"
     sentinelMasterSet: ""
     password: ""
+    mode: "standalone"
   podAnnotations: {}
 
 prometheus:
@@ -192,7 +193,7 @@ categraf:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/categraf
-      tag: v0.1.13
+      tag: latest
     nodeSelector: {}
     tolerations: []
     affinity: {}
@@ -212,7 +213,7 @@ nwebapi:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/nightingale
-      tag: 5.9.6
+      tag: 5.9.7
     nodeSelector: {}
     tolerations: []
     affinity: {}
@@ -230,7 +231,7 @@ nserver:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/nightingale
-      tag: 5.9.6
+      tag: 5.9.7
     nodeSelector: {}
     tolerations: []
     affinity: {}
