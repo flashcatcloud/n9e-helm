@@ -240,6 +240,14 @@ app: "{{ template "nightingale.name" . }}"
   {{- end }}
 {{- end -}}
 
+{{- define "nightingale.redis.mode" -}}
+  {{- if eq .Values.redis.type "internal" -}}
+    {{- printf "%s" "standalone" -}}
+  {{- else -}}
+    {{- .Values.redis.external.mode -}}
+  {{- end -}}
+{{- end -}}
+
 /*scheme://[redis:password@]host:port[/master_set]*/
 {{- define "nightingale.redis.url" -}}
   {{- with .Values.redis }}
