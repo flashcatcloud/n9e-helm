@@ -241,11 +241,13 @@ app: "{{ template "nightingale.name" . }}"
 {{- end -}}
 
 {{- define "nightingale.redis.mode" -}}
-  {{- if eq .Values.redis.type "internal" -}}
-    {{- printf "%s" "standalone" -}}
-  {{- else -}}
-    {{- .Values.redis.external.mode -}}
-  {{- end -}}
+  {{- with .Values.redis }}
+      {{- if eq .type "internal" -}}
+        {{- printf "%s" "standalone" -}}
+      {{- else -}}
+        {{- .external.mode -}}
+      {{- end -}}
+  {{- end }}
 {{- end -}}
 
 /*scheme://[redis:password@]host:port[/master_set]*/
