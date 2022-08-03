@@ -71,6 +71,10 @@ data:
     AccessExpired = 1500
     RefreshExpired = 10080
     RedisKeyPrefix = "/jwt/"
+    [ProxyAuth]
+    Enable = false
+    HeaderUserNameKey = "X-User-Name"
+    DefaultRoles = ["Standard"]
     [BasicAuth]
     user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
     [AnonymousAccess]
