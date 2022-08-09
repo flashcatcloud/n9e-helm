@@ -73,6 +73,7 @@ spec:
         - mountPath: /var/lib/mysql/
           name: database-data
         - mountPath: /etc/my.cnf
+          subPath: my.cnf
           name: database-config
         - mountPath: /docker-entrypoint-initdb.d
           name: database-initdb-config
