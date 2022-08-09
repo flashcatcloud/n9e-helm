@@ -15,11 +15,13 @@
 #
 */}}
 {{- if eq .Values.categraf.type "internal" -}}
+{{- if .Values.categraf.internal.docker_socket -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: input-docker
 data:
 {{ (.Files.Glob "categraf/conf/input.docker/*.toml").AsConfig | indent 2 }}
+{{- end -}}
 {{- end -}}
 
