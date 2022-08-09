@@ -96,8 +96,10 @@ spec:
               name: input-net
             - mountPath: /etc/categraf/conf/input.netstat
               name: input-netstat
+            {{- if and ( eq .Values.categraf.type "internal") ( .Values.categraf.internal.docker_socket) }}
             - mountPath: /etc/categraf/conf/input.docker
               name: input-docker
+            {{- end }}
             - mountPath: /etc/categraf/conf/input.kubernetes
               name: input-kubernetes
             - mountPath: /etc/categraf/conf/input.prometheus
@@ -118,8 +120,10 @@ spec:
             - mountPath: /hostfs
               name: hostrofs
               readOnly: true
+            {{- if and ( eq .Values.categraf.type "internal") ( .Values.categraf.internal.docker_socket) }}
             - name: docker-socket
               mountPath: {{ trimPrefix "unix://" .Values.categraf.internal.docker_socket }}
+            {{- end }}
       volumes:
         - name: categraf-config
           configMap:
@@ -147,9 +151,11 @@ spec:
         - name: input-netstat
           configMap:
             name: input-netstat
+        {{- if and ( eq .Values.categraf.type "internal") ( .Values.categraf.internal.docker_socket) }}
         - name: input-docker
           configMap:
             name: input-docker
+        {{- end }}
         - name: input-kubernetes
           configMap:
             name: input-kubernetes
@@ -177,8 +183,10 @@ spec:
         - name: hostroutmp
           hostPath:
             path: /var/run/utmp
+        {{- if and ( eq .Values.categraf.type "internal") ( .Values.categraf.internal.docker_socket) }}
         - name: docker-socket
           hostPath:
             path: {{ trimPrefix "unix://" .Values.categraf.internal.docker_socket }}
             type: Socket
+        {{- end }}
 {{- end -}}

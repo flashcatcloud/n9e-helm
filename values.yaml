@@ -198,6 +198,9 @@ categraf:
     tolerations: []
     affinity: {}
     priorityClassName:
+    ## Parm: categraf.internal.docker_socket  Desc: the path of docker socket on kubelet node.
+    ## "unix:///var/run/docker.sock" is default, if your kubernetes runtime is container or others, empty this variable.
+    ## docker_socket: ""
     docker_socket: unix:///var/run/docker.sock
   external:
     host: "192.168.0.3"
