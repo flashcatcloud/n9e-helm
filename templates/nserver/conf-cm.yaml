@@ -58,14 +58,14 @@ data:
     [Alerting]
     TemplatesDir = "/app/etc/template"
     NotifyConcurrency = 10
-    NotifyBuiltinChannels = ["email", "dingtalk", "wecom", "feishu"]
+    NotifyBuiltinChannels = ["email", "dingtalk", "wecom", "feishu", "mm"]
     [Alerting.CallScript]
     Enable = false
     ScriptPath = "/app/etc/script/notify.py"
     [Alerting.CallPlugin]
     Enable = false
     PluginPath = "/app/etc/script/notify.so"
-    Caller = "n9eCaller"
+    Caller = "N9eCaller"
     [Alerting.RedisPub]
     Enable = false
     ChannelPrefix = "/alerts/"
@@ -101,18 +101,14 @@ data:
     BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
     BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
     Timeout = 30000
-    DialTimeout = 10000
-    TLSHandshakeTimeout = 30000
-    ExpectContinueTimeout = 1000
-    IdleConnTimeout = 90000
-    KeepAlive = 30000
-    MaxConnsPerHost = 0
-    MaxIdleConns = 100
-    MaxIdleConnsPerHost = 10
+    DialTimeout = 3000
+    MaxIdleConnsPerHost = 100
+
     [WriterOpt]
     QueueCount = 100
     QueueMaxSize = 200000
     QueuePopSize = 2000
+
     [[Writers]]
     Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.servicePort" . }}/api/v1/write"
     BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
