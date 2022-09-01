@@ -41,6 +41,9 @@ data:
     [[NotifyChannels]]
     Label = "飞书机器人"
     Key = "feishu"
+    [[NotifyChannels]]
+    Label = "mm bot"
+    Key = "mm"
     [[ContactKeys]]
     Label = "Wecom Robot Token"
     Key = "wecom_robot_token"
@@ -50,6 +53,9 @@ data:
     [[ContactKeys]]
     Label = "Feishu Robot Token"
     Key = "feishu_robot_token"
+    [[ContactKeys]]
+    Label = "MatterMost Webhook URL"
+    Key = "mm_webhook_url"
     [Log]
     Dir = "logs"
     Level = "DEBUG"
@@ -137,4 +143,5 @@ data:
     TargetUp = '''max(max_over_time(target_up{ident=~"(%s)"}[%dm])) by (ident)'''
     LoadPerCore = '''max(max_over_time(system_load_norm_1{ident=~"(%s)"}[%dm])) by (ident)'''
     MemUtil = '''100-max(max_over_time(mem_available_percent{ident=~"(%s)"}[%dm])) by (ident)'''
+    DiskUtil = '''max(max_over_time(disk_used_percent{ident=~"(%s)", path="/"}[%dm])) by (ident)'''
 {{- end -}}
