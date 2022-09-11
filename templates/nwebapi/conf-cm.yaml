@@ -120,7 +120,7 @@ data:
     RedisType = "{{ template "nightingale.redis.mode" . }}"
     [DB]
     DSN = "{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
-    Debug = true
+    Debug = false
     DBType = "mysql"
     MaxLifetime = 7200
     MaxOpenConns = 150
