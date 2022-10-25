@@ -78,7 +78,7 @@ data:
     Headers = ["Content-Type", "application/json", "X-From", "N9E"]
     [NoData]
     Metric = "target_up"
-    Interval = 15
+    Interval = 120
     [Ibex]
     Address = "ibex:10090"
     BasicAuthUser = "ibex"
