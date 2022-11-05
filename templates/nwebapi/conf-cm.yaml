@@ -114,6 +114,36 @@ data:
     Nickname = "nickname"
     Phone = "phone_number"
     Email = "email"
+    [CAS]
+    Enable = false
+    DiaplayName = "CAS登录"
+    SsoAddr = "https://cas.example.com/cas/"
+    RedirectURL = "http://127.0.0.1:18000/callback/cas"
+    CoverAttributes = false
+    DefaultRoles = ["Standard"]
+    [CAS.Attributes]
+    Nickname = "nickname"
+    Phone = "phone_number"
+    Email = "email"
+    [OAuth]
+    Enable = false
+    DisplayName = "OAuth2登录"
+    RedirectURL = "http://127.0.0.1:18000/callback/oauth"
+    SsoAddr = "https://sso.example.com/oauth2/authorize"
+    TokenAddr = "https://sso.example.com/oauth2/token"
+    UserInfoAddr = "https://api.example.com/api/v1/user/info"
+    ClientId = ""
+    ClientSecret = ""
+    CoverAttributes = true
+    DefaultRoles = ["Standard"]
+    UserinfoIsArray = false
+    UserinfoPrefix = "data"
+    Scopes = ["profile", "email", "phone"]
+    [OAuth.Attributes]
+    Username = "username"
+    Nickname = "nickname"
+    Phone = "phone_number"
+    Email = "email"
     [Redis]
     Address = "{{ template "nightingale.redis.addr" . }}"
     Password = "{{ template "nightingale.redis.password" . }}"
