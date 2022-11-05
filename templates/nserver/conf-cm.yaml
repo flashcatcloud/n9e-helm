@@ -28,6 +28,8 @@ data:
     BusiGroupLabelKey = "busigroup"
     EngineDelay = 60
     DisableUsageReport = false
+    ReaderFrom = "config"
+    ForceUseServerTS = true
     [Log]
     Dir = "logs"
     Level = "INFO"
@@ -56,6 +58,7 @@ data:
     InsecureSkipVerify = true
     Batch = 5
     [Alerting]
+    Timeout=30000
     TemplatesDir = "/app/etc/template"
     NotifyConcurrency = 10
     NotifyBuiltinChannels = ["email", "dingtalk", "wecom", "feishu", "mm"]
