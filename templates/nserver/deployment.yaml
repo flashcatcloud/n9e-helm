@@ -78,4 +78,16 @@ spec:
         - name: nserver-script
           configMap:
             name: nserver-script
+    {{- with .Values.nserver.internal.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.nserver.internal.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.nserver.internal.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
 {{- end -}}
