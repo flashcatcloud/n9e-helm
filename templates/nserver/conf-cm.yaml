@@ -26,10 +26,10 @@ data:
     RunMode = "release"
     ClusterName = "Default"
     BusiGroupLabelKey = "busigroup"
-    EngineDelay = 60
-    DisableUsageReport = false
+    EngineDelay = 30
+    DisableUsageReport = true
     ReaderFrom = "config"
-    ForceUseServerTS = true
+    LabelRewrite = false
     [Log]
     Dir = "logs"
     Level = "INFO"
@@ -61,7 +61,7 @@ data:
     Timeout=30000
     TemplatesDir = "/app/etc/template"
     NotifyConcurrency = 10
-    NotifyBuiltinChannels = ["email", "dingtalk", "wecom", "feishu", "mm"]
+    NotifyBuiltinChannels = ["email", "dingtalk", "wecom", "feishu", "mm", "telegram"]
     [Alerting.CallScript]
     Enable = false
     ScriptPath = "/app/etc/script/notify.py"
@@ -108,9 +108,10 @@ data:
     MaxIdleConnsPerHost = 100
 
     [WriterOpt]
-    QueueCount = 100
-    QueueMaxSize = 200000
-    QueuePopSize = 2000
+    QueueCount = 1000
+    QueueMaxSize = 1000000
+    QueuePopSize = 1000
+    ShardingKey = "ident"
 
     [[Writers]]
     Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.servicePort" . }}/api/v1/write"

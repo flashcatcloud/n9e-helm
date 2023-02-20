@@ -216,7 +216,7 @@ nwebapi:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/nightingale
-      tag: 5.14.1
+      tag: 5.14.5
     nodeSelector: {}
     tolerations: []
     affinity: {}
@@ -234,7 +234,7 @@ nserver:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/nightingale
-      tag: 5.14.1
+      tag: 5.14.5
     nodeSelector: {}
     tolerations: []
     affinity: {}

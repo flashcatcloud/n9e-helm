@@ -44,6 +44,9 @@ data:
     [[NotifyChannels]]
     Label = "mm bot"
     Key = "mm"
+    [[NotifyChannels]]
+    Label = "telegram机器人"
+    Key = "telegram"
     [[ContactKeys]]
     Label = "Wecom Robot Token"
     Key = "wecom_robot_token"
@@ -56,6 +59,9 @@ data:
     [[ContactKeys]]
     Label = "MatterMost Webhook URL"
     Key = "mm_webhook_url"
+    [[ContactKeys]]
+    Label = "Telegram Robot Token"
+    Key = "telegram_robot_token"
     [Log]
     Dir = "logs"
     Level = "DEBUG"
@@ -132,6 +138,7 @@ data:
     SsoAddr = "https://sso.example.com/oauth2/authorize"
     TokenAddr = "https://sso.example.com/oauth2/token"
     UserInfoAddr = "https://api.example.com/api/v1/user/info"
+    TranTokenMethod = "header"
     ClientId = ""
     ClientSecret = ""
     CoverAttributes = true
@@ -164,6 +171,7 @@ data:
     Timeout = 30000
     DialTimeout = 3000
     MaxIdleConnsPerHost = 100
+    Headers = ["X-From", "n9e"]
     [Ibex]
     Address = "http://ibex:10090"
     BasicAuthUser = "ibex"
