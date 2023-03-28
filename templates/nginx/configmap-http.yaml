@@ -44,8 +44,8 @@ data:
       # this is necessary for us to be able to disable request buffering in all cases
       proxy_http_version 1.1;
 
-      upstream nwebapi {
-        server "{{ template "nightingale.nwebapi" . }}:{{ template "nightingale.nwebapi.servicePort" . }}";
+      upstream n9e {
+        server "{{ template "nightingale.n9e" . }}:{{ template "nightingale.n9e.servicePort" . }}";
       }
 
       log_format timed_combined '[$time_local]:$remote_addr - '
@@ -76,7 +76,7 @@ data:
         add_header Content-Security-Policy "frame-ancestors 'none'";
 
         location / {
-          proxy_pass {{ $scheme }}://nwebapi/;
+          proxy_pass {{ $scheme }}://n9e/;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

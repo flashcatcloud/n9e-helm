@@ -85,4 +85,16 @@ spec:
         - name: n9e-integrations
           configMap:
             name: n9e-integrations
+    {{- with .Values.n9e.internal.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.n9e.internal.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.n9e.internal.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
 {{- end -}}

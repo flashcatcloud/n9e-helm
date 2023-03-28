@@ -229,39 +229,3 @@ n9e:
     host: "192.168.0.4"
     port: "17000"
   podAnnotations: { }
-
-nwebapi:
-  type: internal
-  internal:
-    replicas: 1
-    serviceAccountName: ""
-    automountServiceAccountToken: false
-    image:
-      repository: flashcatcloud/nightingale
-      tag: 5.15.0
-    nodeSelector: {}
-    tolerations: []
-    affinity: {}
-    priorityClassName:
-  external:
-    host: "192.168.0.4"
-    port: "18000"
-  podAnnotations: {}
-
-nserver:
-  type: internal
-  internal:
-    replicas: 1
-    serviceAccountName: ""
-    automountServiceAccountToken: false
-    image:
-      repository: flashcatcloud/nightingale
-      tag: 5.15.0
-    nodeSelector: {}
-    tolerations: []
-    affinity: {}
-    priorityClassName:
-  external:
-    host: "192.168.0.5"
-    port: "19000"
-  podAnnotations: {}
