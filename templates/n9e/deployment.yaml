@@ -1,0 +1,88 @@
+{{/*
+# Copyright 2022 flashcat.cloud | 快猫星云
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+*/}}
+{{- if eq .Values.n9e.type "internal" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ template "nightingale.n9e" . }}"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+    component: center
+spec:
+  replicas: {{ .Values.n9e.internal.replicas }}
+  selector:
+    matchLabels:
+{{ include "nightingale.matchLabels" . | indent 6 }}
+      component: center
+  template:
+    metadata:
+      labels:
+{{ include "nightingale.labels" . | indent 8 }}
+        component: center
+      annotations:
+{{- if .Values.n9e.podAnnotations }}
+{{ toYaml .Values.n9e.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - args:
+            - /app/n9e
+            - server
+            - configs
+            - /app/etc/n9e.conf
+          env:
+            - name: GIN_MODE
+              value: release
+            - name: TZ
+              value: Asia/Shanghai
+          image: {{ .Values.n9e.internal.image.repository }}:{{ .Values.n9e.internal.image.tag }}
+          name: center
+          ports:
+            - containerPort: {{ template "nightingale.n9e.port" . }}
+{{- if .Values.n9e.internal.resources }}
+        resources:
+{{ toYaml .Values.n9e.internal.resources | indent 10 }}
+{{- end }}
+          volumeMounts:
+            - mountPath: /app/etc
+              name: n9e-config
+            - mountPath: /app/etc/template
+              name: n9e-template
+            - mountPath: /app/etc/script
+              name: n9e-script
+            - mountPath: /app/integrations
+              name: n9e-integrations
+      # hostname: n9e
+      restartPolicy: Always
+      volumes:
+        - name: n9e-config
+          configMap:
+            name: n9e-config
+        - name: n9e-template
+          configMap:
+            name: n9e-template
+        - name: n9e-script
+          configMap:
+            name: n9e-script
+        - name: n9e-integrations
+          configMap:
+            name: n9e-integrations
+{{- end -}}

@@ -1,3 +1,4 @@
+{{/*
 # Copyright 2022 flashcat.cloud | 快猫星云
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,24 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-annotations:
-  catalog.cattle.io/release-name: flashcatcloud
-name: nightingale
-description: A Helm Chart for nightingale, cloud-native monitoring system
-keywords:
-  - nightingale
-  - monitoring
-  - alerting
-  - metrics
-  - traces
-  - logs
-home: https://n9e.github.io
-sources: 
-  - https://github.com/didi/nightingale
-maintainers:
-- email: contact-us@flashcat.cloud
-  name: flashcatcloud
-version: 0.2.0
+*/}}
+{{- if eq .Values.n9e.type "internal" -}}
 apiVersion: v1
-appVersion: 6.0.0.ga.1
-icon: https://raw.githubusercontent.com/flashcatcloud/n9e-helm/master/n9e-icon.png
+kind: ConfigMap
+metadata:
+  name: n9e-template
+data:
+{{ (.Files.Glob "tpl/*.tpl").AsConfig | indent 2 }}
+{{- end -}}

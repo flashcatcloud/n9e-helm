@@ -1,0 +1,138 @@
+{{/*
+# Copyright 2022 flashcat.cloud | 快猫星云
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+*/}}
+{{- if eq .Values.n9e.type "internal" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "n9e-config"
+  labels:
+{{ include "nightingale.labels" . | indent 4 }}
+data:
+  metrics.yaml: |-
+{{ .Files.Get "metrics/metrics.yaml" | indent 4 }}
+  ops.yaml: |-
+{{ .Files.Get "metrics/ops.yaml" | indent 4 }}
+  n9e.conf: |-
+    [global]
+    RunMode = "release"
+    [Log]
+    Dir = "logs"
+    Level = "DEBUG"
+    Output = "stdout"
+    [HTTP]
+    Host = "0.0.0.0"
+    Port = {{ template "nightingale.n9e.port" . }}
+    CertFile = ""
+    KeyFile = ""
+    PrintAccessLog = false
+    PProf = false
+    ExposeMetrics = true
+    ShutdownTimeout = 30
+    MaxContentLength = 67108864
+    ReadTimeout = 20
+    WriteTimeout = 40
+    IdleTimeout = 120
+
+    [HTTP.Pushgw]
+    Enable = true
+    # [HTTP.Pushgw.BasicAuth]
+    # user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
+
+    [HTTP.Alert]
+    Enable = true
+    [HTTP.Alert.BasicAuth]
+    user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
+
+    [HTTP.Heartbeat]
+    Enable = true
+    # [HTTP.Heartbeat.BasicAuth]
+    # user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
+
+    [HTTP.Service]
+    Enable = true
+    [HTTP.Service.BasicAuth]
+    user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
+
+    [HTTP.JWTAuth]
+    # signing key
+    SigningKey = "5b94a0fd640fe2765af826acfe42d151"
+    # unit: min
+    AccessExpired = 1500
+    # unit: min
+    RefreshExpired = 10080
+    RedisKeyPrefix = "/jwt/"
+
+    [HTTP.ProxyAuth]
+    # if proxy auth enabled, jwt auth is disabled
+    Enable = false
+    # username key in http proxy heade
+    HeaderUserNameKey = "X-User-Name"
+    DefaultRoles = ["Standard"]
+
+    [DB]
+    DSN="{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
+    Debug = false
+    DBType = "mysql"
+    MaxLifetime = 7200
+    MaxOpenConns = 150
+    MaxIdleConns = 50
+    TablePrefix = ""
+
+    [Redis]
+    Address = "{{ template "nightingale.redis.addr" . }}"
+    Password = "{{ template "nightingale.redis.password" . }}"
+    RedisType = "{{ template "nightingale.redis.mode"}}"
+
+    [Alert]
+    [Alert.Heartbeat]
+    # auto detect if blank
+    IP = ""
+    # unit ms
+    Interval = 1000
+    ClusterName = "default"
+
+    [Center]
+    MetricsYamlFile = "/app/etc/metrics.yaml"
+    I18NHeaderKey = "X-Language"
+
+    [Center.AnonymousAccess]
+    PromQuerier = true
+    AlertDetail = true
+
+    [Pushgw]
+    # use target labels in database instead of in series
+    LabelRewrite = true
+
+    [[Pushgw.Writers]]
+    Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.servicePort" . }}/api/v1/write"
+    # Basic auth username
+    BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
+    # Basic auth password
+    BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
+    # timeout settings, unit: ms
+    Headers = ["X-From", "n9e"]
+    Timeout = 10000
+    DialTimeout = 3000
+    TLSHandshakeTimeout = 30000
+    ExpectContinueTimeout = 1000
+    IdleConnTimeout = 90000
+    # time duration, unit: ms
+    KeepAlive = 30000
+    MaxConnsPerHost = 0
+    MaxIdleConns = 100
+    MaxIdleConnsPerHost = 100
+{{- end -}}

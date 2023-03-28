@@ -167,12 +167,25 @@ app: "{{ template "nightingale.name" . }}"
   {{- end -}}
 {{- end -}}
 
+
+{{- define "nightingale.n9e.port" -}}
+  {{- if eq .Values.nserver.type "internal" -}}
+    {{- printf "%s" "17000" -}}
+  {{- else -}}
+    {{- .Values.n9e.external.port -}}
+  {{- end -}}
+{{- end -}}
+
 {{- define "nightingale.nserver.port" -}}
   {{- if eq .Values.nserver.type "internal" -}}
     {{- printf "%s" "19000" -}}
   {{- else -}}
     {{- .Values.nserver.external.port -}}
   {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.n9e.servicePort" -}}
+    {{- printf "80" -}}
 {{- end -}}
 
 {{- define "nightingale.nserver.servicePort" -}}
@@ -277,6 +290,10 @@ app: "{{ template "nightingale.name" . }}"
 
 {{- define "nightingale.nserver" -}}
   {{- printf "%s-nserver" (include "nightingale.fullname" .) -}}
+{{- end -}}
+
+{{- define "nightingale.n9e" -}}
+  {{- printf "%s-center" (include "nightingale.fullname" .) -}}
 {{- end -}}
 
 {{- define "nightingale.nginx" -}}
