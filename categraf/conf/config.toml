@@ -44,7 +44,7 @@ batch = 1000
 chan_size = 1000000
 
 [[writers]]
-url = "http://{{ template "nightingale.nserver" . }}/prometheus/v1/write"
+url = "http://nightingale-center/prometheus/v1/write"
 
 # Basic auth username
 basic_auth_user = ""
