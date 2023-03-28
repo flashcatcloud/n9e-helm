@@ -249,7 +249,7 @@ app: "{{ template "nightingale.name" . }}"
 {{- end -}}
 
 {{- define "nightingale.categraf" -}}
-  {{- printf "%s-categraf" (include "nightingale.fullname" .) -}}
+  {{- printf "%s-categraf-v6" (include "nightingale.fullname" .) -}}
 {{- end -}}
 
 {{- define "nightingale.n9e" -}}
