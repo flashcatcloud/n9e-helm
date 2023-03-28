@@ -21,7 +21,7 @@ metadata:
   name: categraf-config
 data:
   config.toml: |-
-{{ tpl (.Files.Get "categraf/conf/config.toml") . | indent 4 }}
+{{ .Files.Get "categraf/conf/config.toml" | indent 4 }}
   logs.toml: |-
 {{ .Files.Get "categraf/conf/logs.toml" | indent 4 }}
 {{- end -}}

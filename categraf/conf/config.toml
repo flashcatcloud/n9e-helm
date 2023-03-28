@@ -67,7 +67,7 @@ run_mode = "release"
 enable = true
 
 # report os version cpu.util mem.util metadata
-url = "http://{{ template "nightingale.n9e.servicePort" . }}/v1/n9e/heartbeat"
+url = "http://nightingale-center/prometheus/v1/write"
 
 # interval, unit: s
 interval = 10
