@@ -18,7 +18,7 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: "{{ template "nightingale.categraf" . }}-stats-viewer"
+  name: "{{ template "nightingale.categraf" . }}-v6-stats-viewer"
   labels:
 {{ include "nightingale.labels" . | indent 4 }}
     component: categraf
@@ -36,7 +36,7 @@ rules:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: "{{ template "nightingale.categraf" . }}"
+  name: "{{ template "nightingale.categraf" . }}-v6"
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:

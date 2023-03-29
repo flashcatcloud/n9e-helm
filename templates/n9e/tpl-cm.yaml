@@ -14,11 +14,11 @@
 # limitations under the License.
 #
 */}}
-{{- if eq .Values.nserver.type "internal" -}}
+{{- if eq .Values.n9e.type "internal" -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nserver-script
+  name: n9e-template
 data:
-  {{ (.Files.Glob "scripts/*.py").AsConfig | indent 2 }}
+{{ (.Files.Glob "tpl/*.tpl").AsConfig | indent 2 }}
 {{- end -}}

@@ -14,20 +14,20 @@
 # limitations under the License.
 #
 */}}
-{{- if eq .Values.nserver.type "internal" -}}
+{{- if eq .Values.n9e.type "internal" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ template "nightingale.nserver" . }}"
+  name: "{{ template "nightingale.n9e" . }}"
   labels:
 {{ include "nightingale.labels" . | indent 4 }}
 spec:
   ports:
-    - name: "nserver-port"
-      port: {{ template "nightingale.nserver.servicePort" . }}
-      targetPort: {{ template "nightingale.nserver.port" . }}
+    - name: "port"
+      port: {{ template "nightingale.n9e.servicePort" . }}
+      targetPort: {{ template "nightingale.n9e.port" . }}
   selector:
 {{ include "nightingale.matchLabels" . | indent 4 }}
-    component: nserver
+    component: center
 {{- end -}}
 

@@ -24,7 +24,7 @@ data:
     [
       {
         "targets": [
-          "nwebapi: {{ template  "nightingale.nwebapi.servicePort" . }}","nserver:{{ template "nightingale.nserver.servicePort" . }}"
+          "n9e: {{ template  "nightingale.n9e.servicePort" . }}"
         ]
       }
     ]

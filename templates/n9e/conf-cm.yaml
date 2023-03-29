@@ -14,83 +14,75 @@
 # limitations under the License.
 #
 */}}
-{{- if eq .Values.nserver.type "internal" -}}
+{{- if eq .Values.n9e.type "internal" -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "nserver-config"
+  name: "n9e-config"
   labels:
 {{ include "nightingale.labels" . | indent 4 }}
 data:
-  server.conf: |-
+  metrics.yaml: |-
+{{ .Files.Get "metrics/metrics.yaml" | indent 4 }}
+  ops.yaml: |-
+{{ .Files.Get "metrics/ops.yaml" | indent 4 }}
+  config.toml: |-
+    [global]
     RunMode = "release"
-    ClusterName = "Default"
-    BusiGroupLabelKey = "busigroup"
-    EngineDelay = 30
-    DisableUsageReport = true
-    ReaderFrom = "config"
-    LabelRewrite = false
     [Log]
     Dir = "logs"
     Level = "INFO"
     Output = "stdout"
     [HTTP]
     Host = "0.0.0.0"
-    Port = {{ template "nightingale.nserver.port" . }}
+    Port = {{ template "nightingale.n9e.port" . }}
     CertFile = ""
     KeyFile = ""
     PrintAccessLog = false
     PProf = false
+    ExposeMetrics = true
     ShutdownTimeout = 30
     MaxContentLength = 67108864
     ReadTimeout = 20
     WriteTimeout = 40
     IdleTimeout = 120
-    [Heartbeat]
-    IP = ""
-    Interval = 1000
-    [SMTP]
-    Host = "smtp.163.com"
-    Port = 994
-    User = "username"
-    Pass = "password"
-    From = "username@163.com"
-    InsecureSkipVerify = true
-    Batch = 5
-    [Alerting]
-    Timeout=30000
-    TemplatesDir = "/app/etc/template"
-    NotifyConcurrency = 10
-    NotifyBuiltinChannels = ["email", "dingtalk", "wecom", "feishu", "mm", "telegram"]
-    [Alerting.CallScript]
+
+    [HTTP.Pushgw]
+    Enable = true
+    # [HTTP.Pushgw.BasicAuth]
+    # user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
+
+    [HTTP.Alert]
+    Enable = true
+    [HTTP.Alert.BasicAuth]
+    user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
+
+    [HTTP.Heartbeat]
+    Enable = true
+    # [HTTP.Heartbeat.BasicAuth]
+    # user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
+
+    [HTTP.Service]
+    Enable = true
+    [HTTP.Service.BasicAuth]
+    user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
+
+    [HTTP.JWTAuth]
+    # signing key
+    SigningKey = "5b94a0fd640fe2765af826acfe42d151"
+    # unit: min
+    AccessExpired = 1500
+    # unit: min
+    RefreshExpired = 10080
+    RedisKeyPrefix = "/jwt/"
+
+    [HTTP.ProxyAuth]
+    # if proxy auth enabled, jwt auth is disabled
     Enable = false
-    ScriptPath = "/app/etc/script/notify.py"
-    [Alerting.CallPlugin]
-    Enable = false
-    PluginPath = "/app/etc/script/notify.so"
-    Caller = "N9eCaller"
-    [Alerting.RedisPub]
-    Enable = false
-    ChannelPrefix = "/alerts/"
-    [Alerting.Webhook]
-    Enable = false
-    Url = "http://a.com/n9e/callback"
-    BasicAuthUser = ""
-    BasicAuthPass = ""
-    Timeout = "5s"
-    Headers = ["Content-Type", "application/json", "X-From", "N9E"]
-    [NoData]
-    Metric = "target_up"
-    Interval = 120
-    [Ibex]
-    Address = "ibex:10090"
-    BasicAuthUser = "ibex"
-    BasicAuthPass = "ibex"
-    Timeout = 3000
-    [Redis]
-    Address = "{{ template "nightingale.redis.addr" . }}"
-    Password = "{{ template "nightingale.redis.password" . }}"
-    RedisType = "{{ template "nightingale.redis.mode"}}"
+    # username key in http proxy heade
+    HeaderUserNameKey = "X-User-Name"
+    DefaultRoles = ["Standard"]
+
     [DB]
     DSN="{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
     Debug = false
@@ -99,29 +91,46 @@ data:
     MaxOpenConns = 150
     MaxIdleConns = 50
     TablePrefix = ""
-    [Reader]
-    Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.servicePort" . }}"
-    BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
-    BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
-    Timeout = 30000
-    DialTimeout = 3000
-    MaxIdleConnsPerHost = 100
 
-    [WriterOpt]
-    QueueCount = 1000
-    QueueMaxSize = 1000000
-    QueuePopSize = 1000
-    ShardingKey = "ident"
+    [Redis]
+    Address = "{{ template "nightingale.redis.addr" . }}"
+    Password = "{{ template "nightingale.redis.password" . }}"
+    RedisType = "{{ template "nightingale.redis.mode"}}"
 
-    [[Writers]]
+    [Alert]
+    [Alert.Heartbeat]
+    # auto detect if blank
+    IP = ""
+    # unit ms
+    Interval = 1000
+    ClusterName = "default"
+
+    [Center]
+    MetricsYamlFile = "/app/etc/metrics.yaml"
+    I18NHeaderKey = "X-Language"
+
+    [Center.AnonymousAccess]
+    PromQuerier = true
+    AlertDetail = true
+
+    [Pushgw]
+    # use target labels in database instead of in series
+    LabelRewrite = true
+
+    [[Pushgw.Writers]]
     Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.servicePort" . }}/api/v1/write"
+    # Basic auth username
     BasicAuthUser = "{{ template "nightingale.prometheus.username" . }}"
+    # Basic auth password
     BasicAuthPass = "{{ template "nightingale.prometheus.rawPassword" . }}"
+    # timeout settings, unit: ms
+    Headers = ["X-From", "n9e"]
     Timeout = 10000
     DialTimeout = 3000
     TLSHandshakeTimeout = 30000
     ExpectContinueTimeout = 1000
     IdleConnTimeout = 90000
+    # time duration, unit: ms
     KeepAlive = 30000
     MaxConnsPerHost = 0
     MaxIdleConns = 100

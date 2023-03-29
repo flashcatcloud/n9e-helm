@@ -14,11 +14,14 @@
 # limitations under the License.
 #
 */}}
-{{- if eq .Values.nwebapi.type "internal" -}}
+{{- if eq .Values.n9e.type "internal" -}}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nwebapi-alerts
+  name: integrations-n9e-dashboard
 data:
-{{ (.Files.Glob "alerts/*.json").AsConfig | indent 2 }}
+{{ (.Files.Glob "integrations/n9e/dashboards/*.json").AsConfig | indent 2 }}
 {{- end -}}
+
+

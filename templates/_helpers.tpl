@@ -117,7 +117,7 @@ app: "{{ template "nightingale.name" . }}"
 
 {{- define "nightingale.database.name" -}}
   {{- if eq .Values.database.type "internal" -}}
-    {{- printf "%s" "n9e_v5" -}}
+    {{- printf "%s" "n9e_v6" -}}
   {{- else -}}
     {{- .Values.database.external.name -}}
   {{- end -}}
@@ -139,43 +139,24 @@ app: "{{ template "nightingale.name" . }}"
   {{- end -}}
 {{- end -}}
 
-{{- define "nightingale.nwebapi.host" -}}
-  {{- if eq .Values.nwebapi.type "internal" -}}
-    {{- template "nightingale.nwebapi" . }}
+{{- define "nightingale.n9e.host" -}}
+  {{- if eq .Values.n9e.type "internal" -}}
+    {{- template "nightingale.n9e" . }}
   {{- else -}}
-    {{- .Values.nwebapi.external.host -}}
+    {{- .Values.n9e.external.host -}}
   {{- end -}}
 {{- end -}}
 
-{{- define "nightingale.nwebapi.port" -}}
-  {{- if eq .Values.nwebapi.type "internal" -}}
-    {{- printf "%s" "18000" -}}
+
+{{- define "nightingale.n9e.port" -}}
+  {{- if eq .Values.n9e.type "internal" -}}
+    {{- printf "%s" "17000" -}}
   {{- else -}}
-    {{- .Values.nwebapi.external.port -}}
+    {{- .Values.n9e.external.port -}}
   {{- end -}}
 {{- end -}}
 
-{{- define "nightingale.nwebapi.servicePort" -}}
-    {{- printf "80" -}}
-{{- end -}}
-
-{{- define "nightingale.nserver.host" -}}
-  {{- if eq .Values.nserver.type "internal" -}}
-    {{- template "nightingale.nserver" . }}
-  {{- else -}}
-    {{- .Values.nserver.external.host -}}
-  {{- end -}}
-{{- end -}}
-
-{{- define "nightingale.nserver.port" -}}
-  {{- if eq .Values.nserver.type "internal" -}}
-    {{- printf "%s" "19000" -}}
-  {{- else -}}
-    {{- .Values.nserver.external.port -}}
-  {{- end -}}
-{{- end -}}
-
-{{- define "nightingale.nserver.servicePort" -}}
+{{- define "nightingale.n9e.servicePort" -}}
     {{- printf "80" -}}
 {{- end -}}
 
@@ -268,23 +249,15 @@ app: "{{ template "nightingale.name" . }}"
 {{- end -}}
 
 {{- define "nightingale.categraf" -}}
-  {{- printf "%s-categraf" (include "nightingale.fullname" .) -}}
+  {{- printf "%s-categraf-v6" (include "nightingale.fullname" .) -}}
 {{- end -}}
 
-{{- define "nightingale.nwebapi" -}}
-  {{- printf "%s-nwebapi" (include "nightingale.fullname" .) -}}
-{{- end -}}
-
-{{- define "nightingale.nserver" -}}
-  {{- printf "%s-nserver" (include "nightingale.fullname" .) -}}
+{{- define "nightingale.n9e" -}}
+  {{- printf "%s-center" (include "nightingale.fullname" .) -}}
 {{- end -}}
 
 {{- define "nightingale.nginx" -}}
   {{- printf "%s-nginx" (include "nightingale.fullname" .) -}}
-{{- end -}}
-
-{{- define "nightingale.exporter" -}}
-  {{- printf "%s-exporter" (include "nightingale.fullname" .) -}}
 {{- end -}}
 
 {{- define "nightingale.ingress" -}}

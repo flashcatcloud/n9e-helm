@@ -14,11 +14,11 @@
 # limitations under the License.
 #
 */}}
-{{- if eq .Values.nwebapi.type "internal" -}}
+{{- if eq .Values.n9e.type "internal" -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nwebapi-dashboards
+  name: n9e-script
 data:
-{{ (.Files.Glob "dashboards/*.json").AsConfig | indent 2 }}
+  {{ (.Files.Glob "scripts/*.py").AsConfig | indent 2 }}
 {{- end -}}

@@ -18,26 +18,68 @@ precision = "ms"
 
 # global collect interval
 interval = 15
+providers = ["local"]
+disable_usage_report = true
 
 [global.labels]
 source="categraf"
 # region = "shanghai"
 # env = "localhost"
 
+[log]
+file_name = "stdout"
+# max_size is the maximum size in megabytes of the log file before it gets rotated. It defaults to 100 megabytes.
+max_size = 100
+# max_age is the maximum number of days to retain old log files based on the timestamp encoded in their filename.
+max_age = 1
+# max_backups is the maximum number of old log files to retain.
+max_backups = 1
+# local_time determines if the time used for formatting the timestamps in backup files is the computer's local time.
+local_time = true
+# Compress determines if the rotated log files should be compressed using gzip.
+compress = false
+
 [writer_opt]
-# default: 2000
-batch = 2000
-# channel(as queue) size
-chan_size = 10000
+batch = 1000
+chan_size = 1000000
 
 [[writers]]
-url = "http://{{ template "nightingale.nserver" . }}/prometheus/v1/write"
+url = "http://nightingale-center/prometheus/v1/write"
 
 # Basic auth username
 basic_auth_user = ""
 
 # Basic auth password
 basic_auth_pass = ""
+
+# timeout settings, unit: ms
+timeout = 5000
+dial_timeout = 2500
+max_idle_conns_per_host = 100
+
+[http]
+enable = false
+address = ":9100"
+print_access = false
+run_mode = "release"
+
+[heartbeat]
+enable = true
+
+# report os version cpu.util mem.util metadata
+url = "http://nightingale-center/v1/n9e/heartbeat"
+
+# interval, unit: s
+interval = 10
+
+# Basic auth username
+basic_auth_user = ""
+
+# Basic auth password
+basic_auth_pass = ""
+
+## Optional headers
+# headers = ["X-From", "categraf", "X-Xyz", "abc"]
 
 # timeout settings, unit: ms
 timeout = 5000

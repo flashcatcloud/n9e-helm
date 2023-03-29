@@ -1,8 +1,7 @@
 set names utf8mb4;
 
-drop database if exists n9e_v5;
-create database n9e_v5;
-use n9e_v5;
+create database n9e_v6;
+use n9e_v6;
 
 CREATE TABLE `users` (
     `id` bigint unsigned not null auto_increment,
@@ -83,12 +82,21 @@ CREATE TABLE `role_operation`(
 -- Admin is special, who has no concrete operation but can do anything.
 insert into `role_operation`(role_name, operation) values('Guest', '/metric/explorer');
 insert into `role_operation`(role_name, operation) values('Guest', '/object/explorer');
+insert into `role_operation`(role_name, operation) values('Guest', '/log/explorer');
+insert into `role_operation`(role_name, operation) values('Guest', '/trace/explorer');
 insert into `role_operation`(role_name, operation) values('Guest', '/help/version');
 insert into `role_operation`(role_name, operation) values('Guest', '/help/contact');
+
 insert into `role_operation`(role_name, operation) values('Standard', '/metric/explorer');
 insert into `role_operation`(role_name, operation) values('Standard', '/object/explorer');
+insert into `role_operation`(role_name, operation) values('Standard', '/log/explorer');
+insert into `role_operation`(role_name, operation) values('Standard', '/trace/explorer');
 insert into `role_operation`(role_name, operation) values('Standard', '/help/version');
 insert into `role_operation`(role_name, operation) values('Standard', '/help/contact');
+insert into `role_operation`(role_name, operation) values('Standard', '/alert-rules-built-in');
+insert into `role_operation`(role_name, operation) values('Standard', '/dashboards-built-in');
+insert into `role_operation`(role_name, operation) values('Standard', '/trace/dependencies');
+
 insert into `role_operation`(role_name, operation) values('Standard', '/users');
 insert into `role_operation`(role_name, operation) values('Standard', '/user-groups');
 insert into `role_operation`(role_name, operation) values('Standard', '/user-groups/add');
@@ -168,6 +176,8 @@ CREATE TABLE `board` (
     `ident` varchar(200) not null default '',
     `tags` varchar(255) not null comment 'split by space',
     `public` tinyint(1) not null default 0 comment '0:false 1:true',
+    `built_in` tinyint(1) not null default 0 comment '0:false 1:true',
+    `hide` tinyint(1) not null default 0 comment '0:false 1:true',
     `create_at` bigint not null default 0,
     `create_by` varchar(64) not null default '',
     `update_at` bigint not null default 0,
@@ -223,6 +233,7 @@ CREATE TABLE `chart` (
 CREATE TABLE `chart_share` (
     `id` bigint unsigned not null auto_increment,
     `cluster` varchar(128) not null,
+    `dashboard_id` bigint unsigned not null,
     `configs` text,
     `create_at` bigint not null default 0,
     `create_by` varchar(64) not null default '',
@@ -234,6 +245,7 @@ CREATE TABLE `alert_rule` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default 0 comment 'busi group id',
     `cate` varchar(128) not null,
+    `datasource_ids` varchar(255) not null default '' comment 'datasource ids',
     `cluster` varchar(128) not null,
     `name` varchar(255) not null,
     `note` varchar(1024) not null default '',
@@ -244,10 +256,11 @@ CREATE TABLE `alert_rule` (
     `severity` tinyint(1) not null comment '1:Emergency 2:Warning 3:Notice',
     `disabled` tinyint(1) not null comment '0:enabled 1:disabled',
     `prom_for_duration` int not null comment 'prometheus for, unit:s',
+    `rule_config` text not null comment 'rule_config',
     `prom_ql` text not null comment 'promql',
     `prom_eval_interval` int not null comment 'evaluate interval',
-    `enable_stime` char(255) not null default '00:00',
-    `enable_etime` char(255) not null default '23:59',
+    `enable_stime` varchar(255) not null default '00:00',
+    `enable_etime` varchar(255) not null default '23:59',
     `enable_days_of_week` varchar(255) not null default '' comment 'split by space: 0 1 2 3 4 5 6',
     `enable_in_bg` tinyint(1) not null default 0 comment '1: only this bg 0: global',
     `notify_recovered` tinyint(1) not null comment 'whether notify when recovery',
@@ -259,6 +272,7 @@ CREATE TABLE `alert_rule` (
     `callbacks` varchar(255) not null default '' comment 'split by space: http://a.com/api/x http://a.com/api/y',
     `runbook_url` varchar(255),
     `append_tags` varchar(255) not null default '' comment 'split by space: service=n9e mod=api',
+    `annotations` text not null comment 'annotations',
     `create_at` bigint not null default 0,
     `create_by` varchar(64) not null default '',
     `update_at` bigint not null default 0,
@@ -275,11 +289,14 @@ CREATE TABLE `alert_mute` (
     `note` varchar(1024) not null default '',
     `cate` varchar(128) not null,
     `cluster` varchar(128) not null,
+    `datasource_ids` varchar(255) not null default '' comment 'datasource ids',
     `tags` varchar(4096) not null default '' comment 'json,map,tagkey->regexp|value',
     `cause` varchar(255) not null default '',
     `btime` bigint not null default 0 comment 'begin time',
     `etime` bigint not null default 0 comment 'end time',
     `disabled` tinyint(1) not null default 0 comment '0:enabled 1:disabled',
+    `mute_time_type` tinyint(1) not null default 0,
+    `periodic_mutes` varchar(4096) not null default '',
     `create_at` bigint not null default 0,
     `create_by` varchar(64) not null default '',
     `update_at` bigint not null default 0,
@@ -294,7 +311,9 @@ CREATE TABLE `alert_subscribe` (
     `name` varchar(255) not null default '',
     `disabled` tinyint(1) not null default 0 comment '0:enabled 1:disabled',
     `group_id` bigint not null default 0 comment 'busi group id',
+    `prod` varchar(255) not null default '',
     `cate` varchar(128) not null,
+    `datasource_ids` varchar(255) not null default '' comment 'datasource ids',
     `cluster` varchar(128) not null,
     `rule_id` bigint not null default 0,
     `tags` varchar(4096) not null default '' comment 'json,map,tagkey->regexp|value',
@@ -303,6 +322,9 @@ CREATE TABLE `alert_subscribe` (
     `redefine_channels` tinyint(1) default 0 comment 'is redefine channels?',
     `new_channels` varchar(255) not null default '' comment 'split by space: sms voice email dingtalk wecom',
     `user_group_ids` varchar(250) not null comment 'split by space 1 34 5, notify cc to user_group_ids',
+    `webhooks` text not null,
+    `redefine_webhooks` tinyint(1) default 0,
+    `for_duration` bigint not null default 0,
     `create_at` bigint not null default 0,
     `create_by` varchar(64) not null default '',
     `update_at` bigint not null default 0,
@@ -311,11 +333,10 @@ CREATE TABLE `alert_subscribe` (
     KEY (`update_at`),
     KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
+  
 CREATE TABLE `target` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default 0 comment 'busi group id',
-    `cluster` varchar(128) not null comment 'append to alert event as field',
     `ident` varchar(191) not null comment 'target id',
     `note` varchar(255) not null default '' comment 'append to alert event as field',
     `tags` varchar(512) not null default '' comment 'append to series data as tags, split by space, append external space at suffix',
@@ -324,6 +345,8 @@ CREATE TABLE `target` (
     UNIQUE KEY (`ident`),
     KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+
 
 -- case1: target_idents; case2: target_tags
 -- CREATE TABLE `collect_rule` (
@@ -359,10 +382,11 @@ CREATE TABLE `metric_view` (
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
 
 insert into metric_view(name, cate, configs) values('Host View', 0, '{"filters":[{"oper":"=","label":"__name__","value":"cpu_usage_idle"}],"dynamicLabels":[],"dimensionLabels":[{"label":"ident","value":""}]}');
-
+ 
 CREATE TABLE `recording_rule` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default '0' comment 'group_id',
+    `datasource_id` bigint not null default 0 comment 'datasource id',
     `cluster` varchar(128) not null,
     `name` varchar(255) not null comment 'new metric name',
     `note` varchar(255) not null comment 'rule note',
@@ -397,6 +421,7 @@ insert into alert_aggr_view(name, rule, cate) values('By RuleName', 'field:rule_
 CREATE TABLE `alert_cur_event` (
     `id` bigint unsigned not null comment 'use alert_his_event.id',
     `cate` varchar(128) not null,
+    `datasource_id` bigint not null default 0 comment 'datasource id',
     `cluster` varchar(128) not null,
     `group_id` bigint unsigned not null comment 'busi group id of rule',
     `group_name` varchar(255) not null default '' comment 'busi group name',
@@ -422,6 +447,8 @@ CREATE TABLE `alert_cur_event` (
     `first_trigger_time` bigint,
     `trigger_time` bigint not null,
     `trigger_value` varchar(255) not null,
+    `annotations` text not null comment 'annotations',
+    `rule_config` text not null comment 'annotations',
     `tags` varchar(1024) not null default '' comment 'merge data_tags rule_tags, split by ,,',
     PRIMARY KEY (`id`),
     KEY (`hash`),
@@ -434,6 +461,7 @@ CREATE TABLE `alert_his_event` (
     `id` bigint unsigned not null AUTO_INCREMENT,
     `is_recovered` tinyint(1) not null,
     `cate` varchar(128) not null,
+    `datasource_id` bigint not null default 0 comment 'datasource id',
     `cluster` varchar(128) not null,
     `group_id` bigint unsigned not null comment 'busi group id of rule',
     `group_name` varchar(255) not null default '' comment 'busi group name',
@@ -461,6 +489,8 @@ CREATE TABLE `alert_his_event` (
     `recover_time` bigint not null default 0,
     `last_eval_time` bigint not null default 0 comment 'for time filter',
     `tags` varchar(1024) not null default '' comment 'merge data_tags rule_tags, split by ,,',
+    `annotations` text not null comment 'annotations',
+    `rule_config` text not null comment 'annotations',
     PRIMARY KEY (`id`),
     KEY (`hash`),
     KEY (`rule_id`),
@@ -523,7 +553,55 @@ CREATE TABLE `alerting_engines`
 (
     `id` int unsigned NOT NULL AUTO_INCREMENT,
     `instance` varchar(128) not null default '' comment 'instance identification, e.g. 10.9.0.9:9090',
-    `cluster` varchar(128) not null default '' comment 'target reader cluster',
+    `datasource_id` bigint not null default 0 comment 'datasource id',
+    `cluster` varchar(128) not null default '' comment 'n9e-alert cluster',
     `clock` bigint not null,
     PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+
+CREATE TABLE `datasource`
+(
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(191) not null default '',
+    `description` varchar(255) not null default '',
+    `category` varchar(255) not null default '',
+    `plugin_id` int unsigned not null default 0,
+    `plugin_type` varchar(255) not null default '',
+    `plugin_type_name` varchar(255) not null default '',
+    `cluster_name` varchar(255) not null default '',
+    `settings` text not null,
+    `status` varchar(255) not null default '',
+    `http` varchar(4096) not null default '',
+    `auth` varchar(8192) not null default '',
+    `created_at` bigint not null default 0,
+    `created_by` varchar(64) not null default '',
+    `updated_at` bigint not null default 0,
+    `updated_by` varchar(64) not null default '',
+    UNIQUE KEY (`name`),
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4; 
+  
+CREATE TABLE `builtin_cate` (
+    `id` bigint unsigned not null auto_increment,
+    `name` varchar(191) not null,
+    `user_id` bigint not null default 0,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+ 
+CREATE TABLE `notify_tpl` (
+    `id` bigint unsigned not null auto_increment,
+    `channel` varchar(32) not null,
+    `name` varchar(255) not null,
+    `content` text not null,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`channel`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+CREATE TABLE `sso_config` (
+    `id` bigint unsigned not null auto_increment,
+    `name` varchar(191) not null,
+    `content` text not null,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`name`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

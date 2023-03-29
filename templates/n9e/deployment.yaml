@@ -14,28 +14,28 @@
 # limitations under the License.
 #
 */}}
-{{- if eq .Values.nserver.type "internal" -}}
+{{- if eq .Values.n9e.type "internal" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ template "nightingale.nserver" . }}"
+  name: "{{ template "nightingale.n9e" . }}"
   labels:
 {{ include "nightingale.labels" . | indent 4 }}
-    component: nserver
+    component: center
 spec:
-  replicas: {{ .Values.nserver.internal.replicas }}
+  replicas: {{ .Values.n9e.internal.replicas }}
   selector:
     matchLabels:
 {{ include "nightingale.matchLabels" . | indent 6 }}
-      component: nserver
+      component: center
   template:
     metadata:
       labels:
 {{ include "nightingale.labels" . | indent 8 }}
-        component: nserver
+        component: center
       annotations:
-{{- if .Values.nserver.podAnnotations }}
-{{ toYaml .Values.nserver.podAnnotations | indent 8 }}
+{{- if .Values.n9e.podAnnotations }}
+{{ toYaml .Values.n9e.podAnnotations | indent 8 }}
 {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
@@ -45,48 +45,54 @@ spec:
       containers:
         - args:
             - /app/n9e
-            - server
+            - configs
+            - /app/etc
           env:
             - name: GIN_MODE
               value: release
             - name: TZ
               value: Asia/Shanghai
-          image: {{ .Values.nserver.internal.image.repository }}:{{ .Values.nserver.internal.image.tag }}
-          name: nserver
+          image: {{ .Values.n9e.internal.image.repository }}:{{ .Values.n9e.internal.image.tag }}
+          name: center
           ports:
-            - containerPort: {{ template "nightingale.nserver.port" . }}
-{{- if .Values.nserver.internal.resources }}
+            - containerPort: {{ template "nightingale.n9e.port" . }}
+{{- if .Values.n9e.internal.resources }}
         resources:
-{{ toYaml .Values.nserver.internal.resources | indent 10 }}
+{{ toYaml .Values.n9e.internal.resources | indent 10 }}
 {{- end }}
           volumeMounts:
             - mountPath: /app/etc
-              name: nserver-config
+              name: n9e-config
             - mountPath: /app/etc/template
-              name: nserver-template
+              name: n9e-template
             - mountPath: /app/etc/script
-              name: nserver-script
-      # hostname: nserver
+              name: n9e-script
+            - mountPath: /app/integrations/n9e/dashboards
+              name: integrations-n9e-dashboard
+      # hostname: n9e
       restartPolicy: Always
       volumes:
-        - name: nserver-config
+        - name: n9e-config
           configMap:
-            name: nserver-config
-        - name: nserver-template
+            name: n9e-config
+        - name: n9e-template
           configMap:
-            name: nserver-template
-        - name: nserver-script
+            name: n9e-template
+        - name: n9e-script
           configMap:
-            name: nserver-script
-    {{- with .Values.nserver.internal.nodeSelector }}
+            name: n9e-script
+        - name: integrations-n9e-dashboard
+          configMap:
+            name: integrations-n9e-dashboard
+    {{- with .Values.n9e.internal.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.nserver.internal.affinity }}
+    {{- with .Values.n9e.internal.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.nserver.internal.tolerations }}
+    {{- with .Values.n9e.internal.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}

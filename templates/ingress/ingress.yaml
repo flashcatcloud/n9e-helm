@@ -64,16 +64,16 @@ spec:
 {{- if semverCompare "<1.19-0" (include "nightingale.ingress.kubeVersion" .) }}
       - path: {{ .root_path }}
         backend:
-          serviceName: {{ template "nightingale.nwebapi" . }}
-          servicePort: {{ template "nightingale.nwebapi.servicePort" . }}
+          serviceName: {{ template "nightingale.n9e" . }}
+          servicePort: {{ template "nightingale.n9e.servicePort" . }}
 {{- else }}
       - path: {{ .root_path }}
         pathType: Prefix
         backend:
           service:
-            name: {{ template "nightingale.nwebapi" . }}
+            name: {{ template "nightingale.n9e" . }}
             port:
-              number: {{ template "nightingale.nwebapi.servicePort" . }}
+              number: {{ template "nightingale.n9e.servicePort" . }}
 {{- end }}
     {{- if $ingress.hosts.web }}
     host: {{ $ingress.hosts.web }}

@@ -138,7 +138,7 @@ database:
   external:
     host: "192.168.0.1"
     port: "3306"
-    name: "n9e_v5"
+    name: "n9e_v6"
     username: "user"
     password: "password"
     sslmode: "disable"
@@ -208,7 +208,7 @@ categraf:
     password: ""
   podAnnotations: {}
 
-nwebapi:
+n9e:
   type: internal
   internal:
     replicas: 1
@@ -216,30 +216,16 @@ nwebapi:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/nightingale
-      tag: 5.14.5
-    nodeSelector: {}
-    tolerations: []
-    affinity: {}
+      tag: 6.0.0-ga.1
+    resources: {}
+    #  requests:
+    #    memory: 512Mi
+    #    cpu: 1000m
+    nodeSelector: { }
+    tolerations: [ ]
+    affinity: { }
     priorityClassName:
   external:
     host: "192.168.0.4"
-    port: "18000"
-  podAnnotations: {}
-
-nserver:
-  type: internal
-  internal:
-    replicas: 1
-    serviceAccountName: ""
-    automountServiceAccountToken: false
-    image:
-      repository: flashcatcloud/nightingale
-      tag: 5.14.5
-    nodeSelector: {}
-    tolerations: []
-    affinity: {}
-    priorityClassName:
-  external:
-    host: "192.168.0.5"
-    port: "19000"
-  podAnnotations: {}
+    port: "17000"
+  podAnnotations: { }
