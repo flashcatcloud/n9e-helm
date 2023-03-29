@@ -69,8 +69,6 @@ spec:
               name: n9e-script
             - mountPath: /app/integrations/linux/dashboards
               name: integrations-linux-dashboard
-            - mountPath: /app/integrations/linux/alerts
-              name: integrations-linux-alert
             - mountPath: /app/integrations/linux/icon
               name: integrations-linux-icon
       # hostname: n9e
@@ -88,9 +86,6 @@ spec:
         - name: integrations-linux-dashboard
           configMap:
             name: integrations-linux-dashboard
-        - name: integrations-linux-alert
-          configMap:
-            name: integrations-linux-alert
         - name: integrations-linux-icon
           configMap:
             name: integrations-linux-icon
