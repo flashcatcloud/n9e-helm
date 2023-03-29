@@ -38,5 +38,5 @@ kind: ConfigMap
 metadata:
   -  name: integrations-linux-icon
 data:
-{{ .Files.Get "integrations/n9e/icon/linux.png" }}
+{{ .Files.Get "integrations/n9e/icon/*.svg" }}
 {{- end -}}
