@@ -18,9 +18,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  -  name: integrations-linux-dashboard
+  name: integrations-linux-dashboard
 data:
-{{ (.Files.Glob "integrations/linux/dashboards/*.json").AsConfig | indent 2 }}
+{{ (.Files.Glob "integrations/n9e/dashboards/*.json").AsConfig | indent 2 }}
 {{- end -}}
 
 {{- if eq .Values.n9e.type "internal" -}}
@@ -29,7 +29,7 @@ kind: ConfigMap
 metadata:
   -  name: integrations-linux-alert
 data:
-{{ (.Files.Glob "integrations/linux/alerts/*.json").AsConfig | indent 2 }}
+{{ (.Files.Glob "integrations/n9e/alerts/*.json").AsConfig | indent 2 }}
 {{- end -}}
 
 {{- if eq .Values.n9e.type "internal" -}}
@@ -38,5 +38,5 @@ kind: ConfigMap
 metadata:
   -  name: integrations-linux-icon
 data:
-{{ .Files.Get "integrations/linux/icon/linux.png" }}
+{{ .Files.Get "integrations/n9e/icon/linux.png" }}
 {{- end -}}
