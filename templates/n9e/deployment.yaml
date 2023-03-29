@@ -67,8 +67,12 @@ spec:
               name: n9e-template
             - mountPath: /app/etc/script
               name: n9e-script
-            - mountPath: /app/integrations
-              name: n9e-integrations
+            - mountPath: /app/integrations/linux/dashboards
+              name: integrations-linux-dashboard
+            - mountPath: /app/integrations/linux/alerts
+              name: integrations-linux-alert
+            - mountPath: /app/integrations/linux/icon
+              name: integrations-linux-icon
       # hostname: n9e
       restartPolicy: Always
       volumes:
@@ -81,9 +85,15 @@ spec:
         - name: n9e-script
           configMap:
             name: n9e-script
-        - name: n9e-integrations
+        - name: integrations-linux-dashboard
           configMap:
-            name: n9e-integrations
+            name: integrations-linux-dashboard
+        - name: integrations-linux-alert
+          configMap:
+            name: integrations-linux-alert
+        - name: integrations-linux-icon
+          configMap:
+            name: integrations-linux-icon
     {{- with .Values.n9e.internal.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

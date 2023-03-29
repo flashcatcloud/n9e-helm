@@ -18,9 +18,8 @@ archives:
     wrap_in_directory: true
     meta: true
     files:
-      - alerts/*
+      - integrations/*
       - categraf/*
-      - dashboards/*
       - metrics/*
       - scripts/*
       - templates/*
