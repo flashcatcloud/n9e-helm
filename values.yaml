@@ -216,7 +216,7 @@ n9e:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/nightingale
-      tag: 6.0.0-ga.1
+      tag: 6.0.0-ga.2
     resources: {}
     #  requests:
     #    memory: 512Mi
