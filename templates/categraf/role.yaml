@@ -18,14 +18,14 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: "{{ template "nightingale.categraf" . }}-v6-stats-viewer"
+  name: "{{ template "nightingale.categraf" . }}-stats-viewer"
   labels:
 {{ include "nightingale.labels" . | indent 4 }}
     component: categraf
     rbac.authorization.k8s.io/aggregate-view-categraf-stats: "true"
 rules:
   - apiGroups: ["metrics.k8s.io"]
-    resources: ["pods"]
+    resources: ["pods", "nodes"]
     verbs: ["get", "list", "watch"]
   - apiGroups: [""]
     resources: ["nodes/proxy", "nodes/stats", "nodes/metrics"]
@@ -36,7 +36,7 @@ rules:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: "{{ template "nightingale.categraf" . }}-v6"
+  name: "{{ template "nightingale.categraf" . }}"
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
