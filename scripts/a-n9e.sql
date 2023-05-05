@@ -531,6 +531,7 @@ CREATE TABLE `task_tpl_host`
 CREATE TABLE `task_record`
 (
     `id` bigint unsigned not null comment 'ibex task id',
+    `event_id` bigint not null comment 'event id' default 0,
     `group_id` bigint not null comment 'busi group id',
     `ibex_address`   varchar(128) not null,
     `ibex_auth_user` varchar(128) not null default '',
@@ -547,7 +548,8 @@ CREATE TABLE `task_record`
     `create_by` varchar(64) not null default '',
     PRIMARY KEY (`id`),
     KEY (`create_at`, `group_id`),
-    KEY (`create_by`)
+    KEY (`create_by`),
+    KEY (`event_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `alerting_engines`
@@ -555,11 +557,10 @@ CREATE TABLE `alerting_engines`
     `id` int unsigned NOT NULL AUTO_INCREMENT,
     `instance` varchar(128) not null default '' comment 'instance identification, e.g. 10.9.0.9:9090',
     `datasource_id` bigint not null default 0 comment 'datasource id',
-    `cluster` varchar(128) not null default '' comment 'n9e-alert cluster',
+    `engine_cluster` varchar(128) not null default '' comment 'n9e-alert cluster',
     `clock` bigint not null,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 
 CREATE TABLE `datasource`
 (
