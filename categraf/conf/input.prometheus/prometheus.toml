@@ -2,8 +2,8 @@
 # interval = 15
 
 [[instances]]
-# kubelete metrics & cadvisor
-urls = ["https://127.0.0.1:10250/metrics", "https://127.0.0.1:10250/metrics/cadvisor"]
+# kubelete metrics
+urls = ["https://127.0.0.1:10250/metrics"]
 bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
 use_tls = true
 insecure_skip_verify = true

@@ -104,6 +104,8 @@ spec:
               name: input-kubernetes
             - mountPath: /etc/categraf/conf/input.prometheus
               name: input-kubelet-metrics
+            - mountPath: /etc/categraf/conf/input.cadvisor
+              name: input-cadvisor
             - mountPath: /etc/categraf/conf/input.kernel
               name: input-kernel
             - mountPath: /etc/categraf/conf/input.kernel_vmstat
@@ -162,6 +164,9 @@ spec:
         - name: input-kubelet-metrics
           configMap:
             name: input-kubelet-metrics
+        - name: input-cadvisor
+          configMap:
+            name: input-cadvisor
         - name: input-kernel
           configMap:
             name: input-kernel
