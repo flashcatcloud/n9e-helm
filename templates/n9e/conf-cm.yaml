@@ -66,7 +66,7 @@ data:
     AccessExpired = 1500
     # unit: min
     RefreshExpired = 10080
-    RedisKeyPrefix = "/jwt/
+    RedisKeyPrefix = "/jwt/"
 
     [HTTP.ProxyAuth]
     # if proxy auth enabled, jwt auth is disabled
