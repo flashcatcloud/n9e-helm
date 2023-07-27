@@ -200,6 +200,13 @@
                         {{timestamp}}
                     </td>
                 </tr>
+
+                <tr>
+                    <th>PromQL：</th>
+                    <td>
+                        {{.PromQl}}
+                    </td>
+                </tr>
                 </tbody>
             </table>
 

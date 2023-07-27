@@ -47,24 +47,16 @@ data:
     WriteTimeout = 40
     IdleTimeout = 120
 
-    [HTTP.Pushgw]
+    [HTTP.ShowCaptcha]
+    Enable = false
+
+    [HTTP.APIForAgent]
     Enable = true
-    # [HTTP.Pushgw.BasicAuth]
+    # [HTTP.APIForAgent.BasicAuth]
     # user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
-
-    [HTTP.Alert]
+    [HTTP.APIForService]
     Enable = true
-    [HTTP.Alert.BasicAuth]
-    user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
-
-    [HTTP.Heartbeat]
-    Enable = true
-    # [HTTP.Heartbeat.BasicAuth]
-    # user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
-
-    [HTTP.Service]
-    Enable = true
-    [HTTP.Service.BasicAuth]
+    [HTTP.APIForService.BasicAuth]
     user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
 
     [HTTP.JWTAuth]
@@ -74,14 +66,24 @@ data:
     AccessExpired = 1500
     # unit: min
     RefreshExpired = 10080
-    RedisKeyPrefix = "/jwt/"
+    RedisKeyPrefix = "/jwt/
 
     [HTTP.ProxyAuth]
     # if proxy auth enabled, jwt auth is disabled
     Enable = false
-    # username key in http proxy heade
+    # username key in http proxy header
     HeaderUserNameKey = "X-User-Name"
     DefaultRoles = ["Standard"]
+
+    [HTTP.RSA]
+    # open RSA
+    OpenRSA = false
+    # RSA public key
+    RSAPublicKeyPath = "/etc/n9e/public.pem"
+    # RSA private key
+    RSAPrivateKeyPath = "/etc/n9e/private.pem"
+    # RSA private key password
+    RSAPassWord = ""
 
     [DB]
     DSN="{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
