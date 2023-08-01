@@ -54,7 +54,7 @@ insert into user_group_member(group_id, user_id) values(1, 1);
 CREATE TABLE `configs` (
     `id` bigint unsigned not null auto_increment,
     `ckey` varchar(191) not null,
-    `cval` varchar(4096) not null default '',
+    `cval` text not null,
     PRIMARY KEY (`id`),
     UNIQUE KEY (`ckey`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
@@ -94,9 +94,16 @@ insert into `role_operation`(role_name, operation) values('Standard', '/log/expl
 insert into `role_operation`(role_name, operation) values('Standard', '/trace/explorer');
 insert into `role_operation`(role_name, operation) values('Standard', '/help/version');
 insert into `role_operation`(role_name, operation) values('Standard', '/help/contact');
+insert into `role_operation`(role_name, operation) values('Standard', '/help/servers');
+insert into `role_operation`(role_name, operation) values('Standard', '/help/migrate');
 insert into `role_operation`(role_name, operation) values('Standard', '/alert-rules-built-in');
 insert into `role_operation`(role_name, operation) values('Standard', '/dashboards-built-in');
 insert into `role_operation`(role_name, operation) values('Standard', '/trace/dependencies');
+
+insert into `role_operation`(role_name, operation) values('Admin', '/help/source');
+insert into `role_operation`(role_name, operation) values('Admin', '/help/sso');
+insert into `role_operation`(role_name, operation) values('Admin', '/help/notification-tpls');
+insert into `role_operation`(role_name, operation) values('Admin', '/help/notification-settings');
 
 insert into `role_operation`(role_name, operation) values('Standard', '/users');
 insert into `role_operation`(role_name, operation) values('Standard', '/user-groups');
@@ -167,7 +174,7 @@ CREATE TABLE `busi_group_member` (
     KEY (`user_group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
-insert into busi_group_member(busi_group_id, user_group_id, perm_flag) values(1, 1, "rw");
+insert into busi_group_member(busi_group_id, user_group_id, perm_flag) values(1, 1, 'rw');
 
 -- for dashboard new version
 CREATE TABLE `board` (
@@ -274,6 +281,7 @@ CREATE TABLE `alert_rule` (
     `runbook_url` varchar(255),
     `append_tags` varchar(255) not null default '' comment 'split by space: service=n9e mod=api',
     `annotations` text not null comment 'annotations',
+    `extra_config` text not null comment 'extra_config',
     `create_at` bigint not null default 0,
     `create_by` varchar(64) not null default '',
     `update_at` bigint not null default 0,
@@ -298,6 +306,7 @@ CREATE TABLE `alert_mute` (
     `disabled` tinyint(1) not null default 0 comment '0:enabled 1:disabled',
     `mute_time_type` tinyint(1) not null default 0,
     `periodic_mutes` varchar(4096) not null default '',
+    `severities` varchar(32) not null default '',
     `create_at` bigint not null default 0,
     `create_by` varchar(64) not null default '',
     `update_at` bigint not null default 0,
@@ -317,6 +326,7 @@ CREATE TABLE `alert_subscribe` (
     `datasource_ids` varchar(255) not null default '' comment 'datasource ids',
     `cluster` varchar(128) not null,
     `rule_id` bigint not null default 0,
+    `severities` varchar(32) not null default '',
     `tags` varchar(4096) not null default '' comment 'json,map,tagkey->regexp|value',
     `redefine_severity` tinyint(1) default 0 comment 'is redefine severity?',
     `new_severity` tinyint(1) not null comment '0:Emergency 1:Warning 2:Notice',
@@ -324,6 +334,7 @@ CREATE TABLE `alert_subscribe` (
     `new_channels` varchar(255) not null default '' comment 'split by space: sms voice email dingtalk wecom',
     `user_group_ids` varchar(250) not null comment 'split by space 1 34 5, notify cc to user_group_ids',
     `webhooks` text not null,
+    `extra_config` text not null comment 'extra_config',
     `redefine_webhooks` tinyint(1) default 0,
     `for_duration` bigint not null default 0,
     `create_at` bigint not null default 0,
@@ -334,7 +345,7 @@ CREATE TABLE `alert_subscribe` (
     KEY (`update_at`),
     KEY (`group_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-  
+
 CREATE TABLE `target` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default 0 comment 'busi group id',
@@ -383,7 +394,7 @@ CREATE TABLE `metric_view` (
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
 
 insert into metric_view(name, cate, configs) values('Host View', 0, '{"filters":[{"oper":"=","label":"__name__","value":"cpu_usage_idle"}],"dynamicLabels":[],"dimensionLabels":[{"label":"ident","value":""}]}');
- 
+
 CREATE TABLE `recording_rule` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default '0' comment 'group_id',
@@ -395,6 +406,7 @@ CREATE TABLE `recording_rule` (
     `prom_ql` varchar(8192) not null comment 'promql',
     `prom_eval_interval` int not null comment 'evaluate interval',
     `append_tags` varchar(255) default '' comment 'split by space: service=n9e mod=api',
+    `query_configs` text not null comment 'query configs',
     `create_at` bigint default '0',
     `create_by` varchar(64) default '',
     `update_at` bigint default '0',
@@ -582,15 +594,15 @@ CREATE TABLE `datasource`
     `updated_by` varchar(64) not null default '',
     UNIQUE KEY (`name`),
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4; 
-  
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
 CREATE TABLE `builtin_cate` (
     `id` bigint unsigned not null auto_increment,
     `name` varchar(191) not null,
     `user_id` bigint not null default 0,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
- 
+
 CREATE TABLE `notify_tpl` (
     `id` bigint unsigned not null auto_increment,
     `channel` varchar(32) not null,
@@ -606,4 +618,19 @@ CREATE TABLE `sso_config` (
     `content` text not null,
     PRIMARY KEY (`id`),
     UNIQUE KEY (`name`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+CREATE TABLE `es_index_pattern` (
+    `id` bigint unsigned not null auto_increment,
+    `datasource_id` bigint not null default 0 comment 'datasource id',
+    `name` varchar(191) not null,
+    `time_field` varchar(128) not null default '@timestamp',
+    `allow_hide_system_indices` tinyint(1) not null default 0,
+    `fields_format` varchar(4096) not null default '',
+    `create_at` bigint default '0',
+    `create_by` varchar(64) default '',
+    `update_at` bigint default '0',
+    `update_by` varchar(64) default '',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`datasource_id`, `name`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
