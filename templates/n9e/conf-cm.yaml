@@ -83,7 +83,7 @@ data:
     # RSA private key
     RSAPrivateKeyPath = "/etc/n9e/private.pem"
     # RSA private key password
-    RSAPassWord = ""
+    RSAPassWord = "n9e@n9e!"
 
     [DB]
     DSN="{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
