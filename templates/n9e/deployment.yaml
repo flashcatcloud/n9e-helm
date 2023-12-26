@@ -57,8 +57,8 @@ spec:
           ports:
             - containerPort: {{ template "nightingale.n9e.port" . }}
 {{- if .Values.n9e.internal.resources }}
-        resources:
-{{ toYaml .Values.n9e.internal.resources | indent 10 }}
+          resources:
+{{ toYaml .Values.n9e.internal.resources | indent 12 }}
 {{- end }}
           volumeMounts:
             - mountPath: /app/etc
