@@ -98,6 +98,7 @@ caSecretName: ""
 secretKey: "not-a-secure-key"
 
 nginx:
+  enabled: false
   image:
     repository: docker.io/library/nginx
     tag: stable-alpine

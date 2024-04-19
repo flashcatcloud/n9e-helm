@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 */}}
+{{- if (include "nightingale.nginx.enabled" .) }}
 {{- if and (ne .Values.expose.type "ingress") .Values.expose.tls.enabled }}
 {{- $scheme := (include "nightingale.component.scheme" .) -}}
 apiVersion: v1
@@ -115,3 +116,4 @@ data:
       }
     }
 {{- end }}
+{{- end}}

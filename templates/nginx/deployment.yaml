@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 */}}
-{{- if ne .Values.expose.type "ingress" }}
+{{- if (include "nightingale.nginx.enabled" .) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

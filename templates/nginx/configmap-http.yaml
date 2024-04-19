@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 */}}
-{{- if and (ne .Values.expose.type "ingress") (not .Values.expose.tls.enabled) }}
+{{- if (include "nightingale.nginx.enabled" .) }}
 {{- $scheme := (include "nightingale.component.scheme" .) -}}
 apiVersion: v1
 kind: ConfigMap

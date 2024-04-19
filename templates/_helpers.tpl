@@ -304,3 +304,11 @@ app: "{{ template "nightingale.name" . }}"
 {{- define "nightingale.ingress.kubeVersion" -}}
   {{- default .Capabilities.KubeVersion.Version .Values.expose.ingress.kubeVersionOverride -}}
 {{- end -}}
+
+{{- define "nightingale.nginx.enabled" -}}
+  {{- if and (ne .Values.expose.type "ingress") .Values.nginx.enabled }}
+    {{- true -}}
+  {{- else -}}
+    {{- false -}}
+  {{- end -}}
+{{- end -}}
