@@ -91,7 +91,7 @@ data:
     [Redis]
     Address = "{{ template "nightingale.redis.addr" . }}"
     Password = "{{ template "nightingale.redis.password" . }}"
-    RedisType = "{{ template "nightingale.redis.mode"}}"
+    RedisType = "{{ template "nightingale.redis.mode" . }}"
 
     [Alert]
     [Alert.Heartbeat]
