@@ -99,7 +99,7 @@ data:
     IP = ""
     # unit ms
     Interval = 1000
-    ClusterName = "default"
+    EngineName = "default"
 
     [Center]
     MetricsYamlFile = "/app/etc/metrics.yaml"
