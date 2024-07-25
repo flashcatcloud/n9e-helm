@@ -109,6 +109,7 @@ data:
     [Pushgw]
     # use target labels in database instead of in series
     LabelRewrite = true
+    ForceUseServerTS = true
 
     [[Pushgw.Writers]]
     Url = "http://{{ template "nightingale.prometheus.host" . }}:{{ template "nightingale.prometheus.servicePort" . }}/api/v1/write"
