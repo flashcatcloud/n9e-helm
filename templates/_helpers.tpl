@@ -160,6 +160,18 @@ app: "{{ template "nightingale.name" . }}"
     {{- printf "80" -}}
 {{- end -}}
 
+{{- define "nightingale.n9e.ibexPort" -}}
+  {{- if eq .Values.n9e.type "internal" -}}
+    {{- printf "%s" "20090" -}}
+  {{- else -}}
+    {{- .Values.n9e.external.ibexPort -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "nightingale.n9e.ibexServicePort" -}}
+    {{- printf "20090" -}}
+{{- end -}}
+
 {{- define "nightingale.prometheus.host" -}}
   {{- if eq .Values.prometheus.type "internal" -}}
     {{- template "nightingale.prometheus" . }}

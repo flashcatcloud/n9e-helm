@@ -25,11 +25,11 @@ keywords:
   - logs
 home: https://n9e.github.io
 sources: 
-  - https://github.com/didi/nightingale
+  - https://github.com/ccfos/nightingale
 maintainers:
 - email: contact-us@flashcat.cloud
   name: flashcatcloud
-version: 0.2.7
+version: 0.2.8
 apiVersion: v1
-appVersion: 6.3.4
+appVersion: 7.0.0
 icon: https://raw.githubusercontent.com/flashcatcloud/n9e-helm/master/n9e-icon.png

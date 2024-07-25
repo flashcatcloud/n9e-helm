@@ -26,6 +26,9 @@ spec:
     - name: "port"
       port: {{ template "nightingale.n9e.servicePort" . }}
       targetPort: {{ template "nightingale.n9e.port" . }}
+    - name: "ibex"
+      port: {{ template "nightingale.n9e.ibexServicePort" . }}
+      targetPort: {{ template "nightingale.n9e.ibexPort" . }}
   selector:
 {{ include "nightingale.matchLabels" . | indent 4 }}
     component: center

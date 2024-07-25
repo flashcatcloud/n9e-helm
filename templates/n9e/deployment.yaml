@@ -63,8 +63,6 @@ spec:
           volumeMounts:
             - mountPath: /app/etc
               name: n9e-config
-            - mountPath: /app/etc/template
-              name: n9e-template
             - mountPath: /app/etc/script
               name: n9e-script
       # hostname: n9e
@@ -73,9 +71,6 @@ spec:
         - name: n9e-config
           configMap:
             name: n9e-config
-        - name: n9e-template
-          configMap:
-            name: n9e-template
         - name: n9e-script
           configMap:
             name: n9e-script
