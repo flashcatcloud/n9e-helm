@@ -174,7 +174,7 @@ prometheus:
     automountServiceAccountToken: false
     image:
       repository: docker.io/prom/prometheus
-      tag: latest
+      tag: v2.54.1
     nodeSelector: {}
     tolerations: []
     affinity: {}
