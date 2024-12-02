@@ -27,6 +27,14 @@ jobs:
           git config user.name "$USERNAME"
           git config user.email "$USERNAME@users.noreply.github.com"
 
+      - name: Create gh-pages branch if it doesn't exist
+        continue-on-error: true
+        run: |
+          git checkout -b gh-pages || exit 1
+          git rebase master
+          git push origin gh-pages
+          git checkout master
+
       - name: Install Helm
         uses: azure/setup-helm@v4.2.0
         with:
