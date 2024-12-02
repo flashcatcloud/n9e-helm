@@ -39,7 +39,7 @@ jobs:
           mark_as_latest: false
           charts_dir: .
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_TOKEN: "${{ secrets.N9E_CHART_TOKEN }}"
           CR_RELEASE_NAME_TEMPLATE: "helm-chart-{{ .Version }}"
           CR_GENERATE_RELEASE_NOTES: false
 
@@ -48,7 +48,7 @@ jobs:
         with:
           registry: ghcr.io
           username: $USERNAME
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.N9E_CHART_TOKEN }}
 
       - name: Push charts to GHCR
         run: |
