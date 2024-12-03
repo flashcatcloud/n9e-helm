@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 env:
-  USERNAME: n9e
+  USERNAME: flashcatcloud
 
 permissions: {}
 jobs:
@@ -39,9 +39,8 @@ jobs:
           mark_as_latest: false
           charts_dir: .
         env:
-          CR_OWNER: "n9e"
-          CR_GIT_REPO: "n9e.github.io"
-          CR_TOKEN: "${{ secrets.N9E_CHART_TOKEN }}"
+          CR_OWNER: "$USERNAME"
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_RELEASE_NAME_TEMPLATE: "helm-chart-{{ .Version }}"
           CR_GENERATE_RELEASE_NOTES: false
 
@@ -50,7 +49,7 @@ jobs:
         with:
           registry: ghcr.io
           username: $USERNAME
-          password: ${{ secrets.N9E_CHART_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push charts to GHCR
         run: |
