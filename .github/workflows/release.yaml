@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 env:
-  USERNAME: flashcatcloud
+  USERNAME: n9e
 
 permissions: {}
 jobs:
@@ -39,7 +39,7 @@ jobs:
           mark_as_latest: false
           charts_dir: .
         env:
-          CR_OWNER: "$USERNAME"
+          CR_OWNER: "flashcatcloud"
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_RELEASE_NAME_TEMPLATE: "helm-chart-{{ .Version }}"
           CR_GENERATE_RELEASE_NOTES: false
