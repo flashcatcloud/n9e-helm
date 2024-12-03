@@ -48,8 +48,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: $USERNAME
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: n9e
+          password: ${{ secrets.N9E_CHART_TOKEN }}
 
       - name: Push charts to GHCR
         run: |
@@ -58,5 +58,5 @@ jobs:
             if [ -z "${pkg:-}" ]; then
               break
             fi
-            helm push "${pkg}" "oci://ghcr.io/$USERNAME/charts"
+            helm push "${pkg}" "oci://ghcr.io/n9e/charts"
           done
