@@ -1,28 +1,69 @@
-name: Release
+name: Release Chart
 
 on:
   push:
     tags:
       - 'v*'
-env:
-  GO_VERSION: 1.18
 
+env:
+  USERNAME: n9e
+
+permissions: {}
 jobs:
-  goreleaser:
+  release-chart:
+    permissions:
+      contents: write # to push chart release and create a release (helm/chart-releaser-action)
+      packages: write # needed for ghcr access
+
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
         with:
           fetch-depth: 0
-      - name: Setup Go Environment
-        uses: actions/setup-go@v5
+
+      - name: Configure Git
+        run: |
+          git config user.name "$USERNAME"
+          git config user.email "$USERNAME@users.noreply.github.com"
+
+      - name: Create gh-pages branch if it doesn't exist
+        continue-on-error: true
+        run: |
+          git checkout -b gh-pages || exit 1
+          git rebase master
+          git push origin gh-pages
+          git checkout master
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4.2.0
         with:
-          go-version: ${{ env.GO_VERSION }}
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
-        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: release --clean
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.6.0
+        with:
+          mark_as_latest: false
+          charts_dir: .
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_RELEASE_NAME_TEMPLATE: "helm-chart-{{ .Version }}"
+          CR_GENERATE_RELEASE_NOTES: false
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: $USERNAME
+          password: ${{ secrets.N9E_CHART_TOKEN }}
+
+      - name: Push charts to GHCR
+        run: |
+          shopt -s nullglob
+          for pkg in .cr-release-packages/*; do
+            if [ -z "${pkg:-}" ]; then
+              break
+            fi
+            helm push "${pkg}" "oci://ghcr.io/$USERNAME/charts"
+          done
