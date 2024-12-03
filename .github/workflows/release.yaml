@@ -27,14 +27,6 @@ jobs:
           git config user.name "$USERNAME"
           git config user.email "$USERNAME@users.noreply.github.com"
 
-      - name: Create gh-pages branch if it doesn't exist
-        continue-on-error: true
-        run: |
-          git checkout -b gh-pages || exit 1
-          git rebase master
-          git push origin gh-pages
-          git checkout master
-
       - name: Install Helm
         uses: azure/setup-helm@v4.2.0
         with:
@@ -47,7 +39,9 @@ jobs:
           mark_as_latest: false
           charts_dir: .
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_OWNER: "n9e"
+          CR_GIT_REPO: "n9e.github.io"
+          CR_TOKEN: "${{ secrets.N9E_CHART_TOKEN }}"
           CR_RELEASE_NAME_TEMPLATE: "helm-chart-{{ .Version }}"
           CR_GENERATE_RELEASE_NOTES: false
 
