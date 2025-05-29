@@ -237,7 +237,7 @@ app: "{{ template "nightingale.name" . }}"
 
 {{- define "nightingale.redis.username" -}}
   {{- with .Values.redis }}
-    {{- ternary "" .external.password (eq .type "internal") }}
+    {{- ternary "" .external.username (eq .type "internal") }}
   {{- end }}
 {{- end -}}
 
