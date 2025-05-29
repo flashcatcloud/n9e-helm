@@ -18,12 +18,10 @@ archives:
     wrap_in_directory: true
     meta: true
     files:
-      - integrations/*
       - categraf/*
       - metrics/*
       - scripts/*
       - templates/*
-      - tpl/*
       - Chart.yaml
       - LICENSE
       - n9e-icon.png

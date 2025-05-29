@@ -24,8 +24,6 @@ metadata:
 data:
   metrics.yaml: |-
 {{ .Files.Get "metrics/metrics.yaml" | indent 4 }}
-  ops.yaml: |-
-{{ .Files.Get "metrics/ops.yaml" | indent 4 }}
   config.toml: |-
     [global]
     RunMode = "release"
@@ -55,7 +53,7 @@ data:
     # [HTTP.APIForAgent.BasicAuth]
     # user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
     [HTTP.APIForService]
-    Enable = true
+    Enable = false
     [HTTP.APIForService.BasicAuth]
     user001 = "ccc26da7b9aba533cbb263a36c07dcc5"
 
@@ -87,6 +85,7 @@ data:
 
     [Redis]
     Address = "{{ template "nightingale.redis.addr" . }}"
+    Username = "{{ template "nightingale.redis.username" . }}"
     Password = "{{ template "nightingale.redis.password" . }}"
     RedisType = "{{ template "nightingale.redis.mode" . }}"
 

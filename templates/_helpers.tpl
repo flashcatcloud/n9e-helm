@@ -160,9 +160,17 @@ app: "{{ template "nightingale.name" . }}"
     {{- printf "80" -}}
 {{- end -}}
 
+{{- define "nightingale.n9e.ibexEnable" -}}
+  {{- if eq .Values.n9e.type "internal" -}}
+    {{- .Values.n9e.internal.ibexEnable -}}
+  {{- else -}}
+    {{- .Values.n9e.external.ibexEnable -}}
+  {{- end -}}
+{{- end -}}
+
 {{- define "nightingale.n9e.ibexPort" -}}
   {{- if eq .Values.n9e.type "internal" -}}
-    {{- printf "%s" "20090" -}}
+    {{- .Values.n9e.internal.ibexPort -}}
   {{- else -}}
     {{- .Values.n9e.external.ibexPort -}}
   {{- end -}}
@@ -224,6 +232,12 @@ app: "{{ template "nightingale.name" . }}"
 {{- define "nightingale.redis.masterSet" -}}
   {{- with .Values.redis }}
     {{- ternary .external.sentinelMasterSet "" (eq "redis+sentinel" (include "nightingale.redis.scheme" $)) }}
+  {{- end }}
+{{- end -}}
+
+{{- define "nightingale.redis.username" -}}
+  {{- with .Values.redis }}
+    {{- ternary "" .external.password (eq .type "internal") }}
   {{- end }}
 {{- end -}}
 
