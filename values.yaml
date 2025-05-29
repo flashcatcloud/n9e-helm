@@ -161,6 +161,7 @@ redis:
   external:
     addr: "192.168.0.2:6379"
     sentinelMasterSet: ""
+    username: ""
     password: ""
     mode: "standalone"
   podAnnotations: {}
@@ -201,7 +202,7 @@ categraf:
     ## Parm: categraf.internal.docker_socket  Desc: the path of docker socket on kubelet node.
     ## "unix:///var/run/docker.sock" is default, if your kubernetes runtime is container or others, empty this variable.
     ## docker_socket: ""
-    docker_socket: unix:///var/run/docker.sock
+    docker_socket: ""
   external:
     host: "192.168.0.3"
     port: "8094"
@@ -216,7 +217,7 @@ n9e:
     automountServiceAccountToken: false
     image:
       repository: flashcatcloud/nightingale
-      tag: 7.0.0
+      tag: 8.0.0-beta.10
     resources: {}
     #  requests:
     #    memory: 512Mi
@@ -225,7 +226,11 @@ n9e:
     tolerations: [ ]
     affinity: { }
     priorityClassName:
+    ibexEnable: false
+    ibexPort: "20090"
   external:
     host: "192.168.0.4"
     port: "17000"
+    ibexEnable: false
+    ibexPort: "20090"
   podAnnotations: { }
