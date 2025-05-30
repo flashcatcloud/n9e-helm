@@ -29,7 +29,7 @@ sources:
 maintainers:
 - email: contact-us@flashcat.cloud
   name: flashcatcloud
-version: v7.0.1
+version: v8.0.0-beta11
 apiVersion: v1
-appVersion: 7.0.1
+appVersion: 8.0.0-beta11
 icon: https://raw.githubusercontent.com/flashcatcloud/n9e-helm/master/n9e-icon.png
