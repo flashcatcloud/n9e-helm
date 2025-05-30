@@ -4,6 +4,31 @@ entries:
   - annotations:
       catalog.cattle.io/release-name: flashcatcloud
     apiVersion: v1
+    appVersion: 8.0.0-beta12
+    created: "2025-05-30T08:03:09.487152361Z"
+    description: A Helm Chart for nightingale, cloud-native monitoring system
+    digest: 0e03f54d303f50966ec83a1ca4136b8efa8fcdacf56d5cac09a86d0022f1f459
+    home: https://n9e.github.io/charts
+    icon: https://raw.githubusercontent.com/flashcatcloud/n9e-helm/master/n9e-icon.png
+    keywords:
+    - nightingale
+    - monitoring
+    - alerting
+    - metrics
+    - traces
+    - logs
+    maintainers:
+    - email: contact-us@flashcat.cloud
+      name: flashcatcloud
+    name: nightingale
+    sources:
+    - https://github.com/ccfos/nightingale
+    urls:
+    - https://github.com/flashcatcloud/n9e-helm/releases/download/helm-chart-v8.0.0-beta12/nightingale-v8.0.0-beta12.tgz
+    version: v8.0.0-beta12
+  - annotations:
+      catalog.cattle.io/release-name: flashcatcloud
+    apiVersion: v1
     appVersion: 8.0.0-beta11
     created: "2025-05-30T01:36:48.220167895Z"
     description: A Helm Chart for nightingale, cloud-native monitoring system
@@ -51,4 +76,4 @@ entries:
     urls:
     - https://github.com/flashcatcloud/n9e-helm/releases/download/helm-chart-v7.0.1/nightingale-v7.0.1.tgz
     version: v7.0.1
-generated: "2025-05-30T01:36:48.220183284Z"
+generated: "2025-05-30T08:03:09.487171347Z"
