@@ -55,6 +55,8 @@ spec:
       terminationGracePeriodSeconds: 120
       containers:
       - name: mysql
+        args:
+        - "--ignore-db-dir=lost+found"
         image: {{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         ports:

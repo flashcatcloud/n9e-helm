@@ -40,6 +40,13 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+      - name: fix-permission
+        image: busybox
+        command: ["sh", "-c", "chown -R 65534:65534 /prometheus"]
+        volumeMounts:
+        - name: prometheus-data
+          mountPath: /prometheus
       containers:
       - args:
           - --config.file=/etc/prometheus/prometheus.yml
