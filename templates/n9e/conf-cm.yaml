@@ -131,9 +131,9 @@ data:
 {{- if .Values.n9e.victoriaMetrics.enabled }}
 
     [[Pushgw.Writers]]
-    Url = "{{ .Values.n9e.victoriaMetrics.url }}"
-    BasicAuthUser = "{{ .Values.n9e.victoriaMetrics.basicAuthUser }}"
-    BasicAuthPass = "{{ .Values.n9e.victoriaMetrics.basicAuthPass }}"
+    Url = {{ .Values.n9e.victoriaMetrics.url | quote }}
+    BasicAuthUser = {{ .Values.n9e.victoriaMetrics.basicAuthUser | quote }}
+    BasicAuthPass = {{ .Values.n9e.victoriaMetrics.basicAuthPass | quote }}
     Headers = ["X-From", "n9e"]
     Timeout = 10000
     DialTimeout = 3000
