@@ -18,7 +18,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: input-kubelet-metrics
+  name: input-prometheus
 data:
 {{ (.Files.Glob "categraf/conf/input.prometheus/*.toml").AsConfig | indent 2 }}
 {{- end -}}

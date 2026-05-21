@@ -57,7 +57,7 @@ spec:
           - --query.lookback-delta=2m
         env:
           - name: TZ
-            value: Asia/Shanghai
+            value: UTC
         image: {{ .Values.prometheus.internal.image.repository }}:{{ .Values.prometheus.internal.image.tag }}
         name: prometheus
         ports:
