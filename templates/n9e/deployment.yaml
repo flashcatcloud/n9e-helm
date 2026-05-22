@@ -51,7 +51,7 @@ spec:
             - name: GIN_MODE
               value: release
             - name: TZ
-              value: UTC
+              value: {{ .Values.tz | default "UTC" | quote }}
           image: {{ .Values.n9e.internal.image.repository }}:{{ .Values.n9e.internal.image.tag }}
           name: center
           ports:

@@ -60,7 +60,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: UTC
+              value: {{ .Values.tz | default "UTC" | quote }}
             - name: HOSTNAME
               valueFrom:
                 fieldRef:

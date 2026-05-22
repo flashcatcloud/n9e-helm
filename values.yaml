@@ -93,6 +93,10 @@ updateStrategy:
 
 logLevel: info
 
+# Container timezone applied to all internal components (n9e, database, prometheus, categraf).
+# Set to e.g. "Asia/Shanghai" if you need local timestamps inside containers.
+tz: UTC
+
 caSecretName: ""
 
 secretKey: "not-a-secure-key"
