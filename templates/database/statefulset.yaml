@@ -66,7 +66,7 @@ spec:
               name: "{{ template "nightingale.database" . }}"
         env:
           - name: TZ
-            value: Asia/Shanghai
+            value: {{ .Values.tz | default "UTC" | quote }}
 {{- if .Values.database.internal.resources }}
         resources:
 {{ toYaml .Values.database.internal.resources | indent 10 }}

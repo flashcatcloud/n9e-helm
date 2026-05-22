@@ -128,6 +128,23 @@ data:
     MaxConnsPerHost = 0
     MaxIdleConns = 100
     MaxIdleConnsPerHost = 100
+{{- if .Values.n9e.victoriaMetrics.enabled }}
+
+    [[Pushgw.Writers]]
+    Url = {{ .Values.n9e.victoriaMetrics.url | quote }}
+    BasicAuthUser = {{ .Values.n9e.victoriaMetrics.basicAuthUser | quote }}
+    BasicAuthPass = {{ .Values.n9e.victoriaMetrics.basicAuthPass | quote }}
+    Headers = ["X-From", "n9e"]
+    Timeout = 10000
+    DialTimeout = 3000
+    TLSHandshakeTimeout = 30000
+    ExpectContinueTimeout = 1000
+    IdleConnTimeout = 90000
+    KeepAlive = 30000
+    MaxConnsPerHost = 0
+    MaxIdleConns = 100
+    MaxIdleConnsPerHost = 100
+{{- end }}
     [Ibex]
     Enable = false
     RPCListen = "0.0.0.0:{{ template "nightingale.n9e.ibexPort" . }}"

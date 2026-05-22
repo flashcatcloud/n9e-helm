@@ -60,7 +60,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: Asia/Shanghai
+              value: {{ .Values.tz | default "UTC" | quote }}
             - name: HOSTNAME
               valueFrom:
                 fieldRef:
@@ -103,7 +103,7 @@ spec:
             - mountPath: /etc/categraf/conf/input.kubernetes
               name: input-kubernetes
             - mountPath: /etc/categraf/conf/input.prometheus
-              name: input-kubelet-metrics
+              name: input-prometheus
             - mountPath: /etc/categraf/conf/input.cadvisor
               name: input-cadvisor
             - mountPath: /etc/categraf/conf/input.kernel
@@ -161,9 +161,9 @@ spec:
         - name: input-kubernetes
           configMap:
             name: input-kubernetes
-        - name: input-kubelet-metrics
+        - name: input-prometheus
           configMap:
-            name: input-kubelet-metrics
+            name: input-prometheus
         - name: input-cadvisor
           configMap:
             name: input-cadvisor
