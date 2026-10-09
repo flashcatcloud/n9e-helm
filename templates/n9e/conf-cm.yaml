@@ -64,6 +64,11 @@ data:
     RefreshExpired = 10080
     RedisKeyPrefix = "/jwt/"
 
+    [HTTP.TokenAuth]
+    # also used by the /mcp and /a2a endpoints (X-User-Token)
+    Enable = true
+    HeaderUserTokenKey = "X-User-Token"
+
     [HTTP.ProxyAuth]
     # if proxy auth enabled, jwt auth is disabled
     Enable = false
@@ -76,7 +81,7 @@ data:
     OpenRSA = false
 
     [DB]
-    DSN="{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
+    DSN="{{ template "nightingale.database.username" . }}:{{ template "nightingale.database.rawPassword" . }}@tcp({{ template "nightingale.database.host" . }}:{{ template "nightingale.database.port" . }})/{{ template "nightingale.database.name" . }}?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=True&loc=Local&allowNativePasswords=true"
     Debug = false
     DBType = "mysql"
     MaxLifetime = 7200
@@ -102,8 +107,13 @@ data:
     I18NHeaderKey = "X-Language"
 
     [Center.AnonymousAccess]
-    PromQuerier = true
-    AlertDetail = true
+    PromQuerier = false
+    AlertDetail = false
+
+    [EmbeddedTSDB]
+    # The chart ships Prometheus as the TSDB, and the built-in TSDB only fits
+    # a single center replica, so keep it off.
+    Enable = false
 
     [Pushgw]
     # use target labels in database instead of in series

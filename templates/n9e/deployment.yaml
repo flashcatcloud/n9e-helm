@@ -45,7 +45,7 @@ spec:
       containers:
         - args:
             - /app/n9e
-            - configs
+            - -configs
             - /app/etc
           env:
             - name: GIN_MODE
