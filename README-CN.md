@@ -19,6 +19,13 @@
 ### 获取 repo
 
 ```bash
+helm repo add flashcatcloud https://flashcatcloud.github.io/n9e-helm
+helm repo update
+```
+
+需要查看或修改 Chart 时，可以下载源码：
+
+```bash
 git clone https://github.com/flashcatcloud/n9e-helm.git
 ```
 
@@ -70,7 +77,23 @@ external URL主要用于访问夜莺web服务
 
 使用 `nightingale` 名称进行安装:
 ```bash
-helm install nightingale ./n9e-helm -n n9e --create-namespace
+helm install nightingale flashcatcloud/nightingale --version 9.1.1 -n n9e --create-namespace
+```
+
+从本地源码安装时，将 `flashcatcloud/nightingale` 替换为 `./n9e-helm`，并去掉 `--version`。
+
+## 发布 Chart
+
+Chart 版本以根目录 `Chart.yaml` 为准。`version` 必须高于已发布的 Chart 版本；`appVersion` 描述 `values.yaml` 中默认使用的夜莺镜像版本。
+
+更新并验证 Chart、合并修改后，推送与 `version` 对应的 tag（例如 `v9.1.1`）。发布工作流会打包根目录 Chart、创建 GitHub Release、更新已有的 `gh-pages/index.yaml`、触发 GitHub Pages 重新构建，并发布到 `oci://ghcr.io/flashcatcloud/charts/nightingale`。
+
+发布后验证：
+
+```bash
+helm repo update
+helm search repo flashcatcloud/nightingale --versions
+helm pull flashcatcloud/nightingale --version 9.1.1
 ```
 
 ## 卸载

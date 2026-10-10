@@ -1,2 +1,6 @@
 .git
 .gitignore
+.github/
+.goreleaser.yaml
+.cr-release-packages/
+.cr-index/
