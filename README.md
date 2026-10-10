@@ -19,6 +19,13 @@ This repository, including the issues, focus on deploying Nightingale chart via 
 ### Get Helm repository
 
 ```bash
+helm repo add flashcatcloud https://flashcatcloud.github.io/n9e-helm
+helm repo update
+```
+
+To inspect or modify the chart locally, clone the source repository:
+
+```bash
 git clone https://github.com/flashcatcloud/n9e-helm.git
 ```
 
@@ -70,7 +77,23 @@ Format: `protocol://domain[:port]`. Usually:
 
 Install the nightingale helm chart with a release name `nightingale`:
 ```bash
-helm install nightingale ./n9e-helm -n n9e --create-namespace
+helm install nightingale flashcatcloud/nightingale --version 9.1.1 -n n9e --create-namespace
+```
+
+To install from a local checkout, use `./n9e-helm` instead of `flashcatcloud/nightingale` and omit `--version`.
+
+## Publishing a chart release
+
+The root `Chart.yaml` is the source of the chart version. Keep `version` increasing from the published versions; `appVersion` describes the default Nightingale image version in `values.yaml`.
+
+After updating and validating the chart, merge the changes and push a tag matching `version` (for example, `v9.1.1`). The release workflow packages the root chart, creates a GitHub Release, updates the existing `gh-pages/index.yaml`, requests a GitHub Pages rebuild, and publishes the chart to `oci://ghcr.io/flashcatcloud/charts/nightingale`.
+
+Verify the published chart with:
+
+```bash
+helm repo update
+helm search repo flashcatcloud/nightingale --versions
+helm pull flashcatcloud/nightingale --version 9.1.1
 ```
 
 ## Uninstallation

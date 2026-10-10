@@ -9,11 +9,22 @@ env:
   USERNAME: flashcatcloud
 
 permissions: {}
+concurrency:
+  group: chart-release
+  cancel-in-progress: false
+
 jobs:
   release-chart:
     permissions:
-      contents: write # to push chart release and create a release (helm/chart-releaser-action)
-      packages: write # needed for ghcr access
+      contents: write # to create chart releases and update gh-pages
+      packages: write # to publish the OCI chart to GHCR
+      pages: write # to rebuild Pages after pushing with GITHUB_TOKEN
+
+    env:
+      CR_OWNER: flashcatcloud
+      CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CR_RELEASE_NAME_TEMPLATE: "helm-chart-{{ .Version }}"
+      CR_GENERATE_RELEASE_NOTES: false
 
     runs-on: ubuntu-latest
     steps:
@@ -31,32 +42,47 @@ jobs:
         uses: azure/setup-helm@v4.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: latest
+          version: v3.19.0
 
-      - name: Run chart-releaser
+      - name: Validate chart and release version
+        run: |
+          chart_version="$(helm show chart . | awk '$1 == "version:" {print $2}')"
+          if [[ "$GITHUB_REF_NAME" != "v$chart_version" ]]; then
+            echo "Tag $GITHUB_REF_NAME does not match Chart.yaml version $chart_version" >&2
+            exit 1
+          fi
+          helm lint .
+          helm template nightingale . > "$RUNNER_TEMP/nightingale.yaml"
+
+      - name: Install chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
-          mark_as_latest: false
-          charts_dir: .
+          version: v1.6.1
+          install_only: true
+
+      - name: Package and release the root chart
+        run: |
+          cr package . --package-path .cr-release-packages
+          cr upload --owner "$CR_OWNER" --git-repo "${GITHUB_REPOSITORY#*/}" \
+            --commit "$GITHUB_SHA" --skip-existing --make-release-latest=true
+          mkdir -p .cr-index
+          cr index --owner "$CR_OWNER" --git-repo "${GITHUB_REPOSITORY#*/}" \
+            --pages-branch gh-pages --push
+
+      - name: Rebuild the Helm repository on GitHub Pages
         env:
-          CR_OWNER: "flashcatcloud"
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          CR_RELEASE_NAME_TEMPLATE: "helm-chart-{{ .Version }}"
-          CR_GENERATE_RELEASE_NOTES: false
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: $USERNAME
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push charts to GHCR
         run: |
-          shopt -s nullglob
-          for pkg in .cr-release-packages/*; do
-            if [ -z "${pkg:-}" ]; then
-              break
-            fi
+          for pkg in .cr-release-packages/*.tgz; do
             helm push "${pkg}" "oci://ghcr.io/$USERNAME/charts"
           done
