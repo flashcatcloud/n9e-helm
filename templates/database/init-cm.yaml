@@ -23,7 +23,11 @@ data:
   a-n9e.sql: |-
 {{ .Files.Get "scripts/a-n9e.sql" | indent 4 }}
   c-init.sql: |-
-    GRANT ALL ON *.* TO '{{ template "nightingale.database.username" . }}'@'127.0.0.1' IDENTIFIED BY '{{ template "nightingale.database.rawPassword" . }}';
-    GRANT ALL ON *.* TO '{{ template "nightingale.database.username" . }}'@'localhost' IDENTIFIED BY '{{ template "nightingale.database.rawPassword" . }}';
-    GRANT ALL ON *.* TO '{{ template "nightingale.database.username" . }}'@'%' IDENTIFIED BY '{{ template "nightingale.database.rawPassword" . }}';
+    CREATE USER IF NOT EXISTS '{{ template "nightingale.database.username" . }}'@'127.0.0.1' IDENTIFIED BY '{{ template "nightingale.database.rawPassword" . }}';
+    GRANT ALL PRIVILEGES ON *.* TO '{{ template "nightingale.database.username" . }}'@'127.0.0.1' WITH GRANT OPTION;
+    CREATE USER IF NOT EXISTS '{{ template "nightingale.database.username" . }}'@'localhost' IDENTIFIED BY '{{ template "nightingale.database.rawPassword" . }}';
+    GRANT ALL PRIVILEGES ON *.* TO '{{ template "nightingale.database.username" . }}'@'localhost' WITH GRANT OPTION;
+    CREATE USER IF NOT EXISTS '{{ template "nightingale.database.username" . }}'@'%' IDENTIFIED BY '{{ template "nightingale.database.rawPassword" . }}';
+    GRANT ALL PRIVILEGES ON *.* TO '{{ template "nightingale.database.username" . }}'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
 {{- end -}}
